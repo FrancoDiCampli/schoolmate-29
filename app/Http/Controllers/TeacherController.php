@@ -2,156 +2,125 @@
 
 namespace App\Http\Controllers;
 
-use App\Job;
-use App\Post;
-use App\Subject;
-use App\Delivery;
+use App\User;
+use App\Teacher;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class TeacherController extends Controller
 {
-    public function __construct()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $this->middleware('role:teacher');
+        // $users = User::role('teacher')->get();
+        $teachers= Teacher::all();
+        return view('admin.teacher.index',compact('teachers'));
+
+
+
     }
 
-    public function index($id)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $subject = Subject::find($id);
-        $subject->jobs;
-
-        // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
-
-        return view('admin.teachers.jobs.index', compact('subject'));
+        return view('admin.teacher.create');
     }
 
-    public function create($subject)
-    {
-        $subject = Subject::find($subject);
-        return view('admin.teachers.create', compact('subject'));
-    }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $subject = Subject::find($request->subject);
-        $data = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'subject' => 'required',
-            'link' => 'nullable|url',
-            'file' => 'required|file',
-            'start' => 'date',
-            'end' => 'date|after_or_equal:'.$request->start
+        $user  = User::create([
+            'dni'=>$request->dni,
+            'password'=>bcrypt($request->dni),
         ]);
+        $user->assignRole('teacher');
+        $request['user_id'] = $user->id;
+        $path =  FilesTrait::store($request, $ubicacion = 'img/avatar', $nombre = $request->dni);
+        $request['photo'] = $path;
+        Teacher::create($request->all());
 
-        $nameFile = FilesTrait::store($request, $ubicacion = 'tareas', $nombre = $subject->name);
 
-        if ($nameFile) {
-            $data['subject_id'] = $data['subject'];
-            $data['state'] = 0;
-
-            Job::create([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'subject_id' => $data['subject'],
-                'file_path' => $nameFile,
-                'link' => $data['link'],
-                'start' => $data['start'],
-                'end' => $data['end'],
-                'state' => 0,
-            ]);
-        }
-        session()->flash('messages', 'Tarea creada');
-        return redirect()->action('TeacherController@index', $subject->id);
+        return redirect()->route('teachers.index') ->with('messages', 'Profesor creado correctamente.');;
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
-        $job = Job::find($id);
-
-        $matriculas = $job->subject->course->enrollments;
-
-        $aux = $job->deliveries->keyBy('user_id');
-
-        $faltan = $matriculas->whereNotIn('user_id', $aux->keys());
-
-        $entregas = $job->deliveries()->get();
-
-        $alumnos = $faltan->map(function ($item) {
-            return $item->student;
-        });
-
-        return view('admin.teachers.deliveries', compact('job', 'entregas', 'alumnos'));
+        //
     }
 
-    public function showJob($id)
-    {
-        $job = Job::find($id);
-        return view('admin.teachers.showJob', compact('job'));
-    }
-
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        $job = Job::find($id);
-        return view('admin.teachers.edit', compact('job'));
+        // $teacher = Teacher::where('id',$id)->with('user')->get();
+        $teacher = Teacher::find($id);
+
+        return view('admin.teacher.edit',compact('teacher'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Teacher $teacher)
     {
-        $job = Job::find($id);
-        $subject = Subject::find($request->subject);
-        $data = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'link' => 'nullable|url',
-            'start' => 'date',
-            'end' => 'date'
-        ]);
-        $data['subject_id'] = $subject->id;
 
-        if ($request->file) {
-            $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
-            $data['file_path'] = $nameFile;
-        }
+        $teacher->update($request->all());
 
-        $job->update($data);
-        session()->flash('messages', 'Tarea actualizada');
-        return redirect()->action('TeacherController@index', $subject->id);
+        // Hay que crear una condicion para ver si se cambio el dni y/o las contrasenia
+        // en caso de que no se haya cambiano ni buscar el user
+        User::where('id', $teacher->user_id)
+              ->update([
+                        'dni' =>$request->dni,
+                        'password' =>Hash::make($request->password)
+                        ]);
+
+
+        return redirect()->route('teachers.index')
+        ->with('messages', 'Profesor actualizado correctamente.');
+
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         //
     }
 
-    public function descargar($job)
-    {
-        $file = public_path('tareas/') . $job;
-        return response()->download($file);
-    }
-
-    public function descargarDelivery($delivery)
-    {
-        $file = public_path('entregas/') . $delivery;
-        return response()->download($file);
-    }
-
-    public function filtrar(Request $request)
-    {
-        $filtros = collect();
-        foreach ($request->params as $param) {
-            $filtros->push(str_replace('tag-', '', $param));
-        }
-
-        return $subject = Subject::where('name', $filtros->first())->with('jobs')->get();
-    }
-
-    public function delivery($delivery)
-    {
-        $delivery =  Delivery::find($delivery);
-        $delivery->comments;
-        return view('admin.teachers.delivery', compact('delivery'));
+    public function import(){
+        return view('admin.teacher.import');
     }
 }

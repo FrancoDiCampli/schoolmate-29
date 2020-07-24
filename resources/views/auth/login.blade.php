@@ -16,7 +16,7 @@
             ><img src="{{asset('img/login.png')}}"  class="w-auto h-auto" alt=""></div>
             <!-- Col -->
             <div class="w-full lg:w-1/2 bg-white p-5 rounded-sm lg:rounded-l-none">
-                <div class="block lg:hidden md:hidden mx-auto justify-center flex">
+                <div class="block lg:hidden md:hidden mx-auto justify-center">
                 <a href="">
                       <img src="{{asset('img/sm-icon-svg.svg')}}" class="w-40 h-40" alt="">
 
@@ -27,7 +27,8 @@
                 <form method="POST" action="{{ route('login') }}" class="px-8 md:px-12 lg:px-12 xl:px-24 pt-6 pb-8 mb-4 bg-white rounded">
                     @csrf
                     <div class="mb-4 relative">
-                        <input class="input border-b border-gray-400 appearance-none w-full px-3 py-3 pt-5 pb-2 focus focus:border-primary-400 focus:outline-none active:outline-none active:border-indigo-600" placeholder="Username" id="email" type="email" name="email" required>
+                        <input class="input border-b border-gray-400 appearance-none w-full px-3 py-3 pt-5 pb-2 focus focus:border-primary-400 focus:outline-none active:outline-none active:border-indigo-600"
+                            placeholder="dni" id="dni" type="text" name="dni" required>
 
                     </div>
                     <div class="mb-4 relative">

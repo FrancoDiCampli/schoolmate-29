@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    // protected $guarded = [];
-    protected $fillable = ['name','dni','phone','address','user_id'];
+    protected  $fillable = ['name','dni','cuil','fnac','phone','email','photo','address','docket','user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+
 
 }

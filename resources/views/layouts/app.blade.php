@@ -20,7 +20,7 @@
 </head>
 <body class="bg-white">
     <div id="app">
-        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -69,7 +69,7 @@
                     </ul>
                 </div>
             </div>
-        </nav> --}}
+        </nav>
 
         {{-- <nav class="bg-white flex items-center justify-between">
             <div>

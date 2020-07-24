@@ -4,18 +4,13 @@
     <div class="container font-montserrat">
         <div class="card w-11/12 md:w-8/12 rounded-sm bg-gray-100 mx-auto mt-10 shadow-lg">
             <div class="card-title bg-white p-5 w-full  border-b">
-               <h1 class="text-center font-semibold text-teal-600">Import Students</h1>
+               <h1 class="text-center font-semibold text-teal-600">Importar Profesores</h1>
             </div>
             <div class="card-body py-5">
-                <form method="POST" action="{{route('import.users')}}" class="mx-auto" id="delivery"
+                <form method="POST" action="" class="mx-auto" id="delivery"
                 enctype="multipart/form-data">
                 @csrf
-                <select id="course" name="course_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                    <option disabled selected value> -- select a course -- </option>
-                    @foreach ($courses as $course)
-                        <option value="{{$course->id}}">{{$course->name}}</option>
-                    @endforeach
-                </select>
+
                 <div class="relative">
                     <div class="overflow-hidden relative w-64 mt-4 mb-4">
                         <div class="flex items-center justify-center bg-grey-lighter">

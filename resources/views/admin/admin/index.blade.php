@@ -1,7 +1,5 @@
 @extends('layouts.dashboard')
 
 @section('content')
-
-    <job-component></job-component>
-
+    <h1>Welcome Admin</h1>
 @endsection
