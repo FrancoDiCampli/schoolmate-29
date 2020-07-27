@@ -4,10 +4,10 @@
     <div class="container font-montserrat">
         <div class="card w-11/12 md:w-8/12 rounded-sm bg-gray-100 mx-auto mt-10 shadow-lg">
             <div class="card-title bg-white p-5 w-full  border-b">
-               <h1 class="text-center font-semibold text-teal-600">Importar Profesores</h1>
+               <h1 class="text-center font-semibold text-teal-600">Importar Alumnos</h1>
             </div>
             <div class="card-body py-5">
-            <form method="POST" action="{{route('save.teachers')}}" class="mx-auto" id="delivery"
+            <form method="POST" action="{{route('save.students')}}" class="mx-auto" id="delivery"
                 enctype="multipart/form-data">
                 @csrf
 

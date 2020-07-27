@@ -2,11 +2,11 @@
 
 namespace App\Imports;
 
-use App\Student;
+use App\Teacher;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class StudentsImport implements ToModel, WithHeadingRow
+class TeachersImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,7 +15,7 @@ class StudentsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        return new Student([
+        return new Teacher([
             'name'     => $row['nombre'],
             'dni'     => $row['dni'],
             'cuil'     => $row['cuil'],
@@ -24,6 +24,16 @@ class StudentsImport implements ToModel, WithHeadingRow
             'phone'     => $row['telefono'],
             'address'     => $row['domicilio'],
             'docket' =>$row['numlegajo']
+
         ]);
+    }
+
+    public function rules(): array
+    {
+        // return [
+        //     '1' => Rule::in(['patrick@maatwebsite.nl']),
+
+
+        // ];
     }
 }

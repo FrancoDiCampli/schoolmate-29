@@ -5,47 +5,36 @@
 <div class="container font-montserrat text-sm">
     <div class="card  rounded-sm bg-gray-100 mx-auto mt-6 shadow-lg">
         <div class="card-title bg-white w-full p-1 md:p-5  border-b flex items-center justify-between md:justify-between">
-           <h1 class="text-teal-600 font-semibold md:m-0 m-2 text-lg">Editar Profesor </h1>
-            <a href="{{route('teachers.index')}}" class="flex hover:shadow-lg md:m-0 m-2 px-4 py-2">
+           <h1 class="text-teal-600 font-semibold md:m-0 m-2 text-lg">Profesores</h1>
+            <a href="{{route('students.index')}}" class="flex hover:shadow-lg md:m-0 m-2 px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
 
               </a>
         </div>
         <div class="card-body py-5">
-            <form method="POST" action="{{ route('teachers.update',$teacher->id)}}" enctype="multipart/form-data" class="mx-auto" >
-                @method('PUT')
+            <form method="POST" action="{{ route('students.store') }}" enctype="multipart/form-data" class="mx-auto" >
                 @csrf
 
 
                 <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-1/3 px-3 md:mb-0 mb-6 ">
+                    <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Nombre
                         </label>
                         <input type="text" id="name" name="name" class="form-input w-full block"
-                             placeholder="Nombre" value="{{$teacher->name}}">
+                             placeholder="Nombre" value="{{old('name')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('name')}}
                         </span>
                     </div>
-                    <div class="w-full md:w-1/3 px-3">
+                    <div class="w-full md:w-1/2 px-3">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           DNI
                         </label>
                         <input id="dni" type="text"  name="dni" class="form-input w-full block"
-                            type="text" placeholder="Ej: 22212222" value="{{$teacher->dni}}">
+                            type="text" placeholder="Ej: 22212222" value="{{old('dni')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('dni')}}
-                        </span>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Password
-                        </label>
-                        <input id="dni" type="text"  name="password" class="form-input w-full block"
-                            type="text" placeholder="Ej: 22212222" value="{{\Crypt::decrypt($teacher->user->password)}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{-- {{$errors->first('password')}} --}}
                         </span>
                     </div>
                 </div>
@@ -56,7 +45,7 @@
                           Cuil
                         </label>
                         <input type="text" id="name" name="cuil" class="form-input w-full block"
-                             placeholder="CUIL" value="{{$teacher->cuil}}">
+                             placeholder="CUIL" value="{{old('cuil')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('cuil')}}
                         </span>
@@ -65,8 +54,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha de Nacimiento
                         </label>
-                        <input type="date" id="start" name="fnac" class="form-input w-full block" id="grid-last-name" type="text"
-                        value="{{$teacher->fnac}}">
+                        <input type="date" id="start" name="fnac" class="form-input w-full block" id="grid-last-name" type="text"  value="{{ old('fnac') }}">
 
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('fnac')}}
@@ -80,7 +68,7 @@
                           Telefono
                         </label>
                         <input type="text" id="name" name="phone" class="form-input w-full block"
-                             placeholder="Telefono" value="{{$teacher->phone}}">
+                             placeholder="Telefono" value="{{old('phone')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('phone')}}
                         </span>
@@ -90,7 +78,7 @@
                          Email
                         </label>
                         <input type="email" id="name" name="email" class="form-input w-full block"
-                        placeholder="Email" value="{{$teacher->email}}">
+                        placeholder="Email" value="{{old('email')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('email')}}
                         </span>
@@ -103,7 +91,7 @@
                           Domicilio
                         </label>
                         <input type="text" id="name" name="address" class="form-input w-full block"
-                             placeholder="Telefono" value="{{$teacher->address}}">
+                             placeholder="Telefono" value="{{old('address')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('address')}}
                         </span>
@@ -113,7 +101,7 @@
                          Legajo
                         </label>
                         <input type="text" id="name" name="docket" class="form-input w-full block"
-                        placeholder="Legajo" value="{{$teacher->docket}}">
+                        placeholder="Legajo" value="{{old('docket')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('docket')}}
                         </span>

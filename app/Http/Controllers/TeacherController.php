@@ -6,8 +6,13 @@ use App\User;
 use App\Teacher;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
+use App\Imports\TeachersImport;
+
+use App\Http\Requests\StoreTeacher;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
+
 
 class TeacherController extends Controller
 {
@@ -42,20 +47,17 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTeacher $request)
     {
-        $user  = User::create([
-            'dni'=>$request->dni,
-            'password'=>bcrypt($request->dni),
-        ]);
-        $user->assignRole('teacher');
-        $request['user_id'] = $user->id;
+        // Aqui usa el observer para crear el usuario del profesor
         $path =  FilesTrait::store($request, $ubicacion = 'img/avatar', $nombre = $request->dni);
         $request['photo'] = $path;
-        Teacher::create($request->all());
+        // $request['password'] = Crypt::encrypt($request->password);;
+
+        Teacher::create($request->validated());
 
 
-        return redirect()->route('teachers.index') ->with('messages', 'Profesor creado correctamente.');;
+        return redirect()->route('teachers.index') ->with('messages', 'Profesor creado correctamente.');
     }
 
     /**
@@ -100,7 +102,7 @@ class TeacherController extends Controller
         User::where('id', $teacher->user_id)
               ->update([
                         'dni' =>$request->dni,
-                        'password' =>Hash::make($request->password)
+                        'password' =>Crypt::encrypt($request->password)
                         ]);
 
 
@@ -123,4 +125,18 @@ class TeacherController extends Controller
     public function import(){
         return view('admin.teacher.import');
     }
+
+    public function importTeachers(Request $request){
+        try{
+        Excel::import(new TeachersImport, request()->file('file'));
+
+        }catch(\Exception $ex){
+            return back()->with('errores','No importo correctamente');
+
+        }
+
+        return redirect()->route('teachers.index') ->with('messages', 'Profesores creados correctamente.');;
+
+    }
+
 }

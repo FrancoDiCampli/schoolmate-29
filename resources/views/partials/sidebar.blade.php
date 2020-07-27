@@ -14,7 +14,7 @@
             <span class="mx-2 hidden md:block">Dashboard</span>
         </a>
 
-        <a href=""
+        <a href="{{route('courses.index')}}"
             class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="graduation-cap"
                 class="h-5 w-5  svg-inline--fa fa-graduation-cap fa-w-20" xmlns="http://www.w3.org/2000/svg"
@@ -22,9 +22,30 @@
                 <path fill="currentColor"
                     d="M622.34 153.2L343.4 67.5c-15.2-4.67-31.6-4.67-46.79 0L17.66 153.2c-23.54 7.23-23.54 38.36 0 45.59l48.63 14.94c-10.67 13.19-17.23 29.28-17.88 46.9C38.78 266.15 32 276.11 32 288c0 10.78 5.68 19.85 13.86 25.65L20.33 428.53C18.11 438.52 25.71 448 35.94 448h56.11c10.24 0 17.84-9.48 15.62-19.47L82.14 313.65C90.32 307.85 96 298.78 96 288c0-11.57-6.47-21.25-15.66-26.87.76-15.02 8.44-28.3 20.69-36.72L296.6 284.5c9.06 2.78 26.44 6.25 46.79 0l278.95-85.7c23.55-7.24 23.55-38.36 0-45.6zM352.79 315.09c-28.53 8.76-52.84 3.92-65.59 0l-145.02-44.55L128 384c0 35.35 85.96 64 192 64s192-28.65 192-64l-14.18-113.47-145.03 44.56z" />
             </svg>
-            <span class="mx-2 hidden md:block">Courses</span>
+            <span class="mx-2 hidden md:block">Cursos</span>
         </a>
 
+        <a href="{{route('subjects.index')}}"
+                class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+                <svg aria-hidden="true" data-prefix="fas" data-icon="tags"
+                    class="h-5 w-5  svg-inline--fa fa-tags fa-w-20" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512">
+                    <path fill="currentColor"
+                        d="M497.941 225.941L286.059 14.059A48 48 0 00252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z" />
+                </svg>
+                <span class="mx-2 hidden md:block">Materias</span>
+        </a>
+
+        <a href=""
+            class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="chart-pie"
+                class="h-5 w-5  svg-inline--fa fa-chart-pie fa-w-17" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 544 512">
+                <path fill="currentColor"
+                    d="M527.79 288H290.5l158.03 158.03c6.04 6.04 15.98 6.53 22.19.68 38.7-36.46 65.32-85.61 73.13-140.86 1.34-9.46-6.51-17.85-16.06-17.85zm-15.83-64.8C503.72 103.74 408.26 8.28 288.8.04 279.68-.59 272 7.1 272 16.24V240h223.77c9.14 0 16.82-7.68 16.19-16.8zM224 288V50.71c0-9.55-8.39-17.4-17.84-16.06C86.99 51.49-4.1 155.6.14 280.37 4.5 408.51 114.83 513.59 243.03 511.98c50.4-.63 96.97-16.87 135.26-44.03 7.9-5.6 8.42-17.23 1.57-24.08L224 288z" />
+            </svg>
+            <span class="mx-2 hidden md:block">Matriculas</span>
+        </a>
 
         <a href="" class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="tasks"
@@ -43,26 +64,8 @@
                     d="M336 64h-80c0-35.3-28.7-64-64-64s-64 28.7-64 64H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM96 424c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm0-96c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm0-96c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm96-192c13.3 0 24 10.7 24 24s-10.7 24-24 24-24-10.7-24-24 10.7-24 24-24zm128 368c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16zm0-96c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16zm0-96c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16z" />
             </svg>
             <span class="mx-2 hidden md:block">Jobs</span>
-            <a href=""
-                class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-                <svg aria-hidden="true" data-prefix="fas" data-icon="chart-pie"
-                    class="h-5 w-5  svg-inline--fa fa-chart-pie fa-w-17" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 544 512">
-                    <path fill="currentColor"
-                        d="M527.79 288H290.5l158.03 158.03c6.04 6.04 15.98 6.53 22.19.68 38.7-36.46 65.32-85.61 73.13-140.86 1.34-9.46-6.51-17.85-16.06-17.85zm-15.83-64.8C503.72 103.74 408.26 8.28 288.8.04 279.68-.59 272 7.1 272 16.24V240h223.77c9.14 0 16.82-7.68 16.19-16.8zM224 288V50.71c0-9.55-8.39-17.4-17.84-16.06C86.99 51.49-4.1 155.6.14 280.37 4.5 408.51 114.83 513.59 243.03 511.98c50.4-.63 96.97-16.87 135.26-44.03 7.9-5.6 8.42-17.23 1.57-24.08L224 288z" />
-                </svg>
-                <span class="mx-2 hidden md:block">Enrollments</span>
-            </a>
-            <a href=""
-                class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-                <svg aria-hidden="true" data-prefix="fas" data-icon="tags"
-                    class="h-5 w-5  svg-inline--fa fa-tags fa-w-20" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 512">
-                    <path fill="currentColor"
-                        d="M497.941 225.941L286.059 14.059A48 48 0 00252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z" />
-                </svg>
-                <span class="mx-2 hidden md:block">Subjects</span>
-            </a>
+
+
 
             <a onclick="showMenu()" href="#"
                 class="focus:outline-none flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
@@ -72,7 +75,7 @@
                     <path fill="currentColor"
                         d="M319.4 320.6L224 416l-95.4-95.4C57.1 323.7 0 382.2 0 454.4v9.6c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-9.6c0-72.2-57.1-130.7-128.6-133.8zM13.6 79.8l6.4 1.5v58.4c-7 4.2-12 11.5-12 20.3 0 8.4 4.6 15.4 11.1 19.7L3.5 242c-1.7 6.9 2.1 14 7.6 14h41.8c5.5 0 9.3-7.1 7.6-14l-15.6-62.3C51.4 175.4 56 168.4 56 160c0-8.8-5-16.1-12-20.3V87.1l66 15.9c-8.6 17.2-14 36.4-14 57 0 70.7 57.3 128 128 128s128-57.3 128-128c0-20.6-5.3-39.8-14-57l96.3-23.2c18.2-4.4 18.2-27.1 0-31.5l-190.4-46c-13-3.1-26.7-3.1-39.7 0L13.6 48.2c-18.1 4.4-18.1 27.2 0 31.6z" />
                 </svg>
-                <span class="mx-2 hidden md:block">Users</span>
+                <span class="mx-2 hidden md:block">Usuarios</span>
 
             </a>
             {{-- <ul class="px-5 hidden" id="users-admin">
@@ -89,8 +92,8 @@
                 <a href="{{route('teachers.index')}}">Profesores</a>
                 </div>
                 <div class="py-1 hover:text-gray-700 ">
-                    <a href="">Import Data</a>
-                </div>
+                    <a href="{{route('students.index')}}">Alumnos</a>
+                    </div>
             </div>
     </div>
 </div>
