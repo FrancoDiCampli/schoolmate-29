@@ -65,7 +65,7 @@ class User extends Authenticatable
     // Teachers
     public function teacher()
     {
-        return $this->hasOne(Teacher::class);
+        return $this->hasOne(Teacher::class,'user_id');
     }
 
     public function subjects()

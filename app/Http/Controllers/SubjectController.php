@@ -54,7 +54,7 @@ class SubjectController extends Controller
         $subject = $request->validate([
             'name'=>'required|max:20',
             'code'=>'required|max:20|unique:subjects',
-            'user_id'=>'required'
+            'teacher_id'=>'required'
         ]);
 
         $subject['course_id'] =  $course_id->id;

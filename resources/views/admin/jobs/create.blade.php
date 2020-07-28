@@ -2,120 +2,33 @@
 
 @section('content')
 
-<div class="container font-montserrat text-sm">
-    <div class="card  rounded-sm bg-gray-100 mx-auto mt-6 shadow-lg">
-        <div class="card-title bg-white w-full p-1 md:p-5  border-b flex items-center justify-between md:justify-between">
-           <h1 class="text-teal-600 font-semibold md:m-0 m-2 text-lg">Editar Profesor </h1>
-            <a href="{{route('teachers.index')}}" class="flex hover:shadow-lg md:m-0 m-2 px-4 py-2">
+{{-- card tarea --}}
+<div class="container font-montserrat text-sm mb-8">
+    <div class="card  rounded-sm bg-gray-100 mx-auto mt-6 shadow-lg md:w-10/12">
+        <div class="card-title bg-white w-full p-5 border-b flex items-center justify-between md:justify-between">
+            <div>
+                <p class="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold placeholder-gray-700">Nueva Tarea</p>
+                <p class="md:text-md text-sm text-primary-500 font-semibold">{{$subject->name}}</p>
+                <p class="md:text-sm text-xs text-primary-400">{{$subject->course->name}}</p>
+            </div>
+            <a href="{{route('jobs.index', $subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
-
               </a>
         </div>
-        <div class="card-body py-5">
-            <form method="POST" action="{{ route('teachers.update',$teacher->id)}}" enctype="multipart/form-data" class="mx-auto" >
-                @method('PUT')
+        <div class="card-body py-4">
+        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" >
                 @csrf
 
+                <input hidden type="text" name="subject" id="" value="{{$subject->id}}">
 
                 <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-1/3 px-3 md:mb-0 mb-6 ">
+                    <div class="w-full md:w-full px-6 md:mb-0 mb-6">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Nombre
+                          Título
                         </label>
-                        <input type="text" id="name" name="name" class="form-input w-full block"
-                             placeholder="Nombre" value="{{$teacher->name}}">
+                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('title') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('name')}}
-                        </span>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          DNI
-                        </label>
-                        <input id="dni" type="text"  name="dni" class="form-input w-full block"
-                            type="text" placeholder="Ej: 22212222" value="{{$teacher->dni}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('dni')}}
-                        </span>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Password
-                        </label>
-                        <input id="dni" type="text"  name="password" class="form-input w-full block"
-                            type="text" placeholder="Ej: 22212222" value="{{$teacher->user->password}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{-- {{$errors->first('password')}} --}}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Cuil
-                        </label>
-                        <input type="text" id="name" name="cuil" class="form-input w-full block"
-                             placeholder="CUIL" value="{{$teacher->cuil}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('cuil')}}
-                        </span>
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Fecha de Nacimiento
-                        </label>
-                        <input type="date" id="start" name="fnac" class="form-input w-full block" id="grid-last-name" type="text"
-                        value="{{$teacher->fnac}}">
-
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('fnac')}}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Telefono
-                        </label>
-                        <input type="text" id="name" name="phone" class="form-input w-full block"
-                             placeholder="Telefono" value="{{$teacher->phone}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('phone')}}
-                        </span>
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                         Email
-                        </label>
-                        <input type="email" id="name" name="email" class="form-input w-full block"
-                        placeholder="Email" value="{{$teacher->email}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('email')}}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Domicilio
-                        </label>
-                        <input type="text" id="name" name="address" class="form-input w-full block"
-                             placeholder="Telefono" value="{{$teacher->address}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('address')}}
-                        </span>
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                         Legajo
-                        </label>
-                        <input type="text" id="name" name="docket" class="form-input w-full block"
-                        placeholder="Legajo" value="{{$teacher->docket}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('docket')}}
+                            {{$errors->first('title')}}
                         </span>
                     </div>
                 </div>
@@ -123,7 +36,55 @@
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full px-6 md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Foto
+                          Descripción/Instrucciones
+                        </label>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value=""></textarea>
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('content')}}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap my-5">
+                    <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Fecha de Inicio
+                        </label>
+                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('title')}}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap my-5">
+                    <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Fecha Límite de Entrega
+                        </label>
+                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('title')}}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap my-5">
+                    <div class="w-full md:w-full px-6 md:mb-0 mb-6">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Link de Youtube (Opcional)
+                        </label>
+                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('title')}}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap my-5">
+                    <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          File
                         </label>
                         <div class="relative">
                             <div class="overflow-hidden relative w-auto mt-4 mb-4">
@@ -135,7 +96,7 @@
                                             <path
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selected">Seleccione una foto de perfil</span>
+                                        <span class="mt-2 text-sm leading-normal" id="selected">Select a file</span>
                                         <input type='file' class="hidden" name="file" id="fileName"
                                             onchange="setName()" />
                                     </label>
@@ -143,7 +104,7 @@
                             </div>
                         </div>
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('file')}}
+                            {{$errors->first('title')}}
                         </span>
                     </div>
                 </div>
@@ -154,6 +115,37 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+            {{-- star modal --}}
+            <div
+                class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                <div class="modal-container bg-white mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                    <div class="modal-content py-4 text-left px-6">
+                        <div class="flex justify-end items-center pb-3">
+                            <div class="modal-close cursor-pointer z-50">
+                                <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
+                                    height="18" viewBox="0 0 18 18">
+                                    <path
+                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex justify-center">
+                            <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- end modal --}}
+
+@endsection
 
 @push('js')
 <script>
@@ -213,5 +205,3 @@
     }
 </script>
 @endpush
-
-@endsection

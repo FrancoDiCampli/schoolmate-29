@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Course;
+use App\Student;
+use App\Enrollment;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class EnrollmentController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('role:admin');
@@ -18,9 +22,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses =  Course::all();
-        return view('admin.courses.index',compact('courses'));
+        $enrollments = Enrollment::where('cicle',2020)->with('student')->get();
 
+        return view('admin.enrollments.index',compact('enrollments'));
     }
 
     /**
@@ -30,7 +34,24 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('admin.courses.create');
+        $enrolled =  Enrollment::where('cicle',2020)->select(['student_id'])->get();
+
+        $ex = [];
+
+        foreach($enrolled as $matricula){
+            array_push($ex,$matricula['student_id']);
+
+        }
+
+        $courses = Course::all();
+
+
+        // $students = User::role('student')->get();
+        $students = Student::all();
+
+        $students = $students->except($ex);
+
+        return view('admin.enrollments.create',compact('students','courses'));
     }
 
     /**
@@ -41,14 +62,17 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $course = $request->validate([
-            'name'=>'required|max:20',
-            'code'=>'required|max:20|unique:courses',
-            'shift'=>'required'
+        $enrollment = $request->validate([
+            'student_id'=>'required',
+            'course_id'=>'required',
         ]);
 
-       Course::create($course);
-       return redirect()->route('courses.index')->with('messages', 'Course creado correctamente.');
+        $enrollment['cicle'] =  2020;
+
+        Enrollment::create($enrollment);
+
+        return redirect()->route('enrollments.index')->with('messages', 'Alumno matriculado correctamente.');
+
     }
 
     /**

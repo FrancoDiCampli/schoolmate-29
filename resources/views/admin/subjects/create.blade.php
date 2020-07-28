@@ -39,11 +39,11 @@
                       Profesor
                     </label>
                     <div class="relative">
-                      <select id="teacher" onchange="setName()"  id="" name="user_id"  class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                      <select id="teacher" onchange="setName()"  id="" name="teacher_id"  class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                         <option disabled selected value> -- seleccione un profesor -- </option>
                         @if (count($teachers)>0)
                             @foreach ($teachers as $teacher)
-                                <option value="{{$teacher->user->id}}">{{$teacher->name}}</option>
+                                <option value="{{$teacher->id}}">{{$teacher->name}}</option>
                             @endforeach
                         @else
                         <option disabled selected value> --  no posee profesores registrados -- </option>

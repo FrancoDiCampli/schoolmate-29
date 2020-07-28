@@ -8,16 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    protected $fillable = ['name', 'code', 'course_id', 'user_id'];
+    protected $fillable = ['name', 'code', 'course_id', 'teacher_id'];
 
     public function teacher()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Teacher::class.'teacher_id');
     }
 
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo('App\Course');
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class)->orderBy('id', 'DESC');
+    }
+
+    public function posts()
+    {
+
+        return $this->hasMany(Post::class);
+    }
+
+    public function students(){
+        $curso = Course::where('id',$this->course_id)->get();
+        $matriculas = Enrollment::where('course_id',$this->course_id)->get();
+        return $matriculas;
+
+    }
 }

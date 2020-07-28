@@ -24,7 +24,7 @@ class StoreTeacher extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:teachers|max:50',
+            // 'name' => 'required|unique:teachers|max:50',
             'dni' => 'required|unique:teachers',
             'address'=>'required',
             'fnac'=>'required',

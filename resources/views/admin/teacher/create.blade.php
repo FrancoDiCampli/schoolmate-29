@@ -15,9 +15,33 @@
             <form method="POST" action="{{ route('teachers.store') }}" enctype="multipart/form-data" class="mx-auto" >
                 @csrf
 
-
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Nombre
+                        </label>
+                        <input type="text" id="name" name="nombre" class="form-input w-full block"
+                             placeholder="Nombre" value="">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('name')}}
+                        </span>
+                    </div>
+
+                    <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Apellido
+                        </label>
+                        <input  type="text" id="name" name="apellido" class="uppercase form-input w-full block"
+                             placeholder="Nombre" value="">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('name')}}
+                        </span>
+                    </div>
+                </div>
+
+
+                <div class="flex flex-wrap my-5">
+                    {{-- <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Nombre
                         </label>
@@ -26,7 +50,7 @@
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('name')}}
                         </span>
-                    </div>
+                    </div> --}}
                     <div class="w-full md:w-1/2 px-3">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           DNI

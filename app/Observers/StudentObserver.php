@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\User;
 use App\Student;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 
 class StudentObserver
@@ -18,7 +19,8 @@ class StudentObserver
     {
         $user  = User::create([
             'dni'=>$student->dni,
-            'password' =>Crypt::encrypt($student->dni)
+            // 'password' =>Crypt::encrypt($student->dni)
+            'password' =>Hash::make($student->dni)
         ]);
         $user->assignRole('student');
 

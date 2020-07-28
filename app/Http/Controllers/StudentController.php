@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
+use App\Enrollment;
 use App\Student;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
@@ -97,15 +99,30 @@ class StudentController extends Controller
     }
 
     public function importar(){
-        return view('admin.students.import');
+        $courses = Course::all();
+        return view('admin.students.import',compact('courses'));
     }
     public function importStudents(Request $request){
         try{
         Excel::import(new StudentsImport, request()->file('file'));
-
+        $alumnos = Excel::toCollection(new StudentsImport, request()->file('file'));
+            // Ver por que no matriculo ultimo alumno
         }catch(\Exception $ex){
             return back()->with('errores','No importo correctamente');
 
+        }
+
+
+         // Matricula a cada alumno importado
+         foreach($alumnos[0] as $alumno){
+
+             $res = Student::where('name',$alumno['nombre'])->get();
+
+            Enrollment::create([
+                'student_id'=>$res[0]['id'],
+                'course_id'=>$request->course_id,
+                'cicle'=>$request->cicle
+            ]);
         }
 
         return redirect()->route('students.index') ->with('messages', 'Alumnos creados correctamente.');;
