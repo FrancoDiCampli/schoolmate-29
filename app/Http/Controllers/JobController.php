@@ -17,7 +17,7 @@ class JobController extends Controller
 
     public function index($id)
     {
-        return $subject = Subject::find($id);
+        $subject = Subject::find($id);
         $subject->jobs;
 
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);

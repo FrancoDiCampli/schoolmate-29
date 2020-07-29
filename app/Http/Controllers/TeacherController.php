@@ -27,8 +27,6 @@ class TeacherController extends Controller
         $teachers= Teacher::all();
         return view('admin.teacher.index',compact('teachers'));
 
-
-
     }
 
     /**
@@ -49,8 +47,6 @@ class TeacherController extends Controller
      */
     public function store(StoreTeacher $request)
     {
-        $name = strtoupper($request->apellido).', '.$request->nombre;
-        $request->name = $name;
         // Aqui usa el observer para crear el usuario del profesor
         $path =  FilesTrait::store($request, $ubicacion = 'img/avatar', $nombre = $request->dni);
         $request['photo'] = $path;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use App\User;
+use App\Student;
 use App\Subject;
 use App\Teacher;
 use App\Delivery;
@@ -26,16 +27,29 @@ class AdminController extends Controller
     }
 
    public function student(){
-    return 'hola estudiante';
+
+    $user = Auth::user()->student;
+
+    $materias = $user->subjects();
+    $subjects = $materias;
+
+    // $enrol = StudentsTrait::enrollment(2020);
+    // $subjects =  $enrol->subjects;
+
+    $ids = $subjects->modelkeys();
+    $subjects = Subject::whereIn('id',$ids)->with('posts')->get();
+
+    $deliveries = Delivery::where('student_id', $user->id)->get();
+    $jobs = StudentsTrait::pending();
+
+
+    return view('admin.deliveries.index', compact('user', 'jobs', 'deliveries','subjects'));
    }
+
    public function teacher(){
+    $id =  auth()->user()->teacher->id;
+    $subjects = Subject::where('teacher_id',$id)->get();
 
-//     $year = now()->format('Y');
-//    return $subjects = TeachersTrait::subjects($year);
-
-   return $teacher = Teacher::where('user_id',Auth()->user()->id)->get();
-   return $teacher = $teacher[0]->id;
-    return Subject::where('teacher_id',$teacher['id'])->get();
     return view('admin.jobs.index', compact('subjects'));
    }
    public function admin(){

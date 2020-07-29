@@ -44,14 +44,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('job/create/{subject}', 'JobController@create')->name('job.create');
 
     Route::get('job/showJob/{id}', 'JobController@showJob')->name('job.showJob');
+    Route::get('jobs/descargar/{job}', 'JobController@descargar')->name('jobs.descargar');
 
 
     // Posts
-    Route::resource('posts', 'PostController');
+    Route::resource('posts', 'PostController')->except('create', 'index');
+    Route::get('posts/index/{subject}', 'PostController@index')->name('posts.index'); //agregado para index del post
+    Route::get('newpost/{subject}','PostController@create')->name('new.post');
+
+    // Comentarios de los post del muro
+    Route::resource('annotations', 'AnnotationController');
 
 
     // Entregas
     Route::resource('deliveries', 'DeliveryController');
+    Route::get('pendings', 'DeliveryController@pendings')->name('deliveries.pendings');
+    Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver');
+    Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
+
 
 });
 
