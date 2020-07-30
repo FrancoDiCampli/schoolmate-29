@@ -10,7 +10,7 @@ class Job extends Model
 {
     use LogsActivity;
     protected static $logAttributes = ['title','subject_id'];
-    protected static $recordEvents = ['created'];
+    protected static $recordEvents = ['created','updated'];
 
     protected $guarded = [];
 

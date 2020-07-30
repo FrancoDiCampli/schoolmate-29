@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Subject;
+use App\Annotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +15,10 @@ class PostController extends Controller
         $subject = Subject::find($id);
         $subject->jobs;
 
-        $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
+        // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
+        $posts = Post::where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
 
-        return view('admin.jobs.subject', compact('subject','posts'));
+        return view('admin.posts.index', compact('subject','posts'));
     }
 
     public function create($id)
@@ -49,6 +51,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
+
 
         return view('admin.posts.showPost', compact('post'));
     }

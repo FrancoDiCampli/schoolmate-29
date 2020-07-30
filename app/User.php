@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Student;
+use App\Teacher;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -65,7 +67,7 @@ class User extends Authenticatable
     // Teachers
     public function teacher()
     {
-        return $this->hasOne(Teacher::class,'user_id');
+        return $this->hasOne(Teacher::class);
     }
 
     public function subjects()

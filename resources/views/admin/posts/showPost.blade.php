@@ -1,7 +1,11 @@
 @extends('layouts.dashboard')
 
 @section('content')
+@php
+// Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol
+ $u = auth()->user()->roles()->first()->name;
 
+@endphp
 <div class="card mt-6 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto flex items-center justify-between">
     <div>
         <p class="text-md text-primary-500 font-semibold">{{$post->subject->name}}</p>
@@ -23,7 +27,7 @@
             </div>
 
             <div class="w-9/12">
-                <h2 class="text-sm font-medium text-gray-900 -mt-1">{{auth()->user()->name}} </h2>
+                <h2 class="text-sm font-medium text-gray-900 -mt-1">{{$post->user->teacher->name}} </h2>
                 <p class="text-gray-700 font-light text-xs">{{$post->created_at}} </p>
             </div>
 
@@ -70,9 +74,14 @@
                 </div>
 
                 <div class="w-full">
-                    <h2 class="text-sm font-medium text-gray-900">{{$annotation->user->name}} </h2>
-                    <p class="text-gray-700 font-light text-xs">{{$annotation->created_at}} </p>
+                    @if ($annotation->user->roles[0]->name == 'teacher')
+                        <h2 class="text-sm font-medium text-gray-900">{{$annotation->user->teacher->name}} </h2>
+                    @else
+                        <h2 class="text-sm font-medium text-gray-900">{{$annotation->user->student->name}} </h2>
 
+                    @endif
+
+                    <p class="text-gray-700 font-light text-xs">{{$annotation->created_at}} </p>
                 </div>
             </div>
 

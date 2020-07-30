@@ -43,7 +43,7 @@ class AdminController extends Controller
     $jobs = StudentsTrait::pending();
 
 
-    return view('admin.deliveries.index', compact('user', 'jobs', 'deliveries','subjects'));
+    return view('admin.students.home', compact('user', 'jobs', 'deliveries','subjects'));
    }
 
    public function teacher(){
