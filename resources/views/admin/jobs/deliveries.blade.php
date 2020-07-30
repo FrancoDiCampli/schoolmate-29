@@ -94,7 +94,7 @@
                     <tbody class="text-sm font-normal text-gray-700">
                         @foreach ($entregas ?? [] as $entrega)
                             <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
-                                <td class="px-4 py-2">{{$entrega->user->name}}</td>
+                                <td class="px-4 py-2">{{$entrega->student->name}}</td>
                                 <td class="px-4 py-2 mt-1 hidden md:block">{{$entrega->created_at->format('d-m-Y')}}</td>
                                 <td class="px-4 py-2">
                                     @if ($entrega->state($entrega->state) === "Aprobado")
@@ -113,7 +113,7 @@
                                     </td>
                                 <td class="px-4 py-2">
                                     <div class="flex">
-                                        <a href="{{route('jobs.delivery', $entrega->id)}}" class="mx-1 text-blue-400 hover:bg-gray-200 rounded-full p-2 focus:bg-gray-300">
+                                        <a href="{{route('job.delivery', $entrega->id)}}" class="mx-1 text-blue-400 hover:bg-gray-200 rounded-full p-2 focus:bg-gray-300">
                                             <svg aria-hidden="true" data-prefix="fas" data-icon="info" class="h-4 w-4 svg-inline--fa fa-info fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg>
                                         </a>
                                     </div>

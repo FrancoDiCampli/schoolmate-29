@@ -83,15 +83,10 @@
                 <span class="mx-2 hidden md:block">Usuarios</span>
 
             </a>
-            {{-- <ul class="px-5 hidden" id="users-admin">
-                <li><a href="">Profile</a></li>
-                <li><a href="">Admin Roles</a></li>
-                <li><a href="">Admin Users</a></li>
-                <li><a href="{{route('import')}}">Import Data</a></li>
-            </ul> --}}
+
             <div class="hidden text-left md:ml-0 ml-20 pl-6 md:pl-8 text-gray-600" id="users-admin">
                 <div class="py-1 hover:text-gray-700 ">
-                    <a href="">Profile</a>
+                <a href="{{route('user.show',$user)}}">Profile</a>
                 </div>
                 <div class="py-1 hover:text-gray-700 ">
                 <a href="{{route('teachers.index')}}">Profesores</a>
@@ -100,5 +95,19 @@
                     <a href="{{route('students.index')}}">Alumnos</a>
                     </div>
             </div>
+            <a class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2" href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="tags"
+                class="h-5 w-5  svg-inline--fa fa-tags fa-w-20" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512">
+                <path fill="currentColor"
+                    d="M497.941 225.941L286.059 14.059A48 48 0 00252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z" />
+            </svg>
+            <span class="mx-2 hidden md:block">Cerrar Sesión</span>
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+        </form>
     </div>
 </div>

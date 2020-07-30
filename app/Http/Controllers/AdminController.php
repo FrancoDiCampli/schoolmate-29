@@ -50,7 +50,7 @@ class AdminController extends Controller
     $id =  auth()->user()->teacher->id;
     $subjects = Subject::where('teacher_id',$id)->get();
 
-    return view('admin.jobs.index', compact('subjects'));
+    return view('admin.teacher.home', compact('subjects'));
    }
    public function admin(){
     return view('admin.admin.index');

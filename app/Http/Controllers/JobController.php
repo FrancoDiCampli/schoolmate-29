@@ -7,6 +7,7 @@ use App\Subject;
 use App\Delivery;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -15,8 +16,10 @@ class JobController extends Controller
         $this->middleware('role:teacher');
     }
 
+
     public function index($id)
     {
+
         $subject = Subject::find($id);
         $subject->jobs;
 
@@ -58,7 +61,7 @@ class JobController extends Controller
             $data['subject_id'] = $data['subject'];
             $data['state'] = 0;
 
-            Job::create([
+            $job = Job::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'subject_id' => $data['subject'],
@@ -68,8 +71,12 @@ class JobController extends Controller
                 'end' => $data['end'],
                 'state' => 0,
             ]);
+
+
         }
+
         session()->flash('messages', 'Tarea creada');
+
         return redirect()->action('JobController@index', $subject->id);
     }
 
@@ -156,8 +163,9 @@ class JobController extends Controller
 
     public function delivery($delivery)
     {
+        $user = Auth::user();
         $delivery =  Delivery::find($delivery);
         $delivery->comments;
-        return view('admin.teachers.delivery', compact('delivery'));
+        return view('admin.jobs.delivery', compact('delivery','user'));
     }
 }

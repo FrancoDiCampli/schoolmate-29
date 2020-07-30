@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:admin');
+        // $this->middleware('role:admin');
     }
     /**
      * Display a listing of the resource.
@@ -73,17 +73,7 @@ class UserController extends Controller
        }elseif($user->hasRole('student')){
         Student::create($request);
        }
-        // $request->user_id = intval($request->user_id);
-        // Teacher::create($request->all());
-        // if($user->role ==='teacher'){
-        //     return 'is teacher';
-        //     Teacher::create($request->all());
 
-        // }elseif($user->role ==='student'){
-        //     Student::create($request);
-        // }else{
-        //     $data=[];
-        // }
         return redirect()->back();
     }
 
@@ -93,19 +83,26 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($rol)
     {
-        $user = User::find($id);
+        $user = Auth::user();
+        switch ($rol) {
+            case 'teacher':
+                $data = $user->teacher;
+                break;
+            case 'student':
+                $data = $user->student;
+                break;
+            case 'admin':
+                $data = $user;
+                break;
 
-        if($user->hasRole('teacher')){
-            $data = Teacher::where('user_id',$user->id)->get();
+            default:
 
-        }elseif($user->hasRole('student')){
-            $data = Student::where('user_id',$user->id)->get();
-        }else{
-            $data=[];
+                break;
         }
-        return view('admin.users.show',compact('user','data'));
+
+        return view('admin.users.profile',compact('data'));
     }
 
     /**

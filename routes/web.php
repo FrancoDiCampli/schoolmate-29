@@ -36,16 +36,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     //   Tareas
     Route::resource('jobs', 'JobController')->except(['index','create']);
-        // Taras indice del profe
-    Route::get('jobs/{subject}','JobController@index')->name('jobs.index');
+        // Tareas indice del profe
+    Route::get('tareas/{subject}','JobController@index')->name('jobs.index');
         //  Tareas de la materia
     Route::get('job/{subject}', 'JobController@subject')->name('job.subject');
         // Crea tarea para una materia dada
-    Route::get('job/create/{subject}', 'JobController@create')->name('job.create');
+    Route::get('job/create/{subject}', 'JobController@create')->name('jobs.create');
 
-    Route::get('job/showJob/{id}', 'JobController@showJob')->name('job.showJob');
+    Route::get('jobs/showJob/{id}', 'JobController@showJob')->name('jobs.showJob');
     Route::get('jobs/descargar/{job}', 'JobController@descargar')->name('jobs.descargar');
-
+        // Muestra las entregas de la tarea
+    Route::get('job/deliveries/{job}', 'JobController@show')->name('job.deliveries');
+    Route::get('entrega/{delivery}', 'JobController@delivery')->name('job.delivery');
 
     // Posts
     Route::resource('posts', 'PostController')->except('create', 'index');
@@ -62,6 +64,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver');
     Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
 
+    // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
+    Route::resource('comments', 'CommentController');
+
+    Route::resource('user', 'UserController');
 
 });
 

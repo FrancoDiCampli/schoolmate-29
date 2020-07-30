@@ -4,9 +4,14 @@ namespace App;
 
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Job extends Model
 {
+    use LogsActivity;
+    protected static $logAttributes = ['title','subject_id'];
+    protected static $recordEvents = ['created'];
+
     protected $guarded = [];
 
     protected $state = ['Borrador', 'Activa', 'Rechazado'];

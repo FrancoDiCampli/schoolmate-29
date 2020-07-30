@@ -4,9 +4,13 @@ namespace App;
 
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Delivery extends Model
 {
+    use LogsActivity;
+    protected static $logAttributes = ['job_id','student_id','created_at'];
+    protected static $recordEvents = ['created'];
     protected $guarded = [];
 
     protected $state = ['En corrección', 'Por Corregir', 'Aprobado', 'Desaprobado'];
@@ -19,6 +23,10 @@ class Delivery extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
     }
 
     public function job()
@@ -35,4 +43,6 @@ class Delivery extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+
 }
