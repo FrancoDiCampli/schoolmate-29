@@ -22,4 +22,12 @@ class Student extends Model
 
         return $curso->first()->subjects;
     }
+
+    public function deliveries()
+    {
+
+        return $this->hasMany(Delivery::class,'student_id');
+    }
+
+
 }

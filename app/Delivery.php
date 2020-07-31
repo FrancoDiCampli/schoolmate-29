@@ -9,6 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Delivery extends Model
 {
     use LogsActivity;
+    protected static $logName = 'deliveries';
     protected static $logAttributes = ['job_id','student_id','created_at'];
     protected static $recordEvents = ['created'];
     protected $guarded = [];
@@ -36,7 +37,6 @@ class Delivery extends Model
 
     public function subject(){
 
-        return $this->job();
 
     }
     public function comments()

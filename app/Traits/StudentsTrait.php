@@ -23,7 +23,7 @@ trait StudentsTrait
 
     }
 
-    public static function pending(){
+    public static function pendings(){
         $user = Auth::user()->student;
 
         $materias = $user->subjects();
@@ -44,4 +44,24 @@ trait StudentsTrait
         return $jobs;
 
     }
+    public static function pending($subject,$id){
+        $tareas = Job::where('subject_id', $subject)->where('state',1)->get();
+         $deliveries = Delivery::where('student_id',$id)->get();
+
+         $ex = [];
+         foreach($deliveries as $delivery){
+             array_push($ex,$delivery->job_id);
+         }
+
+         $jobs = $tareas->except($ex);
+
+         return $jobs;
+
+    }
+
+    public static function entregas($subject,$id){
+
+    }
+
+
 }
