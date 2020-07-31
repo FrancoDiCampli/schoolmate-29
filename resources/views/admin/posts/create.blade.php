@@ -54,7 +54,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
+                <button type="submit" class="flex mx-auto btn btn-primary">Publicar</button>
 
             </form>
         </div>
