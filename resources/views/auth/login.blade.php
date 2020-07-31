@@ -16,7 +16,7 @@
             ><img src="{{asset('img/login.png')}}"  class="w-auto h-auto" alt=""></div>
             <!-- Col -->
             <div class="w-full lg:w-1/2 bg-white p-5 rounded-sm lg:rounded-l-none">
-                <div class="block lg:hidden md:hidden mx-auto justify-center">
+                <div class="block lg:hidden md:hidden mx-auto justify-center flex">
                 <a href="">
                       <img src="{{asset('img/sm-icon-svg.svg')}}" class="w-40 h-40" alt="">
 
@@ -42,7 +42,7 @@
                         </span>
                     @enderror
 
-                    @error('email')
+                    @error('dni')
                         <span class="flex my-5 justify-center italic text-red-600  text-sm" role="alert">
                                 {{$message}}
                         </span>

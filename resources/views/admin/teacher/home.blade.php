@@ -8,7 +8,6 @@
     @foreach ($subjects ??[] as $subject)
 
     {{-- nuevo card --}}
-
         <div class="w-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl bg-white m-4 font-montserrat border-b-4 border-bluedark-300">
             <div class="flex flex-col min-h-full">
                 <div class="px-6 py-4 border-b flex justify-between items-center">
@@ -38,7 +37,6 @@
                 </div>
             </div>
         </div>
-
     @endforeach
 
     @else

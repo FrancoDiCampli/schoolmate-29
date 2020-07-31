@@ -4,7 +4,7 @@
 
 {{-- Nuevo --}}
 {{-- nuevo --}}
-<div class="card mt-6 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto flex items-center justify-between">
+<div class="card mt-6 w-full md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto flex items-center justify-between">
     <div>
         <p class="text-md text-primary-500 font-semibold">{{$job->subject->name}}</p>
         <p class="text-sm text-primary-400">{{$job->subject->course->name}}</p>
@@ -86,7 +86,7 @@
                     <thead>
                         <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
                             <th class="px-4 py-2">Alumno</th>
-                            <th class="px-4 py-2 hidden md:block" >Entrega</th>
+                            <th class="px-4 py-2" >Entrega</th>
                             <th class="px-4 py-2" >Estado</th>
                             <th class="px-4 py-2">Acciones</th>
                         </tr>
@@ -95,7 +95,7 @@
                         @foreach ($entregas ?? [] as $entrega)
                             <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
                                 <td class="px-4 py-2">{{$entrega->student->name}}</td>
-                                <td class="px-4 py-2 mt-1 hidden md:block">{{$entrega->created_at->format('d-m-Y')}}</td>
+                                <td class="px-4 py-2 mt-1">{{$entrega->created_at->format('d-m-Y')}}</td>
                                 <td class="px-4 py-2">
                                     @if ($entrega->state($entrega->state) === "Aprobado")
                                     <span class="bg-green-200 py-1 px-2 rounded-full text-green-800">{{$entrega->state($entrega->state)}}</span>
@@ -124,7 +124,7 @@
                         @foreach ($alumnos ?? [] as $alumno)
                             <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
                                 <td class="px-4 py-2">{{$alumno->name}}</td>
-                                <td class="px-4 py-2 hidden md:block">S/E</td>
+                                <td class="px-4 py-2 ">S/E</td>
                                 <td class="px-4 py-2">
                                     <span class="">S/E</span>
                                     </td>

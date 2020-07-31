@@ -107,10 +107,10 @@
 
 .sidebar-expanded{
     position: absolute;
-    width: 80%;
+    width: 70%;
     background-color:var(--primary--color);
     z-index: 1000;
-    transition: width 1s;
+    transition: width 0.5s;
     margin: 0px;
     padding: 0px;
     top: 0px;

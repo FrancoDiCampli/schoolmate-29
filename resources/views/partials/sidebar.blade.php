@@ -4,12 +4,18 @@
 
     </button>
     <div class="md:pt-10 pb-10 px-6 pl-8">
+
+        <a href='{{route("$user")}}' class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
+            <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">                   
+            <span class="mx-2 hidden md:block pt-2 md:hidden">Nombre del Usuario</span>
+        </a>
+        
         @php
         // Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol
          $user = auth()->user()->roles()->first()->name;
 
         @endphp
-        <a href='{{route("$user")}}' class="flex justify-center md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+        <a href='{{route("$user")}}' class="flex justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="tachometer-alt"
                 class="h-5 w-5  svg-inline--fa fa-tachometer-alt fa-w-18" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512">
@@ -19,8 +25,18 @@
             <span class="mx-2 hidden md:block">Inicio</span>
         </a>
 
+        <a href='' class="flex justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2 flex md:hidden">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="tachometer-alt"
+                class="h-5 w-5  svg-inline--fa fa-tachometer-alt fa-w-18" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 576 512">
+                <path fill="currentColor"
+                    d="M288 32C128.94 32 0 160.94 0 320c0 52.8 14.25 102.26 39.06 144.8 5.61 9.62 16.3 15.2 27.44 15.2h443c11.14 0 21.83-5.58 27.44-15.2C561.75 422.26 576 372.8 576 320c0-159.06-128.94-288-288-288zm0 64c14.71 0 26.58 10.13 30.32 23.65-1.11 2.26-2.64 4.23-3.45 6.67l-9.22 27.67c-5.13 3.49-10.97 6.01-17.64 6.01-17.67 0-32-14.33-32-32S270.33 96 288 96zM96 384c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm48-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm246.77-72.41l-61.33 184C343.13 347.33 352 364.54 352 384c0 11.72-3.38 22.55-8.88 32H232.88c-5.5-9.45-8.88-20.28-8.88-32 0-33.94 26.5-61.43 59.9-63.59l61.34-184.01c4.17-12.56 17.73-19.45 30.36-15.17 12.57 4.19 19.35 17.79 15.17 30.36zm14.66 57.2l15.52-46.55c3.47-1.29 7.13-2.23 11.05-2.23 17.67 0 32 14.33 32 32s-14.33 32-32 32c-11.38-.01-20.89-6.28-26.57-15.22zM480 384c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z" />
+            </svg>
+            <span class="mx-2 hidden md:block">Notificaciones</span>
+        </a>
+
         <a href="{{route('courses.index')}}"
-            class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+            class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="graduation-cap"
                 class="h-5 w-5  svg-inline--fa fa-graduation-cap fa-w-20" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 512">
@@ -31,7 +47,7 @@
         </a>
 
         <a href="{{route('subjects.index')}}"
-                class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+                class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
                 <svg aria-hidden="true" data-prefix="fas" data-icon="tags"
                     class="h-5 w-5  svg-inline--fa fa-tags fa-w-20" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 640 512">
@@ -42,7 +58,7 @@
         </a>
 
     <a href="{{route('enrollments.index')}}"
-            class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+            class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="chart-pie"
                 class="h-5 w-5  svg-inline--fa fa-chart-pie fa-w-17" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 544 512">
@@ -52,7 +68,7 @@
             <span class="mx-2 hidden md:block">Matriculas</span>
         </a>
 
-        <a href="" class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+        <a href="" class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="tasks"
                 class="h-5 w-5 svg-inline--fa fa-tasks fa-w-16" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512">
@@ -61,7 +77,7 @@
             </svg>
             <span class="mx-2 hidden md:block">Deliveries</span>
         </a>
-        <a href="" class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+        <a href="" class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="clipboard-list"
                 class="h-5 w-5 svg-inline--fa fa-clipboard-list fa-w-12" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 384 512">
@@ -73,7 +89,7 @@
 
 
             <a onclick="showMenu()" href="#"
-                class="focus:outline-none flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+                class="focus:outline-none flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
                 <svg aria-hidden="true" data-prefix="fas" data-icon="user-graduate"
                     class="h-5 w-5 svg-inline--fa fa-user-graduate fa-w-14"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -95,7 +111,7 @@
                     <a href="{{route('students.index')}}">Alumnos</a>
                     </div>
             </div>
-            <a class="flex md:justify-start justify-center text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2" href="{{ route('logout') }}" onclick="event.preventDefault();
+            <a class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2" href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
             <svg aria-hidden="true" data-prefix="fas" data-icon="tags"
                 class="h-5 w-5  svg-inline--fa fa-tags fa-w-20" xmlns="http://www.w3.org/2000/svg"
