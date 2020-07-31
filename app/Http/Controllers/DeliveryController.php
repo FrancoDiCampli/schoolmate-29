@@ -32,17 +32,16 @@ class DeliveryController extends Controller
 
     public function store(Request $request)
     {
-
-        try {
+        // try {
             DB::transaction(function () use ($request) {
                 $nameFile = FilesTrait::store($request, $ubicacion = 'entregas', $nombre = auth()->user()->student->name);
-
 
                 if ($nameFile) {
                     $delivery = Delivery::create([
                         'job_id' => $request->job,
                         'file_path' => $nameFile,
                         'state' => 0,
+                        'link' => null,
                         'student_id' => Auth::user()->student->id,
                     ]);
                 }
@@ -58,11 +57,16 @@ class DeliveryController extends Controller
             });
 
             session()->flash('message', 'Entrega creada');
-        } catch (\Throwable $th) {
-            session()->flash('message', 'Error');
-        }
+        // } catch (\Throwable $th) {
+        //     session()->flash('message', 'Error');
+        // }
 
         return redirect()->route('student');
+    }
+
+    public function update(Request $request, $id)
+    {
+        return $request;
     }
 
 }

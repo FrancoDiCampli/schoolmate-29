@@ -69,5 +69,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('user', 'UserController');
 
+    // Notificaciones
+    Route::get('notifications', function(){
+        $todas = auth()->user()->notifications;
+        return view('admin.notifications', compact('todas'));
+    })->name('notifications');
+
 });
 
