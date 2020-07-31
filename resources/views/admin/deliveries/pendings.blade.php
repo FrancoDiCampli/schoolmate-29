@@ -4,7 +4,7 @@
 
     <div class="flex flex-wrap">
 
-        @foreach ($jobs ?? [] as $job)
+        @foreach ($jobs->pendientes() ?? [] as $job)
              <div class="mx-2 text-white card bg-gradient-green rounded-sm font-montserrat w-5/12 flex p-5 justify-between mt-5 items-center">
                 <div>
                     <a href="{{route('jobs.descargar', $job->file_path)}}">

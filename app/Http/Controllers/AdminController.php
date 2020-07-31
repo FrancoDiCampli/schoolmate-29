@@ -26,24 +26,27 @@ class AdminController extends Controller
         return view('home');
     }
 
+    public function studentx(){
+        $id = Auth::user()->student->id;
+        $jobs = StudentsTrait::pending(2,$id);
+        dd($jobs);
+    }
+
    public function student(){
 
     $user = Auth::user()->student;
 
-    $materias = $user->subjects();
-    $subjects = $materias;
-
-    // $enrol = StudentsTrait::enrollment(2020);
-    // $subjects =  $enrol->subjects;
+    $subjects = $user->subjects();
 
     $ids = $subjects->modelkeys();
     $subjects = Subject::whereIn('id',$ids)->with('posts')->get();
 
     $deliveries = Delivery::where('student_id', $user->id)->get();
-    $jobs = StudentsTrait::pending();
+
+    $jobs = StudentsTrait::pendings();
 
 
-    return view('admin.students.home', compact('user', 'jobs', 'deliveries','subjects'));
+    return view('admin.students.home', compact('user','jobs', 'deliveries','subjects'));
    }
 
    public function teacher(){

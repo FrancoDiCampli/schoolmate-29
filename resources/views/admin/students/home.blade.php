@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="flex flex-wrap">
+    {{-- <div class="flex flex-wrap">
         <div class="w-full mx-2 text-white card bg-gradient-green rounded-sm font-montserrat md:w-5/12 flex p-5 justify-between mt-5 items-center">
                 <div>
                     <svg aria-hidden="true" data-prefix="fas" data-icon="clipboard-list"
@@ -34,7 +34,7 @@
             </div>
 
         </div>
-    </div>
+    </div> --}}
 
 
     {{-- Nuevo index alumnos --}}
@@ -63,9 +63,15 @@
                     </div>
                     <div class="px-6 py-4 font-montserrat w-auto flex justify-between items-center">
                         <p class="text-gray-700 text-sm">
-                            0 Tareas Pendientes
-                        </p>
+                        {{count($subject->pendientes())}} <a href="{{route('deliveries.pendings',$subject)}}">Tareas Pendientes</a>
 
+                        </p>
+                        <p class="text-gray-700 text-sm">
+                            {{-- Aqui vamos a colocar ruta a las entregas de la materia --}}
+                        <a href="{{route('deliveries.subject',$subject)}}">Entregas</a>
+
+
+                            </p>
                         <div class="w-auto flex justify-between items-center">
                             <a href="{{route('jobs.index', $subject->id)}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 36 36" width="32px"><path d="M8.377 31.833c6.917 0 11.667 3.583 15 3.583S33.71 33.5 33.71 18.167 24.293.583 20.627.583c-17.167 0-24.5 31.25-12.25 31.25z" fill="#efefef" data-original="#EFEFEF"/><path d="M20.25 9.75h-2v1a1 1 0 01-1 1h-5.5a1 1 0 01-1-1v-1h-2c-1.1 0-2 .9-2 2v12.5c0 1.1.9 2 2 2h11.5c1.1 0 2-.9 2-2v-12.5c0-1.1-.9-2-2-2z" fill="#f3f3f1" data-original="#F3F3F1"/><path d="M18.25 8.75v2a1 1 0 01-1 1h-5.5a1 1 0 01-1-1v-2h1.75c0-1.1.9-2 2-2s2 .9 2 2zM21.532 28.72l-3.005.53.53-3.005 7.425-7.425c.391-.391.847-.567 1.237-.177l1.237 1.237a.999.999 0 010 1.414z" fill="#2c84c7" data-original="#2FDF84" data-old_color="#2fdf84"/><path d="M20.5 10.75v-.975c-.083-.011-.164-.025-.25-.025h-2v1a1 1 0 01-1 1h2.25a1 1 0 001-1zM9 24.25v-12.5c0-1.014.768-1.849 1.75-1.975V9.75h-2c-1.1 0-2 .9-2 2v12.5c0 1.1.9 2 2 2H11c-1.1 0-2-.9-2-2z" fill="#d5dbe1" data-original="#D5DBE1"/><path d="M13 10.75v-2h1.75c0-.683.348-1.289.875-1.65a1.984 1.984 0 00-1.125-.35c-1.1 0-2 .9-2 2h-1.75v2a1 1 0 001 1H14a1 1 0 01-1-1zM21.308 26.245l7.007-7.007-.595-.595c-.391-.391-.847-.214-1.237.177l-7.425 7.425-.53 3.005 2.322-.41z" fill="#216294" data-original="#00B871" class="active-path" data-old_color="#00b871"/><path d="M18.527 30a.748.748 0 01-.738-.88l.53-3.005a.746.746 0 01.208-.4l7.425-7.425c.913-.913 1.808-.668 2.298-.177l1.237 1.237a1.75 1.75 0 010 2.475l-7.425 7.425a.746.746 0 01-.4.208l-3.005.53a.715.715 0 01-.13.012zm1.228-3.392l-.303 1.717 1.717-.303 7.258-7.258a.25.25 0 000-.354l-1.228-1.228c-.01.019-.086.066-.187.167zM16.01 27H8.75A2.752 2.752 0 016 24.25v-12.5A2.752 2.752 0 018.75 9h1.88v1.5H8.75c-.689 0-1.25.561-1.25 1.25v12.5c0 .689.561 1.25 1.25 1.25h7.26zM23 18.81h-1.5v-7.06c0-.689-.561-1.25-1.25-1.25h-1.87V9h1.87A2.752 2.752 0 0123 11.75z" data-original="#000000"/><path d="M17.25 12.5h-5.5c-.965 0-1.75-.785-1.75-1.75v-2a.75.75 0 01.75-.75h1.104c.328-1.153 1.39-2 2.646-2s2.318.847 2.646 2h1.104a.75.75 0 01.75.75v2c0 .965-.785 1.75-1.75 1.75zm-5.75-3v1.25c0 .138.112.25.25.25h5.5a.25.25 0 00.25-.25V9.5h-1a.75.75 0 01-.75-.75c0-.689-.561-1.25-1.25-1.25s-1.25.561-1.25 1.25a.75.75 0 01-.75.75zM9.75 14h9.5v1.5h-9.5zM9.75 17h9.5v1.5h-9.5zM9.75 20h9.5v1.5h-9.5z" data-original="#000000"/><path d="M28.314 14.78c-.827 0-1.5-.673-1.5-1.5s.673-1.5 1.5-1.5 1.5.673 1.5 1.5-.672 1.5-1.5 1.5zm0-2c-.275 0-.5.225-.5.5s.225.5.5.5.5-.225.5-.5-.224-.5-.5-.5zM16.375 3.25h2v1h-2zM10.625 3.25h2v1h-2zM14.125 0h1v2h-1z" fill="#a4afc1" data-original="#A4AFC1"/></svg>

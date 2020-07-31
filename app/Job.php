@@ -9,6 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Job extends Model
 {
     use LogsActivity;
+    protected static $logName = 'jobs';
     protected static $logAttributes = ['title','subject_id'];
     protected static $recordEvents = ['created','updated'];
 

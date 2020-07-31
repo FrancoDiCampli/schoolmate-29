@@ -8,6 +8,7 @@ use App\Delivery;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class JobController extends Controller
 {
@@ -167,5 +168,10 @@ class JobController extends Controller
         $delivery =  Delivery::find($delivery);
         $delivery->comments;
         return view('admin.jobs.delivery', compact('delivery','user'));
+    }
+
+    public function test(){
+        return $activity = Activity::where('log_name','deliveries')->where('subject_id',3)->get();
+
     }
 }
