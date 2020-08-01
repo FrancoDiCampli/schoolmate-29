@@ -14,6 +14,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('student','AdminController@student')->name('student');
     Route::get('admin','AdminController@admin')->name('admin');
     Route::get('teacher','AdminController@teacher')->name('teacher');
+    Route::get('adviser', 'AdminController@adviser')->name('adviser');
+
+    //Asesores
+    Route::get('stateJobs/{id}', 'AdviserController@stateJobs')->name('adviser.jobs');
 
     // Profesores
     Route::resource('teachers', 'TeacherController');
@@ -71,8 +75,16 @@ Route::group(['middleware' => 'auth'], function () {
     // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
     Route::resource('comments', 'CommentController');
 
+    //Comentario de la tarea, entre el profesor y el asesor
+    Route::post('add/JobComment','CommentController@addJobComment')->name('JobComment.store');
+
     Route::resource('user', 'UserController');
 
+    // Notificaciones
+    Route::get('notifications', function(){
+        $todas = auth()->user()->notifications;
+        return view('admin.notifications', compact('todas'));
+    })->name('notifications');
 
     // Ruta de  pruebas del log de actividades de una tarea/entrega
     Route::get('test','JobController@test')->name('test');

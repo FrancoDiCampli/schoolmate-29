@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\DatabaseMessage;
 
-class JobCreated extends Notification
+class DeliveryUpdated extends Notification
 {
     use Queueable;
 
@@ -17,9 +17,10 @@ class JobCreated extends Notification
      *
      * @return void
      */
-    public function __construct($job)
+    public function __construct($delivery, $message)
     {
-        $this->job = $job;
+        $this->delivery = $delivery;
+        $this->message = $message;
     }
 
     /**
@@ -31,6 +32,14 @@ class JobCreated extends Notification
     public function via($notifiable)
     {
         return ['database'];
+    }
+
+    public function toDatabase($notifiable)
+    {
+        return new DatabaseMessage([
+            'message' => $this->message .' | ' . $this->delivery->id,
+            'delivery_id' => $this->delivery->id
+        ]);
     }
 
     /**
@@ -45,14 +54,6 @@ class JobCreated extends Notification
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
-    }
-
-    public function toDatabase($notifiable)
-    {
-        return new DatabaseMessage([
-            'message' => 'Nueva Tarea | ' . $this->job->title .' | '.$this->job->subject->name,
-            'job_id' => $this->job->id
-        ]);
     }
 
     /**
