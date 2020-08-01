@@ -67,6 +67,12 @@ class AdminController extends Controller
     public function adviser()
     {
         $jobs = Job::where('state', 0)->get();
-        return view('admin.advisers.index', compact('jobs'));
+        $activas = Job::where('state', 1)->get();
+        $rechazadas = Job::where('state', 2)->get();
+
+        $jobs = count($jobs);
+        $activas = count($activas);
+        $rechazadas = count($rechazadas);
+        return view('admin.advisers.home', compact('jobs', 'activas', 'rechazadas'));
     }
 }
