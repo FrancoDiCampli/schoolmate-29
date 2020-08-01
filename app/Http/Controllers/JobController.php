@@ -9,7 +9,7 @@ use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
-
+use Youtube;
 class JobController extends Controller
 {
     public function __construct()
@@ -45,6 +45,13 @@ class JobController extends Controller
 
     public function store(Request $request)
     {
+        $video = Youtube::upload($request->file('video')->getPathName(), [
+            'title'       => $request->input('title'),
+            'description' => $request->input('description')
+        ]);
+
+        $link = "http://www.youtube.com/watch?v=". $video->getVideoId();
+
         $subject = Subject::find($request->subject);
         $data = $request->validate([
             'title' => 'required',
@@ -67,7 +74,7 @@ class JobController extends Controller
                 'description' => $data['description'],
                 'subject_id' => $data['subject'],
                 'file_path' => $nameFile,
-                'link' => $data['link'],
+                'link' => $link,
                 'start' => $data['start'],
                 'end' => $data['end'],
                 'state' => 0,
