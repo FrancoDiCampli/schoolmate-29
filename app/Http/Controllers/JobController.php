@@ -103,7 +103,9 @@ class JobController extends Controller
     public function showJob($id)
     {
         $job = Job::find($id);
-        return view('admin.jobs.showJob', compact('job'));
+        $job->comments;
+        $file = url('tareas/'.$job->file_path);
+        return view('admin.jobs.showJob', compact('job', 'file'));
     }
 
     public function edit($id)
