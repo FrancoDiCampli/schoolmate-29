@@ -73,6 +73,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('user', 'UserController');
 
+    // Notificaciones
+    Route::get('notifications', function(){
+        $todas = auth()->user()->notifications;
+        return view('admin.notifications', compact('todas'));
+    })->name('notifications');
 
     // Ruta de  pruebas del log de actividades de una tarea/entrega
     Route::get('test','JobController@test')->name('test');

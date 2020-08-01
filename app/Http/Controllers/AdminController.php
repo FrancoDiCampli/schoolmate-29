@@ -22,40 +22,51 @@ class AdminController extends Controller
         $this->middleware('role:adviser')->only('adviser');
     }
 
-    public function home(){
+    public function home()
+    {
         return view('home');
     }
 
-    public function studentx(){
+    public function studentx()
+    {
         $id = Auth::user()->student->id;
-        $jobs = StudentsTrait::pending(2,$id);
+        $jobs = StudentsTrait::pending(2, $id);
         dd($jobs);
     }
 
-   public function student(){
+    public function student()
+    {
 
-    $user = Auth::user()->student;
+        $user = Auth::user()->student;
 
-    $subjects = $user->subjects();
+        $subjects = $user->subjects();
 
-    $ids = $subjects->modelkeys();
-    $subjects = Subject::whereIn('id',$ids)->with('posts')->get();
+        $ids = $subjects->modelkeys();
+        $subjects = Subject::whereIn('id', $ids)->with('posts')->get();
 
-    $deliveries = Delivery::where('student_id', $user->id)->get();
+        $deliveries = Delivery::where('student_id', $user->id)->get();
 
-    $jobs = StudentsTrait::pendings();
+        $jobs = StudentsTrait::pendings();
 
 
-    return view('admin.students.home', compact('user','jobs', 'deliveries','subjects'));
-   }
+        return view('admin.students.home', compact('user', 'jobs', 'deliveries', 'subjects'));
+    }
 
-   public function teacher(){
-    $id =  auth()->user()->teacher->id;
-    $subjects = Subject::where('teacher_id',$id)->get();
+    public function teacher()
+    {
+        $id =  auth()->user()->teacher->id;
+        $subjects = Subject::where('teacher_id', $id)->get();
 
-    return view('admin.teacher.home', compact('subjects'));
-   }
-   public function admin(){
-    return view('admin.admin.index');
-   }
+        return view('admin.teacher.home', compact('subjects'));
+    }
+    public function admin()
+    {
+        return view('admin.admin.index');
+    }
+
+    public function adviser()
+    {
+        $jobs = Job::where('state', 0)->get();
+        return view('admin.advisers.index', compact('jobs'));
+    }
 }
