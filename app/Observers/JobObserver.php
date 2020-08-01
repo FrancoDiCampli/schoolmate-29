@@ -45,7 +45,7 @@ class JobObserver
                 $teacher->notify(new JobUpdated($job, 'Revisar Tarea'));
                 break;
 
-            default:
+            case 0:
                 $advisers = User::role('adviser')->get();
                 foreach ($advisers as $adviser) {
                     $adviser->notify(new JobUpdated($job, 'Tarea Actualizada'));

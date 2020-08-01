@@ -96,6 +96,36 @@
                 frameborder="0"></iframe>
         </div>
 
+        {{-- Select del asesor  --}}
+        @role('adviser')
+            <form action="{{route('jobs.update', $job->id)}}" method="POST">
+                @method('PUT')
+                @csrf
+
+                <div class="border-t mt-3 flex py-6 text-gray-700 text-sm">
+                    {{-- estados --}}
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                        Actualizar Estado
+                        </label>
+                        <div class="relative">
+                            <select  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
+                                <option disabled selected value> {{$job->state($job->state)}} </option>
+                                <option value="0">Borrador</option>
+                                <option value="1">Activa</option>
+                                <option value="2">Rechazado</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="flex mx-auto btn btn-primary">Actualizar</button>
+            </form>
+        @endrole
+
 
         {{-- Comentarios --}}
         <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">
@@ -141,6 +171,7 @@
                 </div>
             </form>
         </div>
+
 
 
 

@@ -59,10 +59,18 @@
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"
                             role="alert">
-                            <a class="rounded text-white font-bold p-1"
-                                href="">
+                            {{-- @php
+                               $item->type;
+                            @endphp
+                            @role('teacher')
+
+                            @elserole
+
+                            @endrole --}}
+                            {{-- <a class="rounded text-white font-bold p-1"
+                            href="{{route('jobs.showJob', $item->data['job_id'])}}">
                                 <pre class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                            </a>
+                            </a> --}}
                         </div>
                         @endforeach
 
@@ -214,7 +222,7 @@
         window.onunload=function(){
         window.name=self.pageYOffset || (document.documentElement.scrollTop+document.body.scrollTop);
         }
-       
+
 
     </script>
 </body>

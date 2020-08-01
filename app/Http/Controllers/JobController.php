@@ -105,6 +105,24 @@ class JobController extends Controller
         $job = Job::find($id);
         $job->comments;
         $file = url('tareas/'.$job->file_path);
+
+        if (Auth::user()->roles()->first()->name == 'adviser') {
+            $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
+            ->whereRead_at(null)
+            ->where('data->job_id', $id)
+            ->get();
+
+            $notif->markAsRead();
+        } else {
+            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->id)
+            ->whereRead_at(null)
+            ->where('data->job_id', $id)
+            ->get();
+
+            $notif->markAsRead();
+        }
+
+
         return view('admin.jobs.showJob', compact('job', 'file'));
     }
 
@@ -117,24 +135,37 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         $job = Job::find($id);
+        $stateJob = $job->state;
         $subject = Subject::find($request->subject);
-        $data = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'link' => 'nullable|url',
-            'start' => 'date',
-            'end' => 'date'
-        ]);
-        $data['subject_id'] = $subject->id;
 
-        if ($request->file) {
-            $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
-            $data['file_path'] = $nameFile;
+        if (Auth::user()->roles()->first()->name == 'adviser') {
+            $job->update(['state' => $request->state]);
+
+            session()->flash('messages', 'Tarea actualizada');
+            return redirect()->route('adviser.jobs', $stateJob);
+
+        } else{
+            $data = $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+                'link' => 'nullable|url',
+                'start' => 'date',
+                'end' => 'date'
+            ]);
+            $data['subject_id'] = $subject->id;
+
+            if ($request->file) {
+                $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
+                $data['file_path'] = $nameFile;
+            }
+
+            $job->update($data);
+
+            session()->flash('messages', 'Tarea actualizada');
+            return redirect()->action('TeacherController@index', $subject->id);
         }
 
-        $job->update($data);
-        session()->flash('messages', 'Tarea actualizada');
-        return redirect()->action('TeacherController@index', $subject->id);
+
     }
 
     public function destroy($id)

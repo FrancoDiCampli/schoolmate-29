@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Teacher::observe(TeacherObserver::class);
         Student::observe(StudentObserver::class);
 
-        View::composer('*', function ($view) {
+        View::composer('layouts.dashboard', function ($view) {
             if (Auth::check()) {
                 $rol = auth()->user()->roles->first()->name;
 
@@ -47,8 +47,16 @@ class AppServiceProvider extends ServiceProvider
                         $noLeidas = auth()->user()->teacher->unreadNotifications()->get();
                         break;
 
+                    case 'adviser':
+                        $noLeidas = auth()->user()->unreadNotifications()->get();
+                        break;
+
                     case 'student':
                         $noLeidas = auth()->user()->student->unreadNotifications()->get();
+                        break;
+
+                        default:
+                        $noLeidas = [];
                         break;
                 }
 
