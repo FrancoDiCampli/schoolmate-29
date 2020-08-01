@@ -59,10 +59,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     // Entregas
-    Route::resource('deliveries', 'DeliveryController');
-    Route::get('pendings', 'DeliveryController@pendings')->name('deliveries.pendings');
+    Route::resource('deliveries', 'DeliveryController')->except('create', 'index');;
+    // Probando esto
+    Route::get('pendings/{subject}', 'DeliveryController@pendings')->name('deliveries.pendings');
+    Route::get('entregas/{subject}','DeliveryController@index')->name('deliveries.subject');
     Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver');
     Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
+
+
 
     // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
     Route::resource('comments', 'CommentController');
@@ -74,6 +78,9 @@ Route::group(['middleware' => 'auth'], function () {
         $todas = auth()->user()->notifications;
         return view('admin.notifications', compact('todas'));
     })->name('notifications');
+
+    // Ruta de  pruebas del log de actividades de una tarea/entrega
+    Route::get('test','JobController@test')->name('test');
 
 });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use App\Comment;
+use App\Subject;
 use App\Delivery;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
@@ -13,9 +14,24 @@ use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
-    public function pendings(){
-        $jobs = StudentsTrait::pending();
+    public function pendings($subject){
+
+        $jobs =  Subject::find($subject);
+
+        // $jobs = StudentsTrait::pendings();
+
+
         return view('admin.deliveries.pendings', compact('jobs'));
+    }
+
+    public function index($id){
+        $user = Auth::user()->student->id;
+        $jobs = Job::where('subject_id',$id)->get();
+        $deliveries =  Delivery::where('job_id',$jobs->modelkeys())->get();
+        $deliveries->where('student_id',$user);
+
+        return view('admin.deliveries.index', compact('deliveries'));
+
     }
 
     public function descargar($job)

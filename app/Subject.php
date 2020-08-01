@@ -4,6 +4,9 @@ namespace App;
 
 use App\User;
 use App\Course;
+use App\Delivery;
+use App\Traits\StudentsTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
@@ -37,4 +40,17 @@ class Subject extends Model
         return $matriculas;
 
     }
+
+    public function pendientes(){
+        $id = Auth::user()->student->id;
+        $jobs = StudentsTrait::pending($this->id,$id);
+        return $jobs;
+    }
+
+    public function entregas(){
+
+
+
+    }
+
 }

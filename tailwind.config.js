@@ -32,7 +32,7 @@ module.exports = {
                 '500': '#1D2D36'
             },
             // 'blue': '#2D8DBF',
-            blue: {
+            blueschool: {
                 '100': '#75B6D9',
                 '200': '#3299D1',
                 '300': '#2D8DBF',

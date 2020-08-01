@@ -2,14 +2,15 @@
 
 namespace App\Providers;
 
-use App\Delivery;
 use App\Job;
-use App\Observers\DeliveryObserver;
-use App\Observers\JobObserver;
 use App\Student;
+use App\Teacher;
+use App\Delivery;
+use App\Observers\JobObserver;
 use App\Observers\StudentObserver;
 use App\Observers\TeacherObserver;
-use App\Teacher;
+use App\Observers\DeliveryObserver;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,21 +39,23 @@ class AppServiceProvider extends ServiceProvider
         Student::observe(StudentObserver::class);
 
         View::composer('*', function ($view) {
-            $rol = auth()->user()->roles->first()->name;
+            if (Auth::check()) {
+                $rol = auth()->user()->roles->first()->name;
 
-            switch ($rol) {
-                case 'teacher':
-                    $noLeidas = auth()->user()->teacher->unreadNotifications()->get();
-                    break;
+                switch ($rol) {
+                    case 'teacher':
+                        $noLeidas = auth()->user()->teacher->unreadNotifications()->get();
+                        break;
 
-                case 'student':
-                    $noLeidas = auth()->user()->student->unreadNotifications()->get();
-                    break;
+                    case 'student':
+                        $noLeidas = auth()->user()->student->unreadNotifications()->get();
+                        break;
+                }
+
+                $cant = count($noLeidas);
+
+                $view->with(['cant' => $cant, 'noLeidas' => $noLeidas]);
             }
-
-            $cant = count($noLeidas);
-
-            $view->with(['cant' => $cant, 'noLeidas' => $noLeidas]);
         });
     }
 }
