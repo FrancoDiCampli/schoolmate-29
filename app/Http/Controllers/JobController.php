@@ -25,6 +25,7 @@ class JobController extends Controller
         $subject = Subject::find($id);
         $subject->jobs;
 
+
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
 
         return view('admin.jobs.index', compact('subject'));
@@ -49,14 +50,14 @@ class JobController extends Controller
         $video = Youtube::upload($request->file('video')->getPathName(), [
             'title'       => $request->input('title'),
             'description' => $request->input('description')
-        ]);
+        ], 'unlisted');
 
         $link = "http://www.youtube.com/watch?v=". $video->getVideoId();
 
         $subject = Subject::find($request->subject);
         $nameFile = FilesTrait::store($request, 'tareas', $subject->name);
         $data = $request->validated();
-        
+
         $data['subject_id'] = $subject->id;
         $data['state'] = 0;
         $data['file_path'] = $nameFile;
@@ -111,6 +112,31 @@ class JobController extends Controller
 
             $notif->markAsRead();
         }
+
+        // prueba
+        // if(Auth::user()->roles()->first()->name == 'adviser'){
+        //     $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
+        //     ->whereRead_at(null)
+        //     ->where('data->job_id', $id)
+        //     ->get();
+
+        //     $notif->markAsRead();
+
+        // } elseif(Auth::user()->roles()->first()->name == 'student'){
+        //     $notif = auth()->user()->student->notifications()->whereNotifiable_id(auth()->user()->student->id)
+        //     ->whereRead_at(null)
+        //     ->where('data->job_id', $id)
+        //     ->get();
+
+        //     $notif->markAsRead();
+        // } else{
+        //     $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
+        //     ->whereRead_at(null)
+        //     ->where('data->job_id', $id)
+        //     ->get();
+
+        //     $notif->markAsRead();
+        // }
 
 
         return view('admin.jobs.showJob', compact('job', 'file', 'vid'));

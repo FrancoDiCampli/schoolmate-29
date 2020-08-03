@@ -27,6 +27,8 @@
                 </button>
             </div>
         </form>
+
+        @role('teacher')
         <a href="{{route('jobs.create', $subject->id)}}" class="hidden md:block btn btn-primary md:m-0 m-3">Nueva Tarea</a>
             <a href="{{route('jobs.create', $subject->id)}}" class="flex md:hidden btn-primary md:m-0 m-3 p-1">
                 <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 inline-block">
@@ -35,6 +37,7 @@
                                         C15.952,9,16,9.447,16,10z" />
                 </svg>
             </a>
+        @endrole
         </div>
     </div>
 
@@ -56,20 +59,27 @@
                     <p class="text-gray-700 font-light text-xs">Fecha limite: {{$job->end->format('d-m-Y')}} </p>
                 </div>
 
+                @role('student')
+                @foreach ($job->deliveries as $item)
+                @if ($item->student_id == Auth::user()->student->id)
+                    {{$item->state}}
+                @endif
+                @endforeach
+                @endrole
+
                 <div class="md:w-6/12">
                     @if ($job->state($job->state) === "Borrador")
                         <span class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
-                    @if ($job->state($job->state) === "Rechazado")
+                    @if ($job->state($job->state) === "Rechazada")
                         <span class="float-right rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
                     @if ($job->state($job->state) === "Activa")
                         <span class="float-right rounded-full text-green-100 bg-green-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
-
                 </div>
 
-
+                @role('teacher')
                 <div class="w-3/12 md:w-1/12 text-right">
                     <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                         <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -83,6 +93,7 @@
                         <a href="" class="block py-2">Eliminar</a>
                     </div>
                 </div>
+                @endrole
             </div>
 
             <div class="flex items-center px-2 pt-2">

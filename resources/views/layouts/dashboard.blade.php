@@ -67,7 +67,7 @@
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"
                             role="alert">
-                            
+
                             @hasanyrole('teacher|adviser')
                                 @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
                                     <a class="rounded text-white font-bold p-1"
