@@ -38,9 +38,9 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Descripción/Instrucciones
                         </label>
-                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value=""></textarea>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value="">{{ old('description') }}</textarea>
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('content')}}
+                            {{$errors->first('description')}}
                         </span>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         </label>
                         <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('title')}}
+                            {{$errors->first('start')}}
                         </span>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                         </label>
                         <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('title')}}
+                            {{$errors->first('end')}}
                         </span>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                         </label>
                         <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('title')}}
+                            {{$errors->first('link')}}
                         </span>
                     </div>
                 </div>
@@ -97,15 +97,15 @@
                                             <path
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selected">Select a file</span>
-                                        <input type='file' class="hidden" name="video" id="fileName"
-                                            onchange="setName()" />
+                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Select a file</span>
+                                        <input type='file' class="hidden" name="video" id="fileVideoName"
+                                            onchange="setNameVideo()" />
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('title')}}
+                            {{$errors->first('video')}}
                         </span>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                             </div>
                         </div>
                         <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('title')}}
+                            {{$errors->first('file')}}
                         </span>
                     </div>
                 </div>
@@ -147,34 +147,29 @@
     </div>
 </div>
 
-
-
-
-
-
-            {{-- star modal --}}
-            <div
-                class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-                <div class="modal-container bg-white mx-auto rounded shadow-lg z-50 overflow-y-auto">
-                    <div class="modal-content py-4 text-left px-6">
-                        <div class="flex justify-end items-center pb-3">
-                            <div class="modal-close cursor-pointer z-50">
-                                <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
-                                    height="18" viewBox="0 0 18 18">
-                                    <path
-                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                                    </path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="flex justify-center">
-                            <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
-                        </div>
-                    </div>
+{{-- star modal --}}
+<div
+    class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-white mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-end items-center pb-3">
+                <div class="modal-close cursor-pointer z-50">
+                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
+                        height="18" viewBox="0 0 18 18">
+                        <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                        </path>
+                    </svg>
                 </div>
             </div>
-            {{-- end modal --}}
+            <div class="flex justify-center">
+                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- end modal --}}
 
 @endsection
 
@@ -221,18 +216,45 @@
         let fileName = document.getElementById('fileName');
         var cad = fileName.value;
         cad = cad.split('\\');
+        let extension = cad[2].split('.');
         let selected = document.getElementById('selected');
         selected.innerHTML = cad[2];
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        document.getElementById('viewer').setAttribute('src', fileDocument_url);
-        let ancho = screen.width;
-        if (ancho <= 640) {
-            let marco = document.getElementById('viewer');
-            marco.setAttribute('height',200);
-            marco.setAttribute('width',270);
+        if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+            document.getElementById('viewer').setAttribute('src', fileDocument_url);
+            let ancho = screen.width;
+            if (ancho <= 640) {
+                let marco = document.getElementById('viewer');
+                marco.setAttribute('height',200);
+                marco.setAttribute('width',270);
+            }
+            toggleModal();
         }
-        toggleModal();
+        
+    }
+
+    function setNameVideo(){
+        let fileVideoName = document.getElementById('fileVideoName');
+        var cad = fileVideoName.value;
+        cad = cad.split('\\');
+        let extension = cad[2].split('.');
+        console.log(extension)
+        let selectedVideo = document.getElementById('selectedVideo');
+        selectedVideo.innerHTML = cad[2];
+        fileDocumentVideo = document.getElementById("fileVideoName").files[0];
+        fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
+        if (extension[1] == 'mp4') {
+            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
+            let ancho = screen.width;
+            if (ancho <= 640) {
+                let marco = document.getElementById('viewer');
+                marco.setAttribute('height',200);
+                marco.setAttribute('width',270);
+            }
+            toggleModal();
+        }
+        
     }
 </script>
 @endpush

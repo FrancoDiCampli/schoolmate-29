@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Job;
 use App\Subject;
 use App\Delivery;
+use App\Http\Requests\StoreJob;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class JobController extends Controller
         return view('admin.jobs.create', compact('subject'));
     }
 
-    public function store(Request $request)
+    public function store(StoreJob $request)
     {
         $video = Youtube::upload($request->file('video')->getPathName(), [
             'title'       => $request->input('title'),
@@ -53,35 +54,16 @@ class JobController extends Controller
         $link = "http://www.youtube.com/watch?v=". $video->getVideoId();
 
         $subject = Subject::find($request->subject);
-        $data = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'subject' => 'required',
-            'link' => 'nullable|url',
-            'file' => 'required|file',
-            'start' => 'date',
-            'end' => 'date|after_or_equal:'.$request->start
-        ]);
+        $nameFile = FilesTrait::store($request, 'tareas', $subject->name);
+        $data = $request->validated();
+        
+        $data['subject_id'] = $subject->id;
+        $data['state'] = 0;
+        $data['file_path'] = $nameFile;
+        unset($data['file']);
+        $data['link'] = $link;
 
-        $nameFile = FilesTrait::store($request, $ubicacion = 'tareas', $nombre = $subject->name);
-
-        if ($nameFile) {
-            $data['subject_id'] = $data['subject'];
-            $data['state'] = 0;
-
-            $job = Job::create([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'subject_id' => $data['subject'],
-                'file_path' => $nameFile,
-                'link' => $link,
-                'start' => $data['start'],
-                'end' => $data['end'],
-                'state' => 0,
-            ]);
-
-
-        }
+        $job = Job::create($data);
 
         session()->flash('messages', 'Tarea creada');
 
@@ -111,7 +93,8 @@ class JobController extends Controller
     {
         $job = Job::find($id);
         $job->comments;
-        $file = url('tareas/'.$job->file_path);
+        $vid = substr($job->link, -11);
+        $file = url($job->file_path);
 
         if (Auth::user()->roles()->first()->name == 'adviser') {
             $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
@@ -121,7 +104,7 @@ class JobController extends Controller
 
             $notif->markAsRead();
         } else {
-            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->id)
+            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
             ->whereRead_at(null)
             ->where('data->job_id', $id)
             ->get();
@@ -130,7 +113,7 @@ class JobController extends Controller
         }
 
 
-        return view('admin.jobs.showJob', compact('job', 'file'));
+        return view('admin.jobs.showJob', compact('job', 'file', 'vid'));
     }
 
     public function edit($id)

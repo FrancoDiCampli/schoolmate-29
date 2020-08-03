@@ -87,13 +87,12 @@
              {{-- Youtube --}}
              @if ($job->link)
              <iframe id="player" type="text/html" width="640" height="360"
-                 src="http://www.youtube.com/embed/{{$job->link}}" frameborder="0" allowfullscreen></iframe>
+                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
              @endif
         </div>
 
         <div class="flex justify-center p-2 mt-2">
-            <iframe id="viewer" height="600" width="800" src="http://docs.google.com/gview?url={{$file}}&time=0&embedded=true"
-                frameborder="0"></iframe>
+            <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
         </div>
 
         {{-- Select del asesor  --}}
@@ -187,6 +186,24 @@
 @push('js')
 
 <script>
+    let aux = @json($file);
+
+    let tipos = ['png', 'jpg'];
+
+    let aux1 = 0;
+
+    tipos.forEach(element => {
+        if (aux.search(element) > 0) {
+            aux1 = aux.search(element);
+        }
+    });
+
+    if (aux1 == 0) {
+        document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+    } else {
+        document.getElementById('viewer').setAttribute('src', aux);
+    }
+
     let ancho = screen.width;
         if (ancho <= 640) {
             let marco = document.getElementById('viewer');

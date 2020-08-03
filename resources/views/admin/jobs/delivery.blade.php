@@ -108,8 +108,8 @@
         <div class="flex justify-center p-2">
             {{-- Youtube --}}
             {{-- <iframe height="600" width="800" src="{{$job->link}}"></iframe> --}}
-            {{-- <iframe id="viewer" height="600" width="800" src="{{asset('tareas/'. $job->file_path)}}" frameborder="0"></iframe> --}}
-            <iframe id="viewer" src="{{asset('entregas/'. $delivery->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+            {{-- <iframe id="viewer" height="600" width="800" src="{{asset($job->file_path)}}" frameborder="0"></iframe> --}}
+            <iframe id="viewer" src="{{asset($delivery->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
         </div>
 
         <form action="/updateDelivery/{{$delivery->id}}" method="POST">

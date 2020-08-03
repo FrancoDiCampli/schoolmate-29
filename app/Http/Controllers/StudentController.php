@@ -44,10 +44,12 @@ class StudentController extends Controller
     public function store(StoreStudent $request)
     {
         $path =  FilesTrait::store($request, $ubicacion = 'img/avatar', $nombre = $request->dni);
-        $request['photo'] = $path;
+        $data = $request->validated();
+        $data['photo'] = $path;
+
         // $request['password'] = Crypt::encrypt($request->password);;
 
-        Student::create($request->validated());
+        Student::create($data);
 
 
         return redirect()->route('students.index') ->with('messages', 'Alumno creado correctamente.');;

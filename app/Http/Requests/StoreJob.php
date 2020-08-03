@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreStudent extends FormRequest
+class StoreJob extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,13 @@ class StoreStudent extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:students|max:50',
-            'dni' => 'required|unique:students',
-            'address'=>'required',
-            'fnac'=>'date|before_or_equal:' . now()->subYears(3)->format('Y-m-d'),
-            'phone'=>'required',
-            'email'=>'required',
-            'user_id'=>'unique:students',
-            'file' => 'nullable|file|mimes:jpg,jpeg,png',
+            'title' => 'required',
+            'description' => 'required',
+            'link' => 'nullable|url',
+            'file' => 'nullable|file|mimes:pdf,pptx,docx,jpg,jpeg,png',
+            'start' => 'date',
+            'end' => 'date|after_or_equal:' . $this->start,
+            'comment' => 'nullable|min:3'
         ];
     }
 }
