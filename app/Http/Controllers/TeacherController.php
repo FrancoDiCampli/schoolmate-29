@@ -52,7 +52,7 @@ class TeacherController extends Controller
         $data = $request->validated();
         $data['photo'] = $path;
 
-        // $request['password'] = Crypt::encrypt($request->password);;
+
 
         Teacher::create($data);
 
