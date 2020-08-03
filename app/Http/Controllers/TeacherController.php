@@ -48,11 +48,13 @@ class TeacherController extends Controller
     public function store(StoreTeacher $request)
     {
         // Aqui usa el observer para crear el usuario del profesor
-        $path =  FilesTrait::store($request, $ubicacion = 'img/avatar', $nombre = $request->dni);
-        $request['photo'] = $path;
+        $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
+        $data = $request->validated();
+        $data['photo'] = $path;
+
         // $request['password'] = Crypt::encrypt($request->password);;
 
-        Teacher::create($request->validated());
+        Teacher::create($data);
 
 
         return redirect()->route('teachers.index') ->with('messages', 'Profesor creado correctamente.');
@@ -100,7 +102,7 @@ class TeacherController extends Controller
         User::where('id', $teacher->user_id)
               ->update([
                         'dni' =>$request->dni,
-                        'password' =>Crypt::encrypt($request->password)
+                        'password' =>bcrypt($request->password)
                         ]);
 
 

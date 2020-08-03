@@ -27,10 +27,11 @@ class StoreTeacher extends FormRequest
             'name' => 'required|unique:teachers|max:50',
             'dni' => 'required|unique:teachers',
             'address'=>'required',
-            'fnac'=>'required',
+            'fnac'=>'date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
             'phone'=>'required',
             'email'=>'required',
-            'user_id'=>'unique:teachers'
+            'user_id'=>'unique:teachers',
+            'file' => 'nullable|file|mimes:jpg,jpeg,png'
         ];
     }
 }

@@ -32,7 +32,7 @@
                     <tr class="text-xs md:text-lg flex justify-between text-center items-center border-t border-gray-600 mx-2" id="row">
                         <td class="w-1/12 hidden md:block" >
                             @if($teacher->photo)
-                                <img src="{{asset('img/avatar/'.$teacher->photo)}}" class="rounded-full h-12 w-12" alt="">
+                                <img src="{{asset($teacher->photo)}}" class="rounded-full h-12 w-12" alt="">
                             @else
                                 <img src="{{asset('img/avatar/user.png')}}" class="rounded-full h-12 w-12" alt="">
 
