@@ -17,10 +17,11 @@ class TeacherObserver
      */
     public function created(Teacher $teacher)
     {
+
         $user  = User::create([
             'dni'=>$teacher->dni,
-            // 'password' =>Crypt::encrypt($teacher->dni)
-            'password' =>Hash::make($teacher->dni)
+            'password' =>Hash::make($teacher->dni),
+            'name'=>$teacher->name,
         ]);
         $user->assignRole('teacher');
 

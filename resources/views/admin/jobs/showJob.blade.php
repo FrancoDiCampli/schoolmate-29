@@ -125,6 +125,13 @@
             </form>
         @endrole
 
+        {{-- Log de tareas  --}}
+        <div>
+            <h1>Log de Tareas</h1>
+
+        </div>
+
+        {{-- end log de tareas  --}}
 
         {{-- Comentarios --}}
         <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">

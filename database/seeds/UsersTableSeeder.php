@@ -25,9 +25,17 @@ class UsersTableSeeder extends Seeder
         $admin = User::create([
            'dni'=>'11223344',
            'password' => Hash::make('asdf1234'),
+           'name'=>'admin'
        ]);
 
+       $adviser = User::create([
+        'dni'=>'22222222',
+        'password' => Hash::make('22222222'),
+        'name'=>'adviser'
+    ]);
+
         $admin->assignRole('admin');
+        $adviser->assignRole('adviser');
 
     }
 

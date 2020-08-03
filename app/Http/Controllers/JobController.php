@@ -46,17 +46,21 @@ class JobController extends Controller
 
     public function store(StoreJob $request)
     {
-        $video = Youtube::upload($request->file('video')->getPathName(), [
-            'title'       => $request->input('title'),
-            'description' => $request->input('description')
-        ]);
+        $link = $request->link;
+        if($request->hasFile('video')){
+            $video = Youtube::upload($request->file('video')->getPathName(), [
+                'title'       => $request->input('title'),
+                'description' => $request->input('description')
+            ],'unlisted');
 
-        $link = "http://www.youtube.com/watch?v=". $video->getVideoId();
+            $link = "http://www.youtube.com/watch?v=". $video->getVideoId();
+        }
+
 
         $subject = Subject::find($request->subject);
         $nameFile = FilesTrait::store($request, 'tareas', $subject->name);
         $data = $request->validated();
-        
+
         $data['subject_id'] = $subject->id;
         $data['state'] = 0;
         $data['file_path'] = $nameFile;
@@ -91,6 +95,8 @@ class JobController extends Controller
 
     public function showJob($id)
     {
+         $activity = Activity::where('log_name','jobs')->get();
+
         $job = Job::find($id);
         $job->comments;
         $vid = substr($job->link, -11);

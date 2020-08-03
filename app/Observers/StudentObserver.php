@@ -19,8 +19,9 @@ class StudentObserver
     {
         $user  = User::create([
             'dni'=>$student->dni,
-            // 'password' =>Crypt::encrypt($student->dni)
-            'password' =>Hash::make($student->dni)
+
+            'password' =>Hash::make($student->dni),
+            'name'=>$student->name,
         ]);
         $user->assignRole('student');
 
