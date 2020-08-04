@@ -21,10 +21,18 @@ class JobController extends Controller
 
     public function index($id)
     {
+        if (Auth::user()->hasRole('student')) {
+            $subject = Subject::find($id);
+            // $subject = Job::where('state',1)->get();
+            $subject->jobs = $subject->jobs->where('state', 1);
+
+
+        } else{
 
         $subject = Subject::find($id);
         $subject->jobs;
 
+        }
 
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
 
@@ -103,39 +111,14 @@ class JobController extends Controller
         $vid = substr($job->link, -11);
         $file = url($job->file_path);
 
-        if (Auth::user()->roles()->first()->name == 'adviser') {
-            $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
-
-            $notif->markAsRead();
-        } else {
-            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
-
-            $notif->markAsRead();
-        }
-
-        // prueba
-        // if(Auth::user()->roles()->first()->name == 'adviser'){
+        // if (Auth::user()->roles()->first()->name == 'adviser') {
         //     $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
         //     ->whereRead_at(null)
         //     ->where('data->job_id', $id)
         //     ->get();
 
         //     $notif->markAsRead();
-
-        // } elseif(Auth::user()->roles()->first()->name == 'student'){
-        //     $notif = auth()->user()->student->notifications()->whereNotifiable_id(auth()->user()->student->id)
-        //     ->whereRead_at(null)
-        //     ->where('data->job_id', $id)
-        //     ->get();
-
-        //     $notif->markAsRead();
-        // } else{
+        // } else {
         //     $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
         //     ->whereRead_at(null)
         //     ->where('data->job_id', $id)
@@ -144,6 +127,31 @@ class JobController extends Controller
         //     $notif->markAsRead();
         // }
 
+        // prueba
+        if(Auth::user()->roles()->first()->name == 'adviser'){
+            $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
+            ->whereRead_at(null)
+            ->where('data->job_id', $id)
+            ->get();
+
+            $notif->markAsRead();
+
+        } elseif(Auth::user()->roles()->first()->name == 'student'){
+            $notif = auth()->user()->student->notifications()->whereNotifiable_id(auth()->user()->student->id)
+            ->whereRead_at(null)
+            ->where('data->job_id', $id)
+            ->get();
+
+            $notif->markAsRead();
+        } else{
+            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
+            ->whereRead_at(null)
+            ->where('data->job_id', $id)
+            ->get();
+
+            $notif->markAsRead();
+        }
+
 
         return view('admin.jobs.showJob', compact('job', 'file', 'vid'));
     }
@@ -151,7 +159,7 @@ class JobController extends Controller
     public function edit($id)
     {
         $job = Job::find($id);
-        return view('admin.teachers.edit', compact('job'));
+        return view('admin.jobs.edit', compact('job'));
     }
 
     public function update(Request $request, $id)
@@ -175,6 +183,7 @@ class JobController extends Controller
                 'end' => 'date'
             ]);
             $data['subject_id'] = $subject->id;
+            $data['state'] = 0;
 
             if ($request->file) {
                 $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
@@ -184,7 +193,7 @@ class JobController extends Controller
             $job->update($data);
 
             session()->flash('messages', 'Tarea actualizada');
-            return redirect()->action('TeacherController@index', $subject->id);
+            return redirect()->route('jobs.index', $subject->id);
         }
 
 
