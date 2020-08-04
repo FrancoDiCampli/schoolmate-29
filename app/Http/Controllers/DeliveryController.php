@@ -42,8 +42,17 @@ class DeliveryController extends Controller
 
     public function deliver($job)
     {
+        $user = Auth::user();
         $job = Job::find($job);
-        return view('admin.deliveries.create', compact('job'));
+        $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
+
+        if($delivery){
+            $comments = $delivery->comments;
+        } else {
+            $comments = [];
+        }
+
+        return view('admin.deliveries.create', compact('job', 'delivery', 'comments'));
     }
 
     public function store(Request $request)
