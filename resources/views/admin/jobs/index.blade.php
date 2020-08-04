@@ -10,9 +10,15 @@
                 <p class="md:text-sm text-xs text-primary-400">{{$subject->course->name}}</p>
             </div>
             <div>
+            @role('teacher')
             <a href="{{route('teacher')}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
                   </a>
+            @else
+            <a href="{{route('student')}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
+              </a>
+            @endrole
             </div>
         </div>
 
@@ -27,6 +33,8 @@
                 </button>
             </div>
         </form>
+
+        @role('teacher')
         <a href="{{route('jobs.create', $subject->id)}}" class="hidden md:block btn btn-primary md:m-0 m-3">Nueva Tarea</a>
             <a href="{{route('jobs.create', $subject->id)}}" class="flex md:hidden btn-primary md:m-0 m-3 p-1">
                 <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 inline-block">
@@ -35,6 +43,7 @@
                                         C15.952,9,16,9.447,16,10z" />
                 </svg>
             </a>
+        @endrole
         </div>
     </div>
 
@@ -42,21 +51,30 @@
     <div class="mb-8">
     @if(count($subject->jobs)>0)
     @foreach ($subject->jobs as $job)
-
         <div class="card my-2 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto border-l-2 border-primary-400">
             <div class=" w-full flex relative items-center ">
                 <div class="p-2 w-10 h-10 rounded-full object-cover mr-4 shadow bg-primary-400 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path d="M4 6.75A4.756 4.756 0 018.75 2h9.133a2.745 2.745 0 00-2.633-2H3.75A2.752 2.752 0 001 2.75v15.5A2.752 2.752 0 003.75 21H4z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF"/><path d="M20.25 4H8.75A2.752 2.752 0 006 6.75v14.5A2.752 2.752 0 008.75 24h11.5A2.752 2.752 0 0023 21.25V6.75A2.752 2.752 0 0020.25 4zm-2 17h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-4h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-3.5h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-4h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF"/></svg>
                 </div>
 
+                @role('student')
+                <div class="w-auto md:w-6/12">
+                    <a href="{{route('deliver', $job->id)}}">
+                        <p class="md:text-md text-sm font-semibold text-gray-900 -mt-1 md:pt-0 pt-2 hover:text-primary-400">{{$job->title}} </p>
+                    </a>
+                    <p class="text-gray-700 font-light text-xs">Fecha limite: {{$job->end->format('d-m-Y')}} </p>
+                </div>
+                @else
                 <div class="w-auto md:w-6/12">
                     <a href="{{route('jobs.showJob', $job->id)}}">
                         <p class="md:text-md text-sm font-semibold text-gray-900 -mt-1 md:pt-0 pt-2 hover:text-primary-400">{{$job->title}} </p>
                     </a>
                     <p class="text-gray-700 font-light text-xs">Fecha limite: {{$job->end->format('d-m-Y')}} </p>
                 </div>
+                @endrole
 
-                <div class="md:w-6/12">
+                @role('teacher')
+                <div class="md:w-6/12 text-center mr-3">
                     @if ($job->state($job->state) === "Borrador")
                         <span class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
@@ -66,10 +84,43 @@
                     @if ($job->state($job->state) === "Activa")
                         <span class="float-right rounded-full text-green-100 bg-green-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
-
                 </div>
+                @endrole
+
+                @role('student')
+                <div class="md:w-6/12 text-right mr-3 text-xs md:text-base">
+                    @foreach ($job->deliveries as $delivery)
+
+                    @if ($delivery->student_id == Auth::user()->student->id)
+                        @switch($delivery->state($delivery->state))
+                            @case("En corrección")
+                            <span class="bg-gray-200 py-1 px-2 rounded-full text-gray-800">{{$delivery->state($delivery->state)}}</span>
+                                @break
+
+                            @case("Aprobado")
+                            <span class="bg-green-200 py-1 px-2 rounded-full text-green-800">{{$delivery->state($delivery->state)}}</span>
+                                @break
+
+                            @case("Por Corregir")
+                            <span class="bg-orange-200 py-1 px-2 rounded-full text-orange-800">{{$delivery->state($delivery->state)}}</span>
+                                @break
+
+                            @case("Desaprobado")
+                            <span class="bg-red-200 py-1 px-2 rounded-full text-red-800">{{$delivery->state($delivery->state)}}</span>
+                                @break
+
+                            @default
 
 
+                        @endswitch
+
+                    @endif
+                    @endforeach
+                </div>
+                @endrole
+
+
+                {{-- @role('teacher')
                 <div class="w-3/12 md:w-1/12 text-right">
                     <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                         <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -83,15 +134,18 @@
                         <a href="" class="block py-2">Eliminar</a>
                     </div>
                 </div>
+                @endrole --}}
             </div>
 
             <div class="flex items-center px-2 pt-2">
+                @role('teacher')
                 <div class="flex mr-4 text-gray-700 text-sm items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -15 424.066 424" class="w-4 h-4 mr-1"><path d="M374 232.79v-90.798c-.031-26.07-21.16-47.195-47.23-47.222h-2.102v-1.188c-.027-26.07-21.148-47.2-47.219-47.23h-75.488c-.86 0-1.676-.36-2.254-.993l-27.39-29.957A47.326 47.326 0 00137.46.032H47.219C21.152.061.027 21.186 0 47.253v263.57c.027 26.067 21.152 47.188 47.219 47.219H210.19a113.896 113.896 0 00.918 20.89l.012.063c.012.11.027.215.047.324l1.723 9.91a7 7 0 0012.898 2.399l5.168-8.61c32.805-54.554 74.688-58.593 93.39-57.242v45.883a7.002 7.002 0 0011.966 4.938l85.714-86.149a7.001 7.001 0 00-.023-9.898zM47.219 344.042c-18.336-.023-33.2-14.883-33.219-33.219V47.254c.02-18.34 14.883-33.2 33.219-33.223h90.242a33.3 33.3 0 0124.523 10.817l27.375 29.941a17.053 17.053 0 0012.602 5.563h75.488c18.34.023 33.203 14.89 33.223 33.23v1.191H131.898c-26.066.028-47.191 21.153-47.218 47.22v168.831c-.024 18.34-14.89 33.2-33.23 33.219zm165.332-5.914a119.21 119.21 0 00-1.028 5.914H84.977a47.052 47.052 0 0013.699-33.219V141.992c.023-18.336 14.883-33.199 33.222-33.219h194.868c18.343.016 33.207 14.88 33.23 33.22v76.866l-23.71-23.597a7 7 0 00-11.938 4.96v44.352c-44.47 1.48-66.442 19.93-69.508 22.715a121.888 121.888 0 00-42.29 70.84zm125.8 16.574v-35.16a7 7 0 00-5.886-6.91 98.054 98.054 0 00-46.774 4.719c-24.02 8.418-44.691 25.32-61.543 50.308-.328-8.992.391-17.988 2.137-26.812 4.985-25.188 17.633-46.336 37.602-62.864.148-.12.293-.254.43-.39.203-.192 20.601-19.11 65.746-19.11h1.292c3.864 0 7-3.132 7-7v-34.418l68.817 68.473zm0 0" data-original="#000000" class="active-path" data-old_color="#000000" fill="#4A5568"/></svg>
                     <a href="{{route('job.deliveries', $job->id)}}" class="hover:text-gray-900">
                     <span>{{count($job->deliveries)}} Entregas</span>
                 </a>
                 </div>
+                @endrole
             </div>
         </div>
     @endforeach

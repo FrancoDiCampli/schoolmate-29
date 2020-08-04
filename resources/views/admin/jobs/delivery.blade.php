@@ -112,7 +112,7 @@
             <iframe id="viewer" src="{{asset($delivery->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
         </div>
 
-        <form action="/updateDelivery/{{$delivery->id}}" method="POST">
+        <form action="{{route('delivery.update', $delivery->id)}}" method="POST">
             @method('PUT')
             @csrf
             <input type="text" hidden name="id_job" value="{{$delivery->job->id}}">

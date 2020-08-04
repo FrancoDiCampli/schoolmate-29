@@ -10,7 +10,7 @@
         <p class="text-sm text-primary-400">{{$job->subject->course->name}}</p>
     </div>
     <div>
-          <a href="{{route('teacher', $job->subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+          <a href="{{route('jobs.index', $job->subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
           </a>
     </div>
@@ -54,7 +54,7 @@
                 </button>
                 <div id="float-menu" class="hidden border bg-white absolute p-2 mt-8 text-sm w-auto top-10 right-0 shadow-lg
                 rounded-sm text-left">
-                    <a href="{{route('teachers.edit',$job->id)}}" class="block py-2">Editar</a>
+                    <a href="{{route('jobs.edit',$job->id)}}" class="block py-2">Editar</a>
 
                     <a href="" class="block py-2">Eliminar</a>
                 </div>
