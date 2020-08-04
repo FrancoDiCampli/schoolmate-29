@@ -22,9 +22,18 @@ class JobController extends Controller
 
     public function index($id)
     {
+        if (Auth::user()->hasRole('student')) {
+            $subject = Subject::find($id);
+            // $subject = Job::where('state',1)->get();
+            $subject->jobs = $subject->jobs->where('state', 1);
+
+
+        } else{
 
         $subject = Subject::find($id);
         $subject->jobs;
+
+        }
 
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
 
@@ -128,7 +137,7 @@ class JobController extends Controller
     public function edit($id)
     {
         $job = Job::find($id);
-        return view('admin.teachers.edit', compact('job'));
+        return view('admin.jobs.edit', compact('job'));
     }
 
     public function update(Request $request, $id)
@@ -152,6 +161,7 @@ class JobController extends Controller
                 'end' => 'date'
             ]);
             $data['subject_id'] = $subject->id;
+            $data['state'] = 0;
 
             if ($request->file) {
                 $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
@@ -161,7 +171,7 @@ class JobController extends Controller
             $job->update($data);
 
             session()->flash('messages', 'Tarea actualizada');
-            return redirect()->action('TeacherController@index', $subject->id);
+            return redirect()->route('jobs.index', $subject->id);
         }
 
 
@@ -199,6 +209,11 @@ class JobController extends Controller
         $user = Auth::user();
         $delivery =  Delivery::find($delivery);
         $delivery->comments;
+
+        if (auth()->user()->roles()->first()->name == 'teacher') {
+            NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
+        }
+
         return view('admin.jobs.delivery', compact('delivery','user'));
     }
 

@@ -7,6 +7,7 @@ use App\Comment;
 use App\Subject;
 use App\Delivery;
 use App\Traits\FilesTrait;
+use App\Traits\NotificationsTrait;
 use Illuminate\Http\Request;
 use App\Traits\StudentsTrait;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,9 @@ class DeliveryController extends Controller
     public function deliver($job)
     {
         $job = Job::find($job);
+
+        NotificationsTrait::studentMarkAsRead('job_id', $job->id);
+
         return view('admin.deliveries.create', compact('job'));
     }
 
@@ -82,7 +86,17 @@ class DeliveryController extends Controller
 
     public function update(Request $request, $id)
     {
-        return $request;
+        // return $request->state;
+        // Delivery::where('id', $id)
+
+        // ->update(['state' => $request->state]);
+
+        $delivery = Delivery::find($id);
+        $delivery->update([
+            'state' => $request->state
+        ]);
+
+          return redirect()->route('job.deliveries', $request->id_job);
     }
 
 }

@@ -36,7 +36,7 @@ class JobObserver
     {
         switch ($job->state) {
             case 1:
-                NotificationsTrait::studentCreateNotifications('created', $job);
+                NotificationsTrait::studentCreateNotifications($job);
 
                 // $matriculas = $job->subject->course->enrollments;
                 // $matriculas->map(function ($item) use ($job) {

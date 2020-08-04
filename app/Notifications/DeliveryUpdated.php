@@ -38,7 +38,7 @@ class DeliveryUpdated extends Notification
     {
         return new DatabaseMessage([
             'message' => $this->message .' | ' . $this->delivery->id,
-            'delivery_id' => $this->delivery->id
+            'job_id' => $this->delivery->job_id
         ]);
     }
 

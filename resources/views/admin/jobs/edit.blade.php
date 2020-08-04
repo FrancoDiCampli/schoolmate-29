@@ -2,31 +2,33 @@
 
 @section('content')
 
+{{-- Nuevo --}}
 {{-- card tarea --}}
 <div class="container font-montserrat text-sm mb-8">
     <div class="card  rounded-sm bg-gray-100 mx-auto mt-6 shadow-lg md:w-10/12">
         <div class="card-title bg-white w-full p-5 border-b flex items-center justify-between md:justify-between">
             <div>
-                <p class="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold placeholder-gray-700">Nueva Tarea</p>
-                <p class="md:text-md text-sm text-primary-500 font-semibold">{{$subject->name}}</p>
-                <p class="md:text-sm text-xs text-primary-400">{{$subject->course->name}}</p>
+                <p class="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold placeholder-gray-700">Editar Tarea: {{$job->title}}</p>
+                <p class="md:text-md text-sm text-primary-500 font-semibold">{{$job->subject->name}}</p>
+                <p class="md:text-sm text-xs text-primary-400">{{$job->subject->course->name}}</p>
             </div>
-            <a href="{{route('jobs.index', $subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+            <a href="{{route('jobs.showJob', $job->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
               </a>
         </div>
         <div class="card-body py-4">
-        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" >
+            <form method="POST" action="{{route('jobs.update', $job->id)}}" enctype="multipart/form-data" class="mx-auto">
                 @csrf
+                @method('PUT')
 
-                <input hidden type="text" name="subject" id="" value="{{$subject->id}}">
+                <input hidden type="text" name="subject" id="" value="{{$job->subject->id}}">
 
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full px-6 md:mb-0 mb-6">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Título
                         </label>
-                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('title') }}">
+                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{$job->title}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('title')}}
                         </span>
@@ -38,7 +40,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Descripción/Instrucciones
                         </label>
-                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value="">{{ old('description') }}</textarea>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value="">{{$job->description}}</textarea>
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('description')}}
                         </span>
@@ -50,7 +52,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha de Inicio
                         </label>
-                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
+                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{$job->start->format('Y-m-d')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('start')}}
                         </span>
@@ -62,7 +64,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha Límite de Entrega
                         </label>
-                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
+                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{$job->end->format('Y-m-d')}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('end')}}
                         </span>
@@ -74,7 +76,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Link de Youtube (Opcional)
                         </label>
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
+                        <input type="text" name="link" id="link" value="{{$job->link}}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
                         </span>
@@ -98,7 +100,7 @@
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
                                         <span class="mt-2 text-sm leading-normal" id="selectedVideo">Select a file</span>
-                                        <input type='file' class="hidden" name="video" id="fileVideoName"
+                                        <input type='file'  value="" class="hidden" name="video" id="fileVideoName"
                                             onchange="setNameVideo()" />
                                     </label>
                                 </div>
@@ -128,7 +130,7 @@
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
                                         <span class="mt-2 text-sm leading-normal" id="selected">Select a file</span>
-                                        <input type='file' class="hidden" name="file" id="fileName"
+                                        <input type='file' value="{{$job->file_path}}" class="hidden" name="file" id="fileName"
                                             onchange="setName()" />
                                     </label>
                                 </div>
@@ -139,6 +141,7 @@
                         </span>
                     </div>
                 </div>
+
 
                 <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
 
@@ -182,12 +185,15 @@
     	toggleModal()
       })
     }
+
     const overlay = document.querySelector('.modal-overlay')
     overlay.addEventListener('click', toggleModal)
+
     var closemodal = document.querySelectorAll('.modal-close')
     for (var i = 0; i < closemodal.length; i++) {
       closemodal[i].addEventListener('click', toggleModal)
     }
+
     document.onkeydown = function(evt) {
       evt = evt || window.event
       var isEscape = false
@@ -200,6 +206,7 @@
     	toggleModal()
       }
     };
+
     function toggleModal () {
       const body = document.querySelector('body')
       const modal = document.querySelector('.modal')
@@ -207,6 +214,7 @@
       modal.classList.toggle('pointer-events-none')
       body.classList.toggle('modal-active')
     }
+
     function setName(){
         let fileName = document.getElementById('fileName');
         var cad = fileName.value;
@@ -228,6 +236,7 @@
         }
 
     }
+
     function setNameVideo(){
         let fileVideoName = document.getElementById('fileVideoName');
         var cad = fileVideoName.value;
@@ -252,3 +261,4 @@
     }
 </script>
 @endpush
+
