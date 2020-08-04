@@ -7,6 +7,7 @@ use App\Subject;
 use App\Delivery;
 use App\Http\Requests\StoreJob;
 use App\Traits\FilesTrait;
+use App\Traits\NotificationsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -103,19 +104,21 @@ class JobController extends Controller
         $file = url($job->file_path);
 
         if (Auth::user()->roles()->first()->name == 'adviser') {
-            $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
+            NotificationsTrait::adviserMarkAsRead($id);
+            // $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
+            // ->whereRead_at(null)
+            // ->where('data->job_id', $id)
+            // ->get();
 
-            $notif->markAsRead();
+            // $notif->markAsRead();
         } else {
-            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
+            NotificationsTrait::teacherMarkAsRead('job_id', $id);
+            // $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
+            // ->whereRead_at(null)
+            // ->where('data->job_id', $id)
+            // ->get();
 
-            $notif->markAsRead();
+            // $notif->markAsRead();
         }
 
 

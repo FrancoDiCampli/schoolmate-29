@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Job;
 use App\Notifications\JobCreated;
 use App\Notifications\JobUpdated;
+use App\Traits\NotificationsTrait;
 use App\User;
 
 class JobObserver
@@ -17,10 +18,12 @@ class JobObserver
      */
     public function created(Job $job)
     {
-        $advisers = User::role('adviser')->get();
-        foreach ($advisers as $adviser) {
-            $adviser->notify(new JobCreated($job));
-        }
+        NotificationsTrait::adviserCreateNotifications('created', $job);
+
+        // $advisers = User::role('adviser')->get();
+        // foreach ($advisers as $adviser) {
+        //     $adviser->notify(new JobCreated($job));
+        // }
     }
 
     /**
@@ -33,23 +36,30 @@ class JobObserver
     {
         switch ($job->state) {
             case 1:
-                $matriculas = $job->subject->course->enrollments;
-                $matriculas->map(function ($item) use ($job) {
-                    $student = $item->student;
-                    $student->notify(new JobCreated($job));
-                });
+                NotificationsTrait::studentCreateNotifications('created', $job);
+
+                // $matriculas = $job->subject->course->enrollments;
+                // $matriculas->map(function ($item) use ($job) {
+                //     $student = $item->student;
+                //     $student->notify(new JobCreated($job));
+                // });
                 break;
 
             case 2:
-                $teacher = $job->subject->teacher;
-                $teacher->notify(new JobUpdated($job, 'Revisar Tarea'));
+                NotificationsTrait::teacherCreateNotifications('updated', $job);
+
+                // $teacher = $job->subject->teacher;
+                // $teacher->notify(new JobUpdated($job, 'Revisar Tarea'));
                 break;
 
             case 0:
-                $advisers = User::role('adviser')->get();
-                foreach ($advisers as $adviser) {
-                    $adviser->notify(new JobUpdated($job, 'Tarea Actualizada'));
-                }
+                NotificationsTrait::adviserCreateNotifications('updated', $job);
+
+                // $advisers = User::role('adviser')->get();
+                // foreach ($advisers as $adviser) {
+                //     $adviser->notify(new JobUpdated($job, 'Tarea Actualizada'));
+                // }
+
                 break;
         }
     }
