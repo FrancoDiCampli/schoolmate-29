@@ -67,7 +67,7 @@
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"
                             role="alert">
-                            
+
                             @hasanyrole('teacher|adviser')
                                 @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
                                     <a class="rounded text-white font-bold p-1"
@@ -101,8 +101,7 @@
                             src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
                             alt="avatar">
                         <span
-                            class="tooltip-text hidden md:block bg-gray-600 m-2 -mx-24 absolute text-center text-xs p-1 text-white rounded-md shadow-md">Nombre
-                            del Usuario</span>
+                            class="tooltip-text hidden md:block bg-gray-600 m-2 -mx-24 absolute text-center text-xs p-1 text-white rounded-md shadow-md">{{Auth::user()->name}}</span>
                     </p>
 
                 </div>

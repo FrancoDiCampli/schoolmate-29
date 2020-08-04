@@ -7,7 +7,7 @@
 
         <a href='{{route("$user")}}' class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
             <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
-            <span class="mx-2 hidden md:block pt-2 md:hidden">Nombre del Usuario</span>
+            <span class="mx-2 hidden md:block pt-2 md:hidden">{{Auth::user()->name}}</span>
         </a>
 
         @php

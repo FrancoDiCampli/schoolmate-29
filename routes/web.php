@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('entregas/{subject}','DeliveryController@index')->name('deliveries.subject');
     Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver');
     Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
+    Route::put('updateDelivery/{id}','DeliveryController@update')->name('delivery.update');
 
 
 

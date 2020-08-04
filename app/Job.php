@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Support\Facades\Auth;
 
 class Job extends Model
 {
@@ -31,6 +32,7 @@ class Job extends Model
     {
         return $this->hasMany(Delivery::class)->with('user');
     }
+
 
     public function comments()
     {

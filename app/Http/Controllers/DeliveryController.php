@@ -82,7 +82,11 @@ class DeliveryController extends Controller
 
     public function update(Request $request, $id)
     {
-        return $request;
+        Delivery::where('id', $id)
+
+        ->update(['state' => $request->state]);
+
+          return redirect()->route('job.deliveries', $request->id_job);
     }
 
 }
