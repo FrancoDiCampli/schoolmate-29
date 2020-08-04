@@ -28,12 +28,5 @@ class TeachersImport implements ToModel, WithHeadingRow
         ]);
     }
 
-    public function rules(): array
-    {
-        // return [
-        //     '1' => Rule::in(['patrick@maatwebsite.nl']),
 
-
-        // ];
-    }
 }

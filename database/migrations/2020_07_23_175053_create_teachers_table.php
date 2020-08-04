@@ -28,7 +28,7 @@ class CreateTeachersTable extends Migration
             $table->string('fnac');
             $table->string('phone');
             $table->string('photo')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('address');
             $table->string('docket')->nullable();
 
