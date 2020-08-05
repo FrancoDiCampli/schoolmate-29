@@ -73,6 +73,11 @@
     @apply bg-transparent outline-none text-blue-300 border-blue-300;
 }
 
+/* Button Delete File */
+.btn-delete{
+    @apply outline-none rounded bg-red-500 text-white font-bold p-1;
+}
+
 
 
 

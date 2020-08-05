@@ -96,9 +96,9 @@ class JobController extends Controller
 
         $matriculas = $job->subject->course->enrollments;
 
-        $aux = $job->deliveries->keyBy('user_id');
+        $aux = $job->deliveries->keyBy('student_id');
 
-        $faltan = $matriculas->whereNotIn('user_id', $aux->keys());
+        $faltan = $matriculas->whereNotIn('student_id', $aux->keys());
 
         $entregas = $job->deliveries()->get();
 
