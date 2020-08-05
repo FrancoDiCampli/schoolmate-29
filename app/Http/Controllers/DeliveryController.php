@@ -6,6 +6,7 @@ use App\Job;
 use App\Comment;
 use App\Subject;
 use App\Delivery;
+use Carbon\Carbon;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use App\Traits\StudentsTrait;
@@ -20,8 +21,11 @@ class DeliveryController extends Controller
 
         // $jobs = StudentsTrait::pendings();
 
+        $now = Carbon::now();
 
-        return view('admin.deliveries.pendings', compact('jobs'));
+
+
+        return view('admin.deliveries.pendings', compact('jobs', 'now'));
     }
 
     public function index($id){
@@ -42,8 +46,17 @@ class DeliveryController extends Controller
 
     public function deliver($job)
     {
+        $user = Auth::user();
         $job = Job::find($job);
-        return view('admin.deliveries.create', compact('job'));
+        $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
+
+        if($delivery){
+            $comments = $delivery->comments;
+        } else {
+            $comments = [];
+        }
+
+        return view('admin.deliveries.create', compact('job', 'delivery', 'comments'));
     }
 
     public function store(Request $request)
@@ -82,6 +95,7 @@ class DeliveryController extends Controller
 
     public function update(Request $request, $id)
     {
+        return $request;
         Delivery::where('id', $id)
 
         ->update(['state' => $request->state]);
