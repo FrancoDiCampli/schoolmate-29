@@ -7,6 +7,7 @@ use App\Subject;
 use App\Delivery;
 use App\Http\Requests\StoreJob;
 use App\Traits\FilesTrait;
+use App\Traits\NotificationsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -111,45 +112,10 @@ class JobController extends Controller
         $vid = substr($job->link, -11);
         $file = url($job->file_path);
 
-        // if (Auth::user()->roles()->first()->name == 'adviser') {
-        //     $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
-        //     ->whereRead_at(null)
-        //     ->where('data->job_id', $id)
-        //     ->get();
-
-        //     $notif->markAsRead();
-        // } else {
-        //     $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
-        //     ->whereRead_at(null)
-        //     ->where('data->job_id', $id)
-        //     ->get();
-
-        //     $notif->markAsRead();
-        // }
-
-        // prueba
-        if(Auth::user()->roles()->first()->name == 'adviser'){
-            $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
-
-            $notif->markAsRead();
-
-        } elseif(Auth::user()->roles()->first()->name == 'student'){
-            $notif = auth()->user()->student->notifications()->whereNotifiable_id(auth()->user()->student->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
-
-            $notif->markAsRead();
-        } else{
-            $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
-            ->whereRead_at(null)
-            ->where('data->job_id', $id)
-            ->get();
-
-            $notif->markAsRead();
+        if (Auth::user()->roles()->first()->name == 'adviser') {
+            NotificationsTrait::adviserMarkAsRead($id);
+        } else {
+            NotificationsTrait::teacherMarkAsRead('job_id', $id);
         }
 
 
@@ -231,7 +197,13 @@ class JobController extends Controller
         $user = Auth::user();
         $delivery =  Delivery::find($delivery);
         $delivery->comments;
-        return view('admin.jobs.delivery', compact('delivery','user'));
+        $vid = substr($delivery->link, -11);
+
+        if (auth()->user()->roles()->first()->name == 'teacher') {
+            NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
+        }
+
+        return view('admin.jobs.delivery', compact('delivery','user', 'vid'));
     }
 
     public function test(){

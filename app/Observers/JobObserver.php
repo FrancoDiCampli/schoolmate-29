@@ -6,7 +6,7 @@ use App\Job;
 use App\User;
 use App\Notifications\JobCreated;
 use App\Notifications\JobUpdated;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\NotificationsTrait;
 
 class JobObserver
 {
@@ -18,11 +18,7 @@ class JobObserver
      */
     public function created(Job $job)
     {
-        $advisers = User::role('adviser')->get();
-        foreach ($advisers as $adviser) {
-            $adviser->notify(new JobCreated($job));
-        }
-
+        NotificationsTrait::adviserCreateNotifications('created', $job);
     }
 
     /**
@@ -35,23 +31,15 @@ class JobObserver
     {
         switch ($job->state) {
             case 1:
-                $matriculas = $job->subject->course->enrollments;
-                $matriculas->map(function ($item) use ($job) {
-                    $student = $item->student;
-                    $student->notify(new JobCreated($job));
-                });
+                NotificationsTrait::studentCreateNotifications($job);
                 break;
 
             case 2:
-                $teacher = $job->subject->teacher;
-                $teacher->notify(new JobUpdated($job, 'Revisar Tarea'));
+                NotificationsTrait::teacherCreateNotifications('updated', $job);
                 break;
 
             case 0:
-                $advisers = User::role('adviser')->get();
-                foreach ($advisers as $adviser) {
-                    $adviser->notify(new JobUpdated($job, 'Tarea Actualizada'));
-                }
+                NotificationsTrait::adviserCreateNotifications('updated', $job);
                 break;
         }
     }

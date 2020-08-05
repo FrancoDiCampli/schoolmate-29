@@ -6,6 +6,7 @@ use App\Job;
 use App\Delivery;
 use App\Notifications\DeliveryCreated;
 use App\Notifications\DeliveryUpdated;
+use App\Traits\NotificationsTrait;
 
 class DeliveryObserver
 {
@@ -17,9 +18,7 @@ class DeliveryObserver
      */
     public function created(Delivery $delivery)
     {
-        $job = $delivery->job;
-        $teacher = $job->subject->teacher;
-        $teacher->notify(new DeliveryCreated($delivery));
+        NotificationsTrait::teacherCreateNotifications('created', $delivery);
     }
 
     /**
@@ -30,9 +29,15 @@ class DeliveryObserver
      */
     public function updated(Delivery $delivery)
     {
-        $job = Job::find($delivery->job_id);
-        $teacher = $job->subject->teacher;
-        $teacher->notify(new DeliveryUpdated($delivery, ' '));
+        switch ($delivery->state) {
+            case 1:
+                NotificationsTrait::studentCreateNotifications($delivery);
+                break;
+            
+            case 0:
+                NotificationsTrait::teacherCreateNotifications('updated', $delivery);
+                break;
+        }
     }
 
     /**

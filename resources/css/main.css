@@ -170,6 +170,11 @@
     @apply outline-none bg-white border-primary-400;
 }
 
+/* Clase input control error */
+.form-input-error{
+    @apply leading-tight appearance-none border-b-2 border-red-600;
+}
+
 
 
 /* Tab content - closed */

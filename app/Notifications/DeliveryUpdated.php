@@ -17,10 +17,11 @@ class DeliveryUpdated extends Notification
      *
      * @return void
      */
-    public function __construct($delivery, $message)
+    public function __construct($delivery, $message, $modelo)
     {
         $this->delivery = $delivery;
         $this->message = $message;
+        $this->modelo = $modelo;
     }
 
     /**
@@ -36,10 +37,21 @@ class DeliveryUpdated extends Notification
 
     public function toDatabase($notifiable)
     {
-        return new DatabaseMessage([
-            'message' => $this->message .' | ' . $this->delivery->id,
-            'delivery_id' => $this->delivery->id
-        ]);
+        switch ($this->modelo) {
+            case 'Teacher':
+                return new DatabaseMessage([
+                    'message' => $this->message . ' | ' . $this->delivery->student->name . ' | ' . $this->delivery->job->title,
+                    'delivery_id' => $this->delivery->id
+                ]);
+                break;
+
+            case 'Student':
+                return new DatabaseMessage([
+                    'message' => $this->message . ' | ' . $this->delivery->student->name . ' | ' . $this->delivery->job->title,
+                    'job_id' => $this->delivery->job_id
+                ]);
+                break;
+        }
     }
 
     /**
@@ -51,9 +63,9 @@ class DeliveryUpdated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
