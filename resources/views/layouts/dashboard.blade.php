@@ -61,40 +61,50 @@
                         @endif
                     </button>
 
-                    {{-- notificaciones --}}
-                    <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
-                    rounded-sm text-left md:mr-24 mr-6">
-                        @foreach ($noLeidas ?? [] as $item)
-                        <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"
-                            role="alert">
+                     {{-- notificaciones --}}
+                     <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
+                     rounded-sm text-left md:mr-24 mr-6">
+                         @foreach ($noLeidas ?? [] as $item)
+                         <div class="p-2 border-b border-gray-200 hover:bg-gray-100 w-full items-center text-blue-700 leading-none flex lg:inline-flex"
+                             role="alert">
 
-                            @hasanyrole('teacher|adviser')
-                                @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
-                                    <a class="rounded text-white font-bold p-1"
-                                    href="{{route('jobs.showJob', $item->data['job_id'])}}">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                    </a>
-                                @endif
-                            @endhasanyrole
+                             @hasanyrole('teacher|adviser')
+                                 @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
+                                     <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                     href="{{route('jobs.showJob', $item->data['job_id'])}}">
+                                     <pre
+                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                     </a>
+                                 @endif
+                             @endhasanyrole
 
-                            @hasanyrole('teacher|student')
-                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated' )
-                                    <a class="rounded text-white font-bold p-1"
-                                    {{-- {{route('', $item->data['delivery_id'])}} --}}
-                                    href="">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                    </a>
-                                @endif
-                            @endhasanyrole
+                             @hasanyrole('teacher|student')
+                                 @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated' )
+                                     <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                     {{-- {{route('', $item->data['delivery_id'])}} --}}
+                                     href="">
+                                     <pre
+                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                     </a>
+                                 @endif
+                             @endhasanyrole
 
+                         </div>
+                         @endforeach
+                         <div class="p-2 justify-center w-full items-center text-blue-700 leading-none flex lg:inline-flex"
+                             role="alert">
+                             <a href="" class="btn btn-default w-full">Ver todas</a>
                         </div>
-                        @endforeach
 
-                        <a href="{{route('notifications')}}"
-                            class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a>
-                    </div>
+                         {{-- <a href="{{route('notifications')}}"
+                             class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a> --}}
+                     </div>
+
+
+
+
+
+
                     {{-- <h2 class="text-sm font-medium text-gray-800 m-2">{{auth()->user()->name}} </h2> --}}
                     <p class="tooltip z-50">
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
