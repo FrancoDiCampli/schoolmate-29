@@ -91,9 +91,12 @@
              @endif
         </div>
 
-        <div class="flex justify-center p-2 mt-2">
-            <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
-        </div>
+        @if ($job->file_path)
+            <div class="flex justify-center p-2 mt-2">
+                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
+            </div>    
+        @endif
+        
 
         {{-- Select del asesor  --}}
         @role('adviser')
@@ -146,9 +149,7 @@
                     <td>{{$activity->description}}</td>
                     <td>{{$activity->causer->name}}</td>
                     <td>
-                        @foreach ($activity->properties as $item)
-                           {{-- {{$item['state']}} --}}
-                        @endforeach
+                        {{$job->state($job->state)}}
                     </td>
                 </tr>
 

@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use Youtube;
+use App\User;
 use App\Subject;
 use App\Delivery;
-use App\Http\Requests\StoreJob;
+use App\Traits\JobsTrait;
+use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
-use App\Traits\NotificationsTrait;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreJob;
+use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
-use Youtube;
+
 class JobController extends Controller
 {
     public function __construct()
@@ -79,6 +83,8 @@ class JobController extends Controller
 
         $job = Job::create($data);
 
+        LogsTrait::logJob($job,0);
+
         session()->flash('messages', 'Tarea creada');
 
         return redirect()->action('JobController@index', $subject->id);
@@ -90,9 +96,9 @@ class JobController extends Controller
 
         $matriculas = $job->subject->course->enrollments;
 
-        $aux = $job->deliveries->keyBy('user_id');
+        $aux = $job->deliveries->keyBy('student_id');
 
-        $faltan = $matriculas->whereNotIn('user_id', $aux->keys());
+        $faltan = $matriculas->whereNotIn('student_id', $aux->keys());
 
         $entregas = $job->deliveries()->get();
 
@@ -131,6 +137,15 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         $job = Job::find($id);
+        $user = Auth::user()->id;
+        $cond = $request->state;
+
+        LogsTrait::logJob($job,$cond);
+
+
+
+
+
         $stateJob = $job->state;
         $subject = Subject::find($request->subject);
 

@@ -114,9 +114,41 @@
 
         {{-- Movimientos de la tarea --}}
         <div class="border-t mt-6 flex py-6 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+            {{-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Historial de Entregas
-            </label>
+            </label> --}}
+
+            <div>
+            @if ($activities)
+                <table class="table">
+                   <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Actividad</th>
+                        <th>Usuario</th>
+                        <th>Test</th>
+
+                    </tr>
+
+                   </thead>
+                   <tbody>
+                     @foreach ($activities as $activity)
+                        <tr>
+                            <td>{{$activity->created_at}}</td>
+                            <td>{{$activity->description}}</td>
+                            <td>{{$activity->causer->name}}</td>
+                            <td>
+                                {{$delivery->state($delivery->state)}}
+                            </td>
+                        </tr>
+                        @endforeach
+
+                   </tbody>
+                </table>
+                @else
+                <h1>No hay registros de las entregas</h1>
+            @endif
+            </div>
         </div>
 
 
