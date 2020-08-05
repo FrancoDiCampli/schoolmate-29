@@ -3,10 +3,10 @@
 namespace App\Observers;
 
 use App\Job;
+use App\User;
 use App\Notifications\JobCreated;
 use App\Notifications\JobUpdated;
 use App\Traits\NotificationsTrait;
-use App\User;
 
 class JobObserver
 {
