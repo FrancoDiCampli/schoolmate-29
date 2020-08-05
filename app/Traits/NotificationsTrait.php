@@ -45,7 +45,7 @@ trait NotificationsTrait
 
             case 'App\Delivery':
                 $student = Student::find($object->student_id);
-                $student->notify(new DeliveryUpdated($object, 'Revisar Entrega'));
+                $student->notify(new DeliveryUpdated($object, 'Revisar Entrega', 'Student'));
                 break;
         }
     }
@@ -70,7 +70,7 @@ trait NotificationsTrait
                     case 'updated':
                         $job = Job::find($object->job_id);
                         $teacher = $job->subject->teacher;
-                        $teacher->notify(new DeliveryUpdated($object, 'Entrega Actualizada'));
+                        $teacher->notify(new DeliveryUpdated($object, 'Entrega Actualizada', 'Teacher'));
                         break;
                 }
                 break;

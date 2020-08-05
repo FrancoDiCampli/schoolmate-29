@@ -114,20 +114,8 @@ class JobController extends Controller
 
         if (Auth::user()->roles()->first()->name == 'adviser') {
             NotificationsTrait::adviserMarkAsRead($id);
-            // $notif = auth()->user()->notifications()->whereNotifiable_id(auth()->user()->id)
-            // ->whereRead_at(null)
-            // ->where('data->job_id', $id)
-            // ->get();
-
-            // $notif->markAsRead();
         } else {
             NotificationsTrait::teacherMarkAsRead('job_id', $id);
-            // $notif = auth()->user()->teacher->notifications()->whereNotifiable_id(auth()->user()->teacher->id)
-            // ->whereRead_at(null)
-            // ->where('data->job_id', $id)
-            // ->get();
-
-            // $notif->markAsRead();
         }
 
 

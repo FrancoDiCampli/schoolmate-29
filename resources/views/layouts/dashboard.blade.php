@@ -62,7 +62,7 @@
                     </button>
 
                     {{-- notificaciones --}}
-                    <div id="capa" style="display:none;" class="hidden border bg-white absolute p-2 mt-12 text-sm md:w-64 w-56 mx-auto right-0 shadow-lg z-50
+                    <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"
@@ -79,29 +79,19 @@
                             @endhasanyrole
 
                             @role('student')
-                                {{-- @if ($item->type == 'App\Notifications\JobCreated') --}}
-                                    <a class="rounded text-white font-bold p-1"
-                                    href="{{route('deliver', $item->data['job_id'])}}">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                    </a>
-                                {{-- @else
-                                    <a class="rounded text-white font-bold p-1"
-                                    href="{{route('deliver', $item->data['job_id'])}}">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                    </a>
-                                @endif --}}
+                                <a class="rounded text-white font-bold p-1"
+                                href="{{route('deliver', $item->data['job_id'])}}">
+                                <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                </a>
                             @endrole
 
                             @role('teacher')
-                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated' )
-                                    <a class="rounded text-white font-bold p-1"
-                                    href="{{route('job.delivery', $item->data['delivery_id'])}}">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                    </a>
-                                @endif
+                                <a class="rounded text-white font-bold p-1"
+                                href="{{route('job.delivery', $item->data['delivery_id'])}}">
+                                <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                </a>
                             @endrole
 
                         </div>
