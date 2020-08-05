@@ -104,7 +104,7 @@ class JobController extends Controller
 
     public function showJob($id)
     {
-         $activity = Activity::where('log_name','jobs')->get();
+        $activities = Activity::where('log_name','jobs')->where('subject_id',$id)->get();
 
         $job = Job::find($id);
         $job->comments;
@@ -153,7 +153,7 @@ class JobController extends Controller
         }
 
 
-        return view('admin.jobs.showJob', compact('job', 'file', 'vid'));
+        return view('admin.jobs.showJob', compact('job', 'file', 'vid','activities'));
     }
 
     public function edit($id)

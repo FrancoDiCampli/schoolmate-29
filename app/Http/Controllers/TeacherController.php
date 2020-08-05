@@ -132,7 +132,6 @@ class TeacherController extends Controller
 
         }catch(\Exception $ex){
             return back()->with('errores','No importo correctamente');
-
         }
 
         return redirect()->route('teachers.index') ->with('messages', 'Profesores creados correctamente.');;

@@ -128,6 +128,34 @@
         {{-- Log de tareas  --}}
         <div>
             <h1>Log de Tareas</h1>
+            <table class="table">
+               <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Actividad</th>
+                    <th>Usuario</th>
+                    <th>Test</th>
+
+                </tr>
+
+               </thead>
+               <tbody>
+                @foreach ($activities as $activity)
+                <tr>
+                    <td>{{$activity->created_at}}</td>
+                    <td>{{$activity->description}}</td>
+                    <td>{{$activity->causer->name}}</td>
+                    <td>
+                        @foreach ($activity->properties as $item)
+                           {{-- {{$item['state']}} --}}
+                        @endforeach
+                    </td>
+                </tr>
+
+
+                @endforeach
+               </tbody>
+            </table>
 
         </div>
 

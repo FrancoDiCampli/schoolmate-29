@@ -3,9 +3,10 @@
 namespace App\Observers;
 
 use App\Job;
+use App\User;
 use App\Notifications\JobCreated;
 use App\Notifications\JobUpdated;
-use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class JobObserver
 {
@@ -21,6 +22,7 @@ class JobObserver
         foreach ($advisers as $adviser) {
             $adviser->notify(new JobCreated($job));
         }
+
     }
 
     /**
