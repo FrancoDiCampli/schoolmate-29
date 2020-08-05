@@ -61,18 +61,25 @@
                             <h1 class="text-sm font-montserrat font-medium text-right text-gray-700">{{$subject->course->name}}</h1>
                         </div>
                     </div>
-                    <div class="px-6 py-4 font-montserrat w-auto flex justify-between items-center">
-                        <p class="text-gray-700 text-sm">
-                        {{count($subject->pendientes())}} <a href="{{route('deliveries.pendings',$subject)}}">Tareas Pendientes</a>
-
+                    <div class="px-6 py-4 font-montserrat w-auto flex  items-center">
+                        <div class="w-9/12 flex">
+                        @if (count($subject->pendientes()) === 0)
+                        <svg aria-hidden="true" data-prefix="fas" data-icon="calendar-check" class="w-5 h-5 text-gray-600 inline-block svg-inline--fa fa-calendar-check fa-w-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M436 160H12c-6.627 0-12-5.373-12-12v-36c0-26.51 21.49-48 48-48h48V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h128V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h48c26.51 0 48 21.49 48 48v36c0 6.627-5.373 12-12 12zM12 192h424c6.627 0 12 5.373 12 12v260c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V204c0-6.627 5.373-12 12-12zm333.296 95.947l-28.169-28.398c-4.667-4.705-12.265-4.736-16.97-.068L194.12 364.665l-45.98-46.352c-4.667-4.705-12.266-4.736-16.971-.068l-28.397 28.17c-4.705 4.667-4.736 12.265-.068 16.97l82.601 83.269c4.667 4.705 12.265 4.736 16.97.068l142.953-141.805c4.705-4.667 4.736-12.265.068-16.97z"/></svg>
+                        <p class="text-gray-700 text-sm  text-left ml-2">
+                            No tienes tareas
                         </p>
-                        <p class="text-gray-700 text-sm">
-                            {{-- Aqui vamos a colocar ruta a las entregas de la materia --}}
-                        <a href="{{route('deliveries.subject',$subject)}}">Entregas</a>
+                        @else
+                        <svg aria-hidden="true" data-prefix="fas" data-icon="business-time" class="w-5 h-5 text-gray-600 inline-block svg-inline--fa fa-business-time fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M496 224c-79.59 0-144 64.41-144 144s64.41 144 144 144 144-64.41 144-144-64.41-144-144-144zm64 150.29c0 5.34-4.37 9.71-9.71 9.71h-60.57c-5.34 0-9.71-4.37-9.71-9.71v-76.57c0-5.34 4.37-9.71 9.71-9.71h12.57c5.34 0 9.71 4.37 9.71 9.71V352h38.29c5.34 0 9.71 4.37 9.71 9.71v12.58zM496 192c5.4 0 10.72.33 16 .81V144c0-25.6-22.4-48-48-48h-80V48c0-25.6-22.4-48-48-48H176c-25.6 0-48 22.4-48 48v48H48c-25.6 0-48 22.4-48 48v80h395.12c28.6-20.09 63.35-32 100.88-32zM320 96H192V64h128v32zm6.82 224H208c-8.84 0-16-7.16-16-16v-48H0v144c0 25.6 22.4 48 48 48h291.43C327.1 423.96 320 396.82 320 368c0-16.66 2.48-32.72 6.82-48z"/></svg>
+                         <a href="{{route('deliveries.pendings',$subject)}}" class="text-gray-700 text-sm  text-left ml-2">{{count($subject->pendientes())}} Tareas Pendientes</a>
+                        @endif
+                        </p>
+                        </div>
 
+                        {{-- <p class="text-gray-700 text-sm">
+                        <a href="{{route('deliveries.subject',$subject)}}">Entregadas</a>
+                            </p> --}}
 
-                            </p>
-                        <div class="w-auto flex justify-between items-center">
+                        <div class="w-3/12 flex justify-end">
                             <a href="{{route('jobs.index', $subject->id)}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 36 36" width="32px"><path d="M8.377 31.833c6.917 0 11.667 3.583 15 3.583S33.71 33.5 33.71 18.167 24.293.583 20.627.583c-17.167 0-24.5 31.25-12.25 31.25z" fill="#efefef" data-original="#EFEFEF"/><path d="M20.25 9.75h-2v1a1 1 0 01-1 1h-5.5a1 1 0 01-1-1v-1h-2c-1.1 0-2 .9-2 2v12.5c0 1.1.9 2 2 2h11.5c1.1 0 2-.9 2-2v-12.5c0-1.1-.9-2-2-2z" fill="#f3f3f1" data-original="#F3F3F1"/><path d="M18.25 8.75v2a1 1 0 01-1 1h-5.5a1 1 0 01-1-1v-2h1.75c0-1.1.9-2 2-2s2 .9 2 2zM21.532 28.72l-3.005.53.53-3.005 7.425-7.425c.391-.391.847-.567 1.237-.177l1.237 1.237a.999.999 0 010 1.414z" fill="#2c84c7" data-original="#2FDF84" data-old_color="#2fdf84"/><path d="M20.5 10.75v-.975c-.083-.011-.164-.025-.25-.025h-2v1a1 1 0 01-1 1h2.25a1 1 0 001-1zM9 24.25v-12.5c0-1.014.768-1.849 1.75-1.975V9.75h-2c-1.1 0-2 .9-2 2v12.5c0 1.1.9 2 2 2H11c-1.1 0-2-.9-2-2z" fill="#d5dbe1" data-original="#D5DBE1"/><path d="M13 10.75v-2h1.75c0-.683.348-1.289.875-1.65a1.984 1.984 0 00-1.125-.35c-1.1 0-2 .9-2 2h-1.75v2a1 1 0 001 1H14a1 1 0 01-1-1zM21.308 26.245l7.007-7.007-.595-.595c-.391-.391-.847-.214-1.237.177l-7.425 7.425-.53 3.005 2.322-.41z" fill="#216294" data-original="#00B871" class="active-path" data-old_color="#00b871"/><path d="M18.527 30a.748.748 0 01-.738-.88l.53-3.005a.746.746 0 01.208-.4l7.425-7.425c.913-.913 1.808-.668 2.298-.177l1.237 1.237a1.75 1.75 0 010 2.475l-7.425 7.425a.746.746 0 01-.4.208l-3.005.53a.715.715 0 01-.13.012zm1.228-3.392l-.303 1.717 1.717-.303 7.258-7.258a.25.25 0 000-.354l-1.228-1.228c-.01.019-.086.066-.187.167zM16.01 27H8.75A2.752 2.752 0 016 24.25v-12.5A2.752 2.752 0 018.75 9h1.88v1.5H8.75c-.689 0-1.25.561-1.25 1.25v12.5c0 .689.561 1.25 1.25 1.25h7.26zM23 18.81h-1.5v-7.06c0-.689-.561-1.25-1.25-1.25h-1.87V9h1.87A2.752 2.752 0 0123 11.75z" data-original="#000000"/><path d="M17.25 12.5h-5.5c-.965 0-1.75-.785-1.75-1.75v-2a.75.75 0 01.75-.75h1.104c.328-1.153 1.39-2 2.646-2s2.318.847 2.646 2h1.104a.75.75 0 01.75.75v2c0 .965-.785 1.75-1.75 1.75zm-5.75-3v1.25c0 .138.112.25.25.25h5.5a.25.25 0 00.25-.25V9.5h-1a.75.75 0 01-.75-.75c0-.689-.561-1.25-1.25-1.25s-1.25.561-1.25 1.25a.75.75 0 01-.75.75zM9.75 14h9.5v1.5h-9.5zM9.75 17h9.5v1.5h-9.5zM9.75 20h9.5v1.5h-9.5z" data-original="#000000"/><path d="M28.314 14.78c-.827 0-1.5-.673-1.5-1.5s.673-1.5 1.5-1.5 1.5.673 1.5 1.5-.672 1.5-1.5 1.5zm0-2c-.275 0-.5.225-.5.5s.225.5.5.5.5-.225.5-.5-.224-.5-.5-.5zM16.375 3.25h2v1h-2zM10.625 3.25h2v1h-2zM14.125 0h1v2h-1z" fill="#a4afc1" data-original="#A4AFC1"/></svg>
                             </a>

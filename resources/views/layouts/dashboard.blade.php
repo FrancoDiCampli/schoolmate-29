@@ -62,7 +62,7 @@
                     </button>
 
                     {{-- notificaciones --}}
-                    <div id="capa" style="display:none;" class="hidden border bg-white absolute p-2 mt-12 text-sm md:w-64 w-56 mx-auto right-0 shadow-lg z-50
+                    <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"

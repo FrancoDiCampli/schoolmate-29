@@ -10,7 +10,7 @@
         <p class="text-sm text-primary-400">{{$job->subject->course->name}}</p>
     </div>
     <div>
-        <a href="{{route('jobs.index', $job->subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+        <a href="{{ URL::previous() }}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
           </a>
     </div>
@@ -127,9 +127,18 @@
                 </label>
 
                 {{-- inicio formulario enviar tarea y/o comentario --}}
+                @if ($delivery)
+                <form method="POST" action="{{route('delivery.update', $delivery->id)}}" class="mx-auto" id="delivery"
+                enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
+                @else
+
                 <form method="POST" action="{{route('deliver.store')}}" class="mx-auto" id="delivery"
                 enctype="multipart/form-data">
                 @csrf
+                @endif
+
                 <input type="text" name="job" value="{{$job->id}}" hidden>
 
                 <div class="relative">
