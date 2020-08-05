@@ -78,16 +78,21 @@
                                 @endif
                             @endhasanyrole
 
-                            @hasanyrole('teacher|student')
-                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated' )
-                                    <a class="rounded text-white font-bold p-1"
-                                    {{-- {{route('', $item->data['delivery_id'])}} --}}
-                                    href="">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                    </a>
-                                @endif
-                            @endhasanyrole
+                            @role('student')
+                                <a class="rounded text-white font-bold p-1"
+                                href="{{route('deliver', $item->data['job_id'])}}">
+                                <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                </a>
+                            @endrole
+
+                            @role('teacher')
+                                <a class="rounded text-white font-bold p-1"
+                                href="{{route('job.delivery', $item->data['delivery_id'])}}">
+                                <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                </a>
+                            @endrole
 
                         </div>
                         @endforeach
