@@ -812,6 +812,21 @@ video {
   border-color: rgba(144, 205, 244, var(--border-opacity));
 }
 
+/* Button Delete File */
+
+.btn-delete{
+  outline: 0;
+  border-radius: 0.25rem;
+  --bg-opacity: 1;
+  background-color: #f56565;
+  background-color: rgba(245, 101, 101, var(--bg-opacity));
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+  font-weight: 700;
+  padding: 0.25rem;
+}
+
 .space-y-0 > :not(template) ~ :not(template) {
   --space-y-reverse: 0;
   margin-top: calc(0px * calc(1 - var(--space-y-reverse)));

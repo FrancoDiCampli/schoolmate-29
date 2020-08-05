@@ -74,7 +74,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Link de Youtube (Opcional)
                         </label>
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
+                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
                         </span>
@@ -97,7 +97,7 @@
                                             <path
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Select a file</span>
+                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Seleccione un video</span>
                                         <input type='file' class="hidden" name="video" id="fileVideoName"
                                             onchange="setNameVideo()" />
                                     </label>
@@ -119,7 +119,7 @@
                         </label>
                         <div class="relative">
                             <div class="overflow-hidden relative w-auto mt-4 mb-4">
-                                <div class="flex items-center justify-center bg-grey-lighter">
+                                <div class=" items-center justify-center bg-grey-lighter">
                                     <label
                                         class="w-full flex flex-col items-center px-4 py-4 bg-gray-200 text-gray-700 border-b-2 border-gray-400 tracking-wide uppercase cursor-pointer hover:text-primary-300 hover:bg-gray-300">
                                         <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +127,7 @@
                                             <path
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selected">Select a file</span>
+                                        <span class="mt-2 text-sm leading-normal" id="selected">Seleccione un archivo</span>
                                         <input type='file' class="hidden" name="file" id="fileName"
                                             onchange="setName()" />
                                     </label>
@@ -213,7 +213,10 @@
         cad = cad.split('\\');
         let extension = cad[2].split('.');
         let selected = document.getElementById('selected');
-        selected.innerHTML = cad[2];
+
+        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('boton');
+
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
         if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
@@ -230,12 +233,24 @@
     }
     function setNameVideo(){
         let fileVideoName = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+
+        if (fileVideoName.value.length > 0) {
+            if (link.value.length == 0) {
+                link.setAttribute('disabled', true);
+            }
+        } else {
+            link.removeAttribute('disabled');
+        }
+        
         var cad = fileVideoName.value;
         cad = cad.split('\\');
         let extension = cad[2].split('.');
-        console.log(extension)
         let selectedVideo = document.getElementById('selectedVideo');
-        selectedVideo.innerHTML = cad[2];
+
+        selectedVideo.innerHTML = cad[2] + ' ' +"<button id='botonVideo' type='button' onclick='limpiarVideo()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('botonVideo');
+
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
         if (extension[1] == 'mp4') {
@@ -248,7 +263,32 @@
             }
             toggleModal();
         }
+    }
 
+    function setLink(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        if (link.value.length > 0) {
+            if (video.value.length == 0) {
+                video.setAttribute('disabled', true);
+            }
+        } else {
+            video.removeAttribute('disabled');
+        }
+    }
+
+    function limpiarVideo(){
+        let video = document.getElementById('fileVideoName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selectedVideo');
+        selectedVideo.innerHTML = 'Seleccione un video';
+    }
+
+    function limpiarFile(){
+        let video = document.getElementById('fileName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selected');
+        selectedVideo.innerHTML = 'Seleccione un archivo';
     }
 </script>
 @endpush
