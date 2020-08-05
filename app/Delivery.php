@@ -8,32 +8,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Delivery extends Model
 {
-    use LogsActivity;
-    protected static $logName = 'deliveries';
-    protected static $logAttributes = ['job_id','student_id','created_at'];
 
-    protected static $recordEvents = ['created','updated'];
     protected $guarded = [];
 
 
-    protected $state = ['En corrección', 'Por Corregir', 'Aprobado', 'Desaprobado'];
+    protected $state = ['En corrección', 'Rehacer', 'Aprobado'];
 
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        switch ($eventName) {
-            case 'created':
-                $eventName = 'creada';
-                break;
-            case 'updated':
-                $eventName = 'actualizada';
-                break;
-            default:
-                # code...
-                break;
-        }
 
-        return "Entrega {$eventName}";
-    }
 
     public function state($value)
     {
