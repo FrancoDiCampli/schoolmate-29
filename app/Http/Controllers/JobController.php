@@ -212,12 +212,13 @@ class JobController extends Controller
         $user = Auth::user();
         $delivery =  Delivery::find($delivery);
         $delivery->comments;
+        $vid = substr($delivery->link, -11);
 
         if (auth()->user()->roles()->first()->name == 'teacher') {
             NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
         }
 
-        return view('admin.jobs.delivery', compact('delivery','user'));
+        return view('admin.jobs.delivery', compact('delivery','user', 'vid'));
     }
 
     public function test(){

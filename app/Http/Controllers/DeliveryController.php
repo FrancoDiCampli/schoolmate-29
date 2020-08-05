@@ -92,7 +92,7 @@ class DeliveryController extends Controller
                 'job_id' => $request->job,
                 'file_path' => $nameFile,
                 'state' => 0,
-                'link' => $request->link,
+                'link' => $link,
                 'student_id' => Auth::user()->student->id,
             ]);
             LogsTrait::logDelivery($delivery,0);

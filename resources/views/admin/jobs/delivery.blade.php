@@ -103,6 +103,13 @@
             </div>
         </div>
 
+        <div class="flex justify-center p-2">
+            {{-- Youtube --}}
+            @if ($delivery->link)
+            <iframe id="player" type="text/html" width="640" height="360"
+                src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
+            @endif
+       </div>
 
         @if ($delivery->file_path)
             <div class="flex justify-center p-2">
@@ -110,9 +117,9 @@
                 {{-- <iframe height="600" width="800" src="{{$job->link}}"></iframe> --}}
                 {{-- <iframe id="viewer" height="600" width="800" src="{{asset($job->file_path)}}" frameborder="0"></iframe> --}}
                 <iframe id="viewer" src="{{asset($delivery->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
-            </div>    
+            </div>
         @endif
-        
+
 
         <form action="{{route('delivery.update', $delivery->id)}}" method="POST">
             @method('PUT')

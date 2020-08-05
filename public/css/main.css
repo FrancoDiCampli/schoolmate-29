@@ -21044,6 +21044,19 @@ video {
   border-color: rgba(2, 140, 132, var(--border-opacity));
 }
 
+/* Clase input control error */
+
+.form-input-error{
+  line-height: 1.25;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-bottom-width: 2px;
+  --border-opacity: 1;
+  border-color: #e53e3e;
+  border-color: rgba(229, 62, 62, var(--border-opacity));
+}
+
 /* Tab content - closed */
 
 .tab-content {

@@ -61,7 +61,7 @@
                         @endif
                     </button>
 
-                    {{-- notificaciones --}}
+                      {{-- notificaciones --}}
                     <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
@@ -100,6 +100,8 @@
                         <a href="{{route('notifications')}}"
                             class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a>
                     </div>
+
+
                     {{-- <h2 class="text-sm font-medium text-gray-800 m-2">{{auth()->user()->name}} </h2> --}}
                     <p class="tooltip z-50">
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
