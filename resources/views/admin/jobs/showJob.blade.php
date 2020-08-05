@@ -149,9 +149,7 @@
                     <td>{{$activity->description}}</td>
                     <td>{{$activity->causer->name}}</td>
                     <td>
-                        @foreach ($activity->properties as $item)
-                           {{-- {{$item['state']}} --}}
-                        @endforeach
+                        {{$job->state($job->state)}}
                     </td>
                 </tr>
 

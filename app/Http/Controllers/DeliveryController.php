@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use Youtube;
 use App\Comment;
 use App\Subject;
 use App\Delivery;
 use Carbon\Carbon;
+use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
-use App\Traits\NotificationsTrait;
 use Illuminate\Http\Request;
 use App\Traits\StudentsTrait;
+use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Youtube;
+use Spatie\Activitylog\Models\Activity;
 
 class DeliveryController extends Controller
 {
@@ -49,6 +51,7 @@ class DeliveryController extends Controller
 
     public function deliver($job)
     {
+
         $user = Auth::user();
         $job = Job::find($job);
 
@@ -61,8 +64,14 @@ class DeliveryController extends Controller
         } else {
             $comments = [];
         }
+        if($delivery){
+                  $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
 
-        return view('admin.deliveries.create', compact('job', 'delivery', 'comments'));
+        }else{
+            $activities = null;
+        }
+
+        return view('admin.deliveries.create', compact('job', 'delivery', 'comments','activities'));
     }
 
     public function store(Request $request)
@@ -86,7 +95,7 @@ class DeliveryController extends Controller
                 'link' => $request->link,
                 'student_id' => Auth::user()->student->id,
             ]);
-
+            LogsTrait::logDelivery($delivery,0);
             // Si tiene comentarios los crea
             if ($request->comment) {
                 Comment::create([
@@ -96,6 +105,7 @@ class DeliveryController extends Controller
                 ]);
             }
         });
+
 
         session()->flash('message', 'Entrega creada');
 
@@ -109,6 +119,7 @@ class DeliveryController extends Controller
             $delivery->update([
                 'state' => $request->state
             ]);
+            LogsTrait::logDelivery($delivery,$request->state);
             session()->flash('messages', 'Entrega actualizada');
             return redirect()->route('job.deliveries', $request->id_job);
         } else {
@@ -127,6 +138,7 @@ class DeliveryController extends Controller
                 'file_path' => $nameFile,
                 'link' => $link
             ]);
+            LogsTrait::logDelivery($delivery,0);
             session()->flash('messages', 'Entrega actualizada');
             return redirect()->route('jobs.index', $delivery->job->subject->id);
         }

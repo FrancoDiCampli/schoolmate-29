@@ -9,32 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class Job extends Model
 {
-    use LogsActivity;
-    protected static $logName = 'jobs';
-    protected static $logAttributes = ['title','subject_id','state','type'];
-    protected static $recordEvents = ['created','updated'];
 
     protected $guarded = [];
 
-    protected $state = ['Borrador', 'Activa', 'Rechazado'];
-
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        switch ($eventName) {
-            case 'created':
-
-                $eventName = 'creada';
-                break;
-            case 'updated':
-                $eventName = 'actualizada';
-                break;
-            default:
-                # code...
-                break;
-        }
-
-        return "Tarea {$eventName}";
-    }
+    protected $state = ['Borrador', 'Activa', 'Revisar'];
 
 
     public function state($value)
