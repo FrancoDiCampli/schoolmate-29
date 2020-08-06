@@ -1,7 +1,6 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<script src='https://meet.jit.si/external_api.js'></script>
 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
 
     @if(count($subjects)>0)
@@ -45,30 +44,4 @@
         </div>
     @endif
 </div>
-
-
-
 @endsection
-
-@push('js')
-<script>
-    function iniciar(subject, fecha, user){
-        var usuario = JSON.parse(user);
-        var materia = JSON.parse(subject);
-        var container = document.getElementById('jitsi-container');
-        var domain = "meet.jit.si";
-        var options = {
-            "roomName": materia.name+'-'+fecha,
-            "parentNode": container,
-            "width": 800,
-            "height": 600,
-            userInfo: {
-                email: usuario.email,
-                displayName: usuario.name
-            }
-        };
-        api = new JitsiMeetExternalAPI(domain, options);
-    }
-
-</script>
-@endpush

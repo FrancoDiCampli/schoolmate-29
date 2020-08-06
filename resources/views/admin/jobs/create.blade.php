@@ -253,15 +253,16 @@
 
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-        if (extension[1] == 'mp4') {
-            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
-            let ancho = screen.width;
-            if (ancho <= 640) {
-                let marco = document.getElementById('viewer');
-                marco.setAttribute('height',200);
-                marco.setAttribute('width',270);
+
+        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
+        let aux = true;
+        tipos.forEach(element => {
+            if (extension[1].search(element) == 0) {
+                aux = false;
             }
-            toggleModal();
+        });
+        if (aux) {
+            limpiarVideo();
         }
     }
 

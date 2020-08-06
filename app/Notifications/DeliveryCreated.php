@@ -36,7 +36,9 @@ class DeliveryCreated extends Notification
     public function toDatabase($notifiable)
     {
         return new DatabaseMessage([
-            'message' => 'Nueva Entrega | ' . $this->delivery->student->name . ' | '. $this->delivery->job->title,
+            'message' => 'Nueva Entrega',
+            'student' => $this->delivery->student->name,
+            'subject' => $this->delivery->job->subject->name,
             'delivery_id' => $this->delivery->id
         ]);
     }
