@@ -221,7 +221,10 @@
         cad = cad.split('\\');
         let extension = cad[2].split('.');
         let selected = document.getElementById('selected');
-        selected.innerHTML = cad[2];
+
+        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('boton');
+
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
         if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
@@ -239,25 +242,63 @@
 
     function setNameVideo(){
         let fileVideoName = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+
+        if (fileVideoName.value.length > 0) {
+            if (link.value.length == 0) {
+                link.setAttribute('disabled', true);
+            }
+        } else {
+            link.removeAttribute('disabled');
+        }
+        
         var cad = fileVideoName.value;
         cad = cad.split('\\');
         let extension = cad[2].split('.');
-        console.log(extension)
         let selectedVideo = document.getElementById('selectedVideo');
-        selectedVideo.innerHTML = cad[2];
+
+        selectedVideo.innerHTML = cad[2] + ' ' +"<button id='botonVideo' type='button' onclick='limpiarVideo()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('botonVideo');
+
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-        if (extension[1] == 'mp4') {
-            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
-            let ancho = screen.width;
-            if (ancho <= 640) {
-                let marco = document.getElementById('viewer');
-                marco.setAttribute('height',200);
-                marco.setAttribute('width',270);
-            }
-            toggleModal();
-        }
 
+        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
+        let aux = true;
+        tipos.forEach(element => {
+            if (extension[1].search(element) == 0) {
+                aux = false;
+            }
+        });
+        if (aux) {
+            limpiarVideo();
+        }
+    }
+
+    function setLink(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        if (link.value.length > 0) {
+            if (video.value.length == 0) {
+                video.setAttribute('disabled', true);
+            }
+        } else {
+            video.removeAttribute('disabled');
+        }
+    }
+
+    function limpiarVideo(){
+        let video = document.getElementById('fileVideoName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selectedVideo');
+        selectedVideo.innerHTML = 'Seleccione un video';
+    }
+
+    function limpiarFile(){
+        let video = document.getElementById('fileName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selected');
+        selectedVideo.innerHTML = 'Seleccione un archivo';
     }
 </script>
 @endpush
