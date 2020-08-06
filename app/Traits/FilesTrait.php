@@ -9,7 +9,7 @@ trait FilesTrait
     public static function store($request, $ubicacion, $nombre)
     {
         $path = public_path($ubicacion);
-        if ($request->file) {
+        if ($request->hasFile('file')) {
             $nameFile = time() . '_' . $nombre . '.' . $request->file->getClientOriginalExtension();
             if ($request->file->getClientOriginalExtension() == 'jpg' || $request->file->getClientOriginalExtension() == 'png') {
                 $image = Image::make($request->file);
@@ -20,31 +20,32 @@ trait FilesTrait
             } else {
                 $request->file->move($path, $nameFile);
             }
-            return $ubicacion. '/' .$nameFile;
+            return $ubicacion . '/' . $nameFile;
         } else return null;
     }
 
     public static function update($request, $ubicacion, $nombre, $objeto)
     {
-        $path = public_path($ubicacion);
-        $nameFile = time() . '_' . $nombre . '.' . $request->file->getClientOriginalExtension();
-        $eliminar = $objeto->file_path;
-        if ($request->file->getClientOriginalExtension() == 'jpg' || $request->file->getClientOriginalExtension() == 'png') {
-            $image = Image::make($request->file);
-            $image->resize(1024, 768, function ($constraint) {
-                $constraint->upsize();
-            });
-            $image->save($path . '/' . $nameFile, 100);
-            if (file_exists($eliminar)) {
-                @unlink($eliminar);
+        if ($request->hasFile('file')) {
+            $path = public_path($ubicacion);
+            $nameFile = time() . '_' . $nombre . '.' . $request->file->getClientOriginalExtension();
+            $eliminar = $objeto->file_path;
+            if ($request->file->getClientOriginalExtension() == 'jpg' || $request->file->getClientOriginalExtension() == 'png') {
+                $image = Image::make($request->file);
+                $image->resize(1024, 768, function ($constraint) {
+                    $constraint->upsize();
+                });
+                $image->save($path . '/' . $nameFile, 100);
+                if (file_exists($eliminar)) {
+                    @unlink($eliminar);
+                }
+            } else {
+                $request->file->move($path, $nameFile);
+                if (file_exists($eliminar)) {
+                    @unlink($eliminar);
+                }
             }
-        } else{
-            $request->file->move($path, $nameFile);
-            if (file_exists($eliminar)) {
-                @unlink($eliminar);
-            }
-        }
-
-        return $ubicacion . '/' .$nameFile;
+            return $ubicacion . '/' . $nameFile;
+        } return $objeto->file_path;
     }
 }

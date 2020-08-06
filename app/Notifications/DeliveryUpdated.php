@@ -40,14 +40,20 @@ class DeliveryUpdated extends Notification
         switch ($this->modelo) {
             case 'Teacher':
                 return new DatabaseMessage([
-                    'message' => $this->message . ' | ' . $this->delivery->student->name . ' | ' . $this->delivery->job->title,
+                    'message' => $this->message,
+                    'student' => $this->delivery->student->name,
+                    'subject' => $this->delivery->job->subject->name,
+                    'job' => $this->delivery->job->title,
                     'delivery_id' => $this->delivery->id
                 ]);
                 break;
 
             case 'Student':
                 return new DatabaseMessage([
-                    'message' => $this->message . ' | ' . $this->delivery->student->name . ' | ' . $this->delivery->job->title,
+                    'message' => $this->message,
+                    'student' => $this->delivery->student->name,
+                    'subject' => $this->delivery->job->subject->name,
+                    'job' => $this->delivery->job->title,
                     'job_id' => $this->delivery->job_id
                 ]);
                 break;

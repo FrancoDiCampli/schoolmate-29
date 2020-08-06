@@ -44,23 +44,27 @@ class AppServiceProvider extends ServiceProvider
 
                 switch ($rol) {
                     case 'teacher':
-                        $noLeidas = auth()->user()->teacher->unreadNotifications()->get();
+                        $noLeidas = auth()->user()->teacher->unreadNotifications()->take(3)->get();
+                        $todas = auth()->user()->teacher->unreadNotifications()->get();
                         break;
 
                     case 'adviser':
-                        $noLeidas = auth()->user()->unreadNotifications()->get();
+                        $noLeidas = auth()->user()->unreadNotifications()->take(3)->get();
+                        $todas = auth()->user()->unreadNotifications()->get();
                         break;
 
                     case 'student':
-                        $noLeidas = auth()->user()->student->unreadNotifications()->get();
+                        $noLeidas = auth()->user()->student->unreadNotifications()->take(3)->get();
+                        $todas = auth()->user()->student->unreadNotifications()->get();
                         break;
 
                         default:
                         $noLeidas = [];
+                        $todas = [];
                         break;
                 }
 
-                $cant = count($noLeidas);
+                $cant = count($todas);
 
                 $view->with(['cant' => $cant, 'noLeidas' => $noLeidas]);
             }

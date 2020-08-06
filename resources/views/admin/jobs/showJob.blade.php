@@ -271,20 +271,22 @@
 <script>
     let aux = @json($file);
 
-    let tipos = ['png', 'jpg'];
+    if (aux) {
+        let tipos = ['png', 'jpg'];
 
-    let aux1 = 0;
+        let aux1 = 0;
 
-    tipos.forEach(element => {
-        if (aux.search(element) > 0) {
-            aux1 = aux.search(element);
-        }
-    });
+        tipos.forEach(element => {
+            if (aux.search(element) > 0) {
+                aux1 = aux.search(element);
+            }
+        });
 
-    if (aux1 == 0) {
-        document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
-    } else {
-        document.getElementById('viewer').setAttribute('src', aux);
+        if (aux1 == 0) {
+            document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+        } else {
+            document.getElementById('viewer').setAttribute('src', aux);
+        }   
     }
 
     let ancho = screen.width;

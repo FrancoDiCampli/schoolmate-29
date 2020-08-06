@@ -37,7 +37,10 @@ class JobUpdated extends Notification
     public function toDatabase($notifiable)
     {
         return new DatabaseMessage([
-            'message' => $this->message . ' | ' . $this->job->title .' | '.$this->job->subject->name,
+            'message' => $this->message,
+            'job' => $this->job->title,
+            'subject' => $this->job->subject->name,
+            'teacher' => $this->job->subject->teacher->name,
             'job_id' => $this->job->id
         ]);
     }
