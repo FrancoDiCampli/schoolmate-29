@@ -78,7 +78,7 @@
                     @if ($job->state($job->state) === "Borrador")
                         <span class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
-                    @if ($job->state($job->state) === "Rechazado")
+                    @if ($job->state($job->state) === "Revisar")
                         <span class="float-right rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
                     @endif
                     @if ($job->state($job->state) === "Activa")
@@ -101,11 +101,11 @@
                             <span class="bg-green-200 py-1 px-2 rounded-full text-green-800">{{$delivery->state($delivery->state)}}</span>
                                 @break
 
-                            @case("Por Corregir")
+                            @case("Aprobado")
                             <span class="bg-orange-200 py-1 px-2 rounded-full text-orange-800">{{$delivery->state($delivery->state)}}</span>
                                 @break
 
-                            @case("Desaprobado")
+                            @case("Rehacer")
                             <span class="bg-red-200 py-1 px-2 rounded-full text-red-800">{{$delivery->state($delivery->state)}}</span>
                                 @break
 

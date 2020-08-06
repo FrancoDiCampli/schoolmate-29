@@ -73,7 +73,7 @@
                     </button>
                     <div id="float-menu" class="hidden border bg-white absolute p-2 mt-8 text-sm w-auto top-10 right-0 shadow-lg
                     rounded-sm text-left">
-                        <a href="#" class="block py-2">Editar</a>
+                    <a href="{{route('posts.edit', $post)}}" class="block py-2">Editar</a>
 
                         <a href="" class="block py-2">Eliminar</a>
                     </div>

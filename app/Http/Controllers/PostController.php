@@ -6,6 +6,7 @@ use App\Post;
 use App\Subject;
 use App\Annotation;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -54,5 +55,25 @@ class PostController extends Controller
 
 
         return view('admin.posts.showPost', compact('post'));
+    }
+
+    public function edit(Post $post){
+
+        return view('admin.posts.edit', compact('post'));
+
+    }
+
+    public function update(Request $request, Post $post){
+
+        $postValidation = $request->validate([
+            'title'=> ['required', 'max:20', Rule::unique('posts')->ignore($post)],
+            'description'=>'required|max:120',
+            'content'=>'required'
+        ]);
+
+        $post->update($postValidation);
+
+        session()->flash('messages', 'Post actualizado');
+        return redirect()->route('posts.index', $post->subject->id);
     }
 }

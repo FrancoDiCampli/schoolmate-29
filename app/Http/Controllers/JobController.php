@@ -218,7 +218,14 @@ class JobController extends Controller
             NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
         }
 
-        return view('admin.jobs.delivery', compact('delivery','user', 'vid'));
+        if($delivery){
+            $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
+
+        }else{
+            $activities = null;
+        }
+
+        return view('admin.jobs.delivery', compact('delivery','user', 'vid', 'activities'));
     }
 
     public function test(){

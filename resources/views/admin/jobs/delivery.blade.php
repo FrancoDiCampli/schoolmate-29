@@ -135,9 +135,8 @@
                         <select onchange="setCode()"  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
                             <option disabled selected value> {{$delivery->state($delivery->state)}} </option>
                             <option value="0">En corrección</option>
-                            <option value="1">Por Corregir</option>
+                            <option value="1">Rehacer</option>
                             <option value="2">Aprobado</option>
-                            <option value="3">Desaprobado</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -150,11 +149,67 @@
         </form>
 
         {{-- Movimientos de la tarea --}}
-        <div class="border-t mt-6 flex py-6 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
+            <div class="border-b">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Historial de Entregas
-            </label>
+                </label>
+            </div>
+
+            <div>
+            @if ($activities)
+            <div class="card-body py-2 my-2">
+                <div class="overflow-x-auto">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
+                                <th class="px-1 py-2">Fecha</th>
+                                <th class="px-1 py-2">Actividad</th>
+                                <th class="px-1 py-2" >Actor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-normal text-gray-700">
+                            @foreach ($activities as $activity)
+                                <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
+                                    <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
+                                    <td class="px-1 py-2">{{$activity->description}}</td>
+                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+                @else
+                <div class="card w-full rounded-sm bg-gray-100 mx-auto mt-6 mb-4">
+                    <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
+                        <div class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                            <span class="text-blue-500">
+                                <svg fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    class="h-6 w-6">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="alert-content ml-4">
+                            <div class="alert-title font-semibold text-lg text-blue-800">
+                                Información
+                            </div>
+                            <div class="alert-description text-sm text-blue-600">
+                                Aún no hay ningún movimiento!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            </div>
         </div>
+        {{-- end log entrega --}}
 
         {{-- Comentarios --}}
         <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">
