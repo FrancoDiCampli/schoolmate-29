@@ -103,13 +103,18 @@
             {{$job->description}}
         </div>
 
-
+        {{-- Youtube --}}
+        <div class="flex justify-center p-2">
+            @if ($job->link)
+            <iframe id="player" type="text/html" width="600" height="400"
+                src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
+            @endif
+        </div>
 
         <div class="flex justify-center p-2">
-            {{-- Youtube --}}
-            {{-- <iframe height="600" width="800" src="{{$job->link}}"></iframe> --}}
-            {{-- <iframe id="viewer" height="600" width="800" src="{{asset($job->file_path)}}" frameborder="0"></iframe> --}}
-            <iframe id="" src="{{asset($job->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+            @if ($job->file_path)
+                <iframe id="viewerFile" height="600" width="800" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+            @endif
         </div>
 
         {{-- Movimientos de la tarea --}}
@@ -226,11 +231,11 @@
 
                 {{-- link de youtube --}}
                 <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-full px-6 md:mb-0 mb-6">
+                    <div class="w-full md:w-full md:mb-0 mb-6">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Link de Youtube (Opcional)
                         </label>
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
+                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
                         </span>
@@ -239,7 +244,7 @@
 
                 {{-- Agregando Video a Youtube  --}}
                 <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+                    <div class="w-full md:w-full md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Video
                         </label>
@@ -253,7 +258,7 @@
                                             <path
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Select a file</span>
+                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Seleccione un video</span>
                                         <input type='file' class="hidden" name="video" id="fileVideoName"
                                             onchange="setNameVideo()" />
                                     </label>
@@ -282,7 +287,7 @@
                                     <path
                                         d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                 </svg>
-                                <span class="mt-2 text-sm leading-normal" id="selected">Select a file</span>
+                                <span class="mt-2 text-sm leading-normal" id="selected">Seleccione un archivo</span>
                                 <input type='file' class="hidden" name="file" id="fileName"
                                     onchange="setName()" />
                             </label>
@@ -462,6 +467,41 @@
 
 @push('js')
 <script>
+    let aux = @json($file);
+
+    if (aux) {
+        let tipos = ['png', 'jpg'];
+
+        let aux1 = 0;
+
+        tipos.forEach(element => {
+            if (aux.search(element) > 0) {
+                aux1 = aux.search(element);
+            }
+        });
+
+        if (aux1 == 0) {
+            document.getElementById('viewerFile').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+        } else {
+            document.getElementById('viewerFile').setAttribute('src', aux);
+        }   
+    }
+
+    let ancho = screen.width;
+    if (ancho <= 640) {
+        let marco = document.getElementById('viewer');
+        marco.setAttribute('height',200);
+        marco.setAttribute('width',270);
+
+        let marco2 = document.getElementById('player');
+        marco2.setAttribute('height',200);
+        marco2.setAttribute('width',270);
+
+        let marco3 = document.getElementById('viewerFile');
+        marco2.setAttribute('height',200);
+        marco2.setAttribute('width',270);
+    }
+
     let comment = `<div class="">
                         <label for="">Comment</label>
                         <textarea name="comment" id="" cols="60" rows="5" class=""></textarea>
@@ -525,10 +565,13 @@
         cad = cad.split('\\');
         let extension = cad[2].split('.');
         let selected = document.getElementById('selected');
-        selected.innerHTML = cad[2];
+
+        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('boton');
+
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             let ancho = screen.width;
             if (ancho <= 640) {
@@ -542,24 +585,59 @@
     }
     function setNameVideo(){
         let fileVideoName = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+
         var cad = fileVideoName.value;
         cad = cad.split('\\');
         let extension = cad[2].split('.');
         let selectedVideo = document.getElementById('selectedVideo');
-        selectedVideo.innerHTML = cad[2];
+
+        selectedVideo.innerHTML = cad[2] + ' ' +"<button id='botonVideo' type='button' onclick='limpiarVideo()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('botonVideo');
+
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-        if (extension[1] == 'mp4') {
-            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
-            let ancho = screen.width;
-            if (ancho <= 640) {
-                let marco = document.getElementById('viewer');
-                marco.setAttribute('height',200);
-                marco.setAttribute('width',270);
-            }
-            toggleModal();
-        }
 
+        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
+        let aux = true;
+        tipos.forEach(element => {
+            if (extension[1].search(element) == 0) {
+                aux = false;
+            }
+        });
+        if (aux) {
+            limpiarVideo();
+        } else{
+            link.setAttribute('disabled', true);
+        }
+    }
+
+    function setLink(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        if (link.value.length > 0) {
+            if (video.value.length == 0) {
+                video.setAttribute('disabled', true);
+            }
+        } else {
+            video.removeAttribute('disabled');
+        }
+    }
+
+    function limpiarVideo(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        video.value = '';
+        let selectedVideo = document.getElementById('selectedVideo');
+        selectedVideo.innerHTML = 'Seleccione un video';
+        link.removeAttribute('disabled');
+    }
+
+    function limpiarFile(){
+        let video = document.getElementById('fileName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selected');
+        selectedVideo.innerHTML = 'Seleccione un archivo';
     }
 
     //Validación input comentario

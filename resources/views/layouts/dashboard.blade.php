@@ -93,7 +93,7 @@
                                 <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                 href="{{route('deliver', $item->data['job_id'])}}">
                                 <pre
-                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
                                 </a>
                             @endrole
 
