@@ -182,7 +182,12 @@ class JobController extends Controller
 
     public function destroy($id)
     {
-        //
+        $job = Job::find($id);
+        $subjectId =  $job->subject->id;
+        $job->delete();
+
+        session()->flash('messages', 'Tarea eliminada');
+        return redirect()->route('jobs.index', $subjectId);
     }
 
     public function descargar($job)

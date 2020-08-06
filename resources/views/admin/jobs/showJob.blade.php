@@ -67,7 +67,12 @@
                 rounded-sm text-left">
                     <a href="{{route('jobs.edit',$job->id)}}" class="block py-2">Editar</a>
 
-                    <a href="" class="block py-2">Eliminar</a>
+                <form action="{{route('jobs.destroy', $job->id)}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button href="" class="" class="">Eliminar</button>
+                </form>
+
                 </div>
             </div>
 
