@@ -24,7 +24,9 @@ class StoreDelivery extends FormRequest
     public function rules()
     {
         return [
-            'link' => 'nullable|regex:/^.+youtu.+$/i'
+            'link' => 'nullable|regex:/^.+youtu.+$/i',
+            'file' => 'nullable|file|mimes:pdf,pptx,docx,jpg,jpeg,png',
+            'video' => 'nullable|file|mimes:mov,mpeg4,mp4,avi,wmv,mpegps,flv,3gpp,webm,dnxhr,hevc',
         ];
     }
 }
