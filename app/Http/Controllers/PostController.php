@@ -66,7 +66,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post){
 
         $postValidation = $request->validate([
-            'title'=> ['required', 'max:20', Rule::unique('posts')->ignore($post)],
+            'title'=> ['required', 'max:40', Rule::unique('posts')->ignore($post)],
             'description'=>'required|max:120',
             'content'=>'required'
         ]);

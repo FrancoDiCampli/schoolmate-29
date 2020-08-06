@@ -67,7 +67,7 @@
                 @else
                 <div class="w-auto md:w-6/12">
                     <a href="{{route('jobs.showJob', $job->id)}}">
-                        <p class="md:text-md text-sm font-semibold text-gray-900 -mt-1 md:pt-0 pt-2 hover:text-primary-400">{{$job->title}} </p>
+                        <p class="md:text-md text-sm font-semibold text-gray-900 -mt-1 md:pt-0 pt-2 hover:text-primary-400 break-all">{{$job->title}} </p>
                     </a>
                     <p class="text-gray-700 font-light text-xs">Fecha limite: {{$job->end->format('d-m-Y')}} </p>
                 </div>

@@ -3,7 +3,8 @@
 
 
     </button>
-    <div class="md:pt-10 pb-10 px-6 pl-8">
+    <div class="md:pt-6 pb-10 px-6 pl-8">
+        <span class="text-white md:text-bluedark-400 font-semibold text-lg w-auto hidden md:block text-center mb-6 border border-gray-400 border-sm ">Secundaria</span>
 
         <a href='{{route("$user")}}' class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
             <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">

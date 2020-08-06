@@ -17,7 +17,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-            <form method="POST" action="{{ route('posts.store') }}" class="mx-auto" >
+            <form method="POST" action="{{ route('posts.store') }}" class="mx-auto" id="form2">
                 @csrf
                 <input hidden type="text" value="{{$subject->id}}" name="subject_id" >
                 <div class="flex flex-wrap my-5">
@@ -25,8 +25,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Título
                         </label>
-                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la publicación" value="">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <input type="text" id="tituloPost" onkeyup="setPost()" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la publicación" value="" maxlength="41" required>
+                        <span class="flex italic text-red-600  text-sm" role="alert" id="postTituloError">
                             {{$errors->first('title')}}
                         </span>
                     </div>
@@ -36,8 +36,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Descripción
                         </label>
-                        <input type="text" id="description" name="description" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Breve descripción de la publicación" value="">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <input type="text" id="description" onkeyup="setDescription()" name="description" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Breve descripción de la publicación" value="" maxlength="91" required>
+                        <span class="flex italic text-red-600  text-sm" role="alert" id="descriptionError">
                             {{$errors->first('description')}}
                         </span>
                     </div>
@@ -47,8 +47,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Contenido
                         </label>
-                        <textarea name="content" id="content" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Contenido de la publicación" value=""></textarea>
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <textarea name="content" id="content" onkeyup="contenido()" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Contenido de la publicación" value="" maxlength="3001" required></textarea>
+                        <span class="flex italic text-red-600  text-sm" role="alert" id="contentPostError">
                             {{$errors->first('content')}}
                         </span>
                     </div>
@@ -61,6 +61,65 @@
     </div>
 </div>
 
-
 @endsection
+
+@push('js')
+
+<script>
+
+    const postTitulo = document.getElementById('tituloPost');
+    const description = document.getElementById('description');
+    const contentPost = document.getElementById('content');
+
+
+    // seteos validatios
+    function setPost(){
+        if (postTitulo.value.length > 40){
+            document.getElementById("postTituloError").innerHTML = "No puede tener más de 40 caracteres";
+            postTitulo.classList.add("form-input-error")
+        }
+        if (postTitulo.value.length < 41){
+            document.getElementById("postTituloError").innerHTML = ""
+            postTitulo.classList.remove("form-input-error")
+        }
+        if (postTitulo.value.length <= 4){
+            document.getElementById("postTituloError").innerHTML = "Debe tener al menos 5 caracteres"
+            postTitulo.classList.add("form-input-error")
+        }
+    }
+
+    function setDescription(){
+        if (description.value.length > 80){
+            document.getElementById("descriptionError").innerHTML = "No puede tener más de 90 caracteres";
+            description.classList.add("form-input-error")
+        }
+        if (description.value.length < 91){
+            document.getElementById("descriptionError").innerHTML = ""
+            description.classList.remove("form-input-error")
+        }
+        if (description.value.length <= 19){
+            document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
+            description.classList.add("form-input-error")
+        }
+    }
+
+    function contenido(){
+        if (contentPost.value.length > 3000){
+            document.getElementById("contentPostError").innerHTML = "No puede tener más de 3000 caracteres";
+            contentPost.classList.add("form-input-error")
+        }
+        if (contentPost.value.length <= 3000){
+            document.getElementById("contentPostError").innerHTML = ""
+            contentPost.classList.remove("form-input-error")
+        }
+        if (contentPost.value.length <= 20){
+            document.getElementById("contentPostError").innerHTML = "Debe tener al menos 20 caracteres"
+            contentPost.classList.add("form-input-error")
+        }
+    }
+
+
+</script>
+
+@endpush
 

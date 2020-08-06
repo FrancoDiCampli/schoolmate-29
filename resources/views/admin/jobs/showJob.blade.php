@@ -36,7 +36,7 @@
             </div>
             <div class="flex w-full">
                 <div class="w-2/3">
-                    <h1 class="font-semibold text-gray-800 text-lg">
+                    <h1 class="font-semibold text-gray-800 text-lg break-all">
                         {{$job->title}}
                     </h1>
                     <div class="text-sm text-gray-700">
@@ -286,7 +286,7 @@
             document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
         } else {
             document.getElementById('viewer').setAttribute('src', aux);
-        }   
+        }
     }
 
     let ancho = screen.width;

@@ -41,7 +41,7 @@
             <div class="">
                 <h1 class="text-bluedark-400 font-rubik text-2xl ml-12 mr-10 w-auto hidden md:block">Félix<span
                         class="font-semibold">Frías</span></h1>
-                <span class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">UEP N°
+                <span class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">UEGP N°
                     28</span>
             </div>
 
@@ -120,11 +120,20 @@
 
                     {{-- <h2 class="text-sm font-medium text-gray-800 m-2">{{auth()->user()->name}} </h2> --}}
                     <p class="tooltip z-50">
+                        @role('teacher|student')
+                        @if(auth()->user()->$user->photo)
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
-                            src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        src="{{asset(auth()->user()->$user->photo)}}"
                             alt="avatar">
+                        @else
+                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                        src="{{asset('img/avatar/user.png')}}"
+                            alt="avatar">
+                        @endif
+                        @endrole
                         <span
                             class="tooltip-text hidden md:block bg-gray-600 m-2 -mx-24 absolute text-center text-xs p-1 text-white rounded-md shadow-md">{{Auth::user()->name}}</span>
+
                     </p>
 
                 </div>

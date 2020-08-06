@@ -57,7 +57,9 @@
         <div class="card my-2 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto">
             <div class=" w-full flex relative items-center ">
                 <div class="p-2">
-                    <img class="w-10 h-10 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                    <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                        src="{{asset($post->user->teacher->photo)}}"
+                            alt="avatar">
                 </div>
 
                 <div class="w-9/12">

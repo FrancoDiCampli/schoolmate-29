@@ -23,7 +23,9 @@
     <div class="card bg-white rounded-sm w-full md:w-10/12 p-4 shadow-lg">
         <div class=" w-full flex relative items-center border-b">
             <div class="p-2">
-                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                        src="{{asset($post->user->teacher->photo)}}"
+                            alt="avatar">
             </div>
 
             <div class="w-9/12">
@@ -70,7 +72,7 @@
         @foreach ($post->annotations as $annotation)
             <div class=" w-full flex relative items-center mt-3">
                 <div class="p-2">
-                    <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                    <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
                 </div>
 
                 <div class="w-full">
