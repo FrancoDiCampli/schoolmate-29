@@ -26,7 +26,8 @@ class StoreJob extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'link' => 'nullable|url',
+            // 'link' => 'nullable|url',
+            'link' => 'nullable|regex:/^.+youtu.+$/i',
             'file' => 'nullable|file|mimes:pdf,pptx,docx,jpg,jpeg,png',
             'start' => 'date',
             'end' => 'date|after_or_equal:' . $this->start,
