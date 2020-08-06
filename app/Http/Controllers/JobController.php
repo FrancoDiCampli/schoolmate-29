@@ -186,6 +186,14 @@ class JobController extends Controller
     {
         $job = Job::find($id);
         $subjectId =  $job->subject->id;
+
+        $job->deliveries;
+
+        if (count($job->deliveries) > 0) {
+            session()->flash('errores', 'No se puede eliminar, posee entregas');
+            return redirect()->route('jobs.index', $subjectId);
+        }
+
         $job->delete();
 
         session()->flash('messages', 'Tarea eliminada');
