@@ -45,9 +45,18 @@
                     28</span>
             </div>
 
-
-            <div class=" w-full flex relative items-center text-right float-right justify-end ">
+            <div class=" w-full flex relative items-center text-right float-right justify-end">
                 <div class="p-2 flex absolute">
+                    <div class="pt-1">
+                        @role('admin')
+                        <span class="text-r text-gray-700">Administrador</span>
+                        @endrole
+                        @role('adviser')
+                        <span class="text-r text-gray-700">Asesor</span>
+                        @endrole
+
+                    </div>
+
                     @if ($cant)
 
                     <button id="boton"
@@ -71,6 +80,7 @@
                     @endif
                     </div>
                     @endif
+
 
                       {{-- notificaciones --}}
                     <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
@@ -99,7 +109,7 @@
 
                             @role('teacher')
                                 @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
-                                    <a class="rounded text-white font-bold p-1"
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500"
                                     href="{{route('job.delivery', $item->data['delivery_id'])}}">
                                     <pre
                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
