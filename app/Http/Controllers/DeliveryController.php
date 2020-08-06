@@ -39,10 +39,14 @@ class DeliveryController extends Controller
     {
         $user = Auth::user()->student->id;
         $jobs = Job::where('subject_id', $id)->get();
-        $deliveries =  Delivery::where('job_id', $jobs->modelkeys())->get();
+
+        $subject = Subject::find($id);
+
+        $deliveries =  Delivery::whereIn('job_id', $jobs->modelkeys())->get();
+
         $deliveries->where('student_id', $user);
 
-        return view('admin.deliveries.index', compact('deliveries'));
+        return view('admin.deliveries.index', compact('deliveries', 'subject'));
     }
 
     public function descargar($job)

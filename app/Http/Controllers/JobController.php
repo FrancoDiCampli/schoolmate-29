@@ -184,7 +184,12 @@ class JobController extends Controller
 
     public function destroy($id)
     {
-        //
+        $job = Job::find($id);
+        $subjectId =  $job->subject->id;
+        $job->delete();
+
+        session()->flash('messages', 'Tarea eliminada');
+        return redirect()->route('jobs.index', $subjectId);
     }
 
     public function descargar($job)
@@ -220,7 +225,14 @@ class JobController extends Controller
             NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
         }
 
-        return view('admin.jobs.delivery', compact('delivery','user', 'vid'));
+        if($delivery){
+            $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
+
+        }else{
+            $activities = null;
+        }
+
+        return view('admin.jobs.delivery', compact('delivery','user', 'vid', 'activities'));
     }
 
     public function test(){

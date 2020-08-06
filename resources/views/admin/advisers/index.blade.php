@@ -26,7 +26,7 @@
             <div class="flex w-full">
                 <div class="w-2/3">
                     <h1 class="font-semibold text-gray-800 text-lg uppercase">
-                        TAREAS EN {{$title}}
+                        TAREAS EN ESTADO {{$title}}
                     </h1>
                     <div class="text-sm text-gray-700">
                         {{count($jobs)}} Tareas por revisar
@@ -35,7 +35,19 @@
             </div>
 
             <div class="w-auto text-right ml-2">
-                <p onclick="toogleFm()" class="bg-gray-600 rounded-full p-3"></p>
+                @switch($title)
+                    @case("Borrador")
+                        <p class="bg-gray-600 rounded-full p-3"></p>
+                        @break
+                    @case("Activas")
+                    <p class="bg-green-600 rounded-full p-3"></p>
+                    @case("Rechazadas")
+                    <p class="bg-red-600 rounded-full p-3"></p>
+                        @break
+                    @default
+
+                @endswitch
+
             </div>
         </div>
 

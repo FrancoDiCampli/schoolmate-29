@@ -242,7 +242,7 @@
         } else {
             link.removeAttribute('disabled');
         }
-        
+
         var cad = fileVideoName.value;
         cad = cad.split('\\');
         let extension = cad[2].split('.');

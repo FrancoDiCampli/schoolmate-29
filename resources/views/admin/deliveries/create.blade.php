@@ -42,10 +42,10 @@
                     @if ($delivery->state($delivery->state) === "En corrección")
                     <span class="bg-gray-200 text-gray-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
                     @endif
-                    @if ($delivery->state($delivery->state) === "Por Corregir")
+                    {{-- @if ($delivery->state($delivery->state) === "Por Corregir")
                     <span class="bg-orange-200 text-orange-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
-                    @endif
-                    @if ($delivery->state($delivery->state) === "Desaprobado")
+                    @endif --}}
+                    @if ($delivery->state($delivery->state) === "Rehacer")
                     <span class="bg-red-200 text-red-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
                 @endif
 
@@ -113,14 +113,41 @@
         </div>
 
         {{-- Movimientos de la tarea --}}
-        <div class="border-t mt-6 flex py-6 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
-            {{-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
+            <div class="border-b">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Historial de Entregas
-            </label> --}}
+                </label>
+            </div>
 
             <div>
             @if ($activities)
-                <table class="table">
+            <div class="card-body py-2 my-2">
+                <div class="overflow-x-auto">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
+                                <th class="px-1 py-2">Fecha</th>
+                                <th class="px-1 py-2">Actividad</th>
+                                <th class="px-1 py-2" >Actor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-normal text-gray-700">
+                            @foreach ($activities as $activity)
+                                <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
+                                    <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
+                                    <td class="px-1 py-2">{{$activity->description}}</td>
+                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+                {{-- viejo --}}
+                {{-- <table class="table">
                    <thead>
                     <tr>
                         <th>Fecha</th>
@@ -144,9 +171,31 @@
                         @endforeach
 
                    </tbody>
-                </table>
+                </table> --}}
                 @else
-                <h1>No hay registros de las entregas</h1>
+                <div class="card w-full rounded-sm bg-gray-100 mx-auto mt-6 mb-4">
+                    <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
+                        <div class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                            <span class="text-blue-500">
+                                <svg fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    class="h-6 w-6">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="alert-content ml-4">
+                            <div class="alert-title font-semibold text-lg text-blue-800">
+                                Información
+                            </div>
+                            <div class="alert-description text-sm text-blue-600">
+                                Aún no hay ningún movimiento!
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endif
             </div>
         </div>
@@ -154,8 +203,8 @@
 
 
         {{-- file entrega --}}
-        <div class="flex flex-wrap my-5">
-            <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+        <div class="flex flex-wrap my-5 border">
+            <div class="w-full md:w-full px-6 md:mb-0 mb-1 py-4">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                   Subir Archivo Adjunto
                 </label>
@@ -268,11 +317,11 @@
         </div>
         @endif
 
-        <button type="submit" class="flex mx-auto btn btn-primary">Entregar</button>
+        <button type="submit" class="flex mx-auto btn btn-primary mb-10">Entregar</button>
         </form>
 
          {{-- Comentarios --}}
-        <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">
+        <div class="border-t mt-3 flex pt-6 text-gray-700 text-sm">
             <svg fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-1" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
             </svg>
