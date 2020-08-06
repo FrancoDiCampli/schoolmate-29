@@ -87,11 +87,13 @@
                             @endrole
 
                             @role('teacher')
-                                <a class="rounded text-white font-bold p-1"
-                                href="{{route('job.delivery', $item->data['delivery_id'])}}">
-                                <pre
-                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
-                                </a>
+                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
+                                    <a class="rounded text-white font-bold p-1"
+                                    href="{{route('job.delivery', $item->data['delivery_id'])}}">
+                                    <pre
+                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                    </a>
+                                @endif
                             @endrole
 
                         </div>

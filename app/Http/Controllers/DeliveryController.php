@@ -7,6 +7,8 @@ use Youtube;
 use App\Comment;
 use App\Subject;
 use App\Delivery;
+use App\Http\Requests\StoreDelivery;
+use App\Http\Requests\UpdateDelivery;
 use Carbon\Carbon;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
@@ -74,7 +76,7 @@ class DeliveryController extends Controller
         return view('admin.deliveries.create', compact('job', 'delivery', 'comments','activities'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDelivery $request)
     {
         DB::transaction(function () use ($request) {
             $link = $request->link;
@@ -112,7 +114,7 @@ class DeliveryController extends Controller
         return redirect()->route('student');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateDelivery $request, $id)
     {
         $delivery = Delivery::find($id);
         if (Auth::user()->roles()->first()->name == 'teacher') {
