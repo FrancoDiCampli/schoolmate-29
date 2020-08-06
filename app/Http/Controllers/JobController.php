@@ -116,8 +116,10 @@ class JobController extends Controller
         $job = Job::find($id);
         $job->comments;
         $vid = substr($job->link, -11);
-        $file = url($job->file_path);
-
+        if ($job->file_path) {
+            $file = url($job->file_path);
+        } else $file = '';
+        
         if (Auth::user()->roles()->first()->name == 'adviser') {
             NotificationsTrait::adviserMarkAsRead($id);
         } else {
