@@ -87,6 +87,7 @@
                             @endrole
 
                             @role('teacher')
+
                                 <a class="rounded text-white font-bold p-1"
                                 href="{{route('job.delivery', $item->data['delivery_id'])}}">
                                 <pre
