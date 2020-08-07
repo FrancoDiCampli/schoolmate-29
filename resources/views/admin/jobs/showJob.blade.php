@@ -9,11 +9,22 @@
         <p class="text-md text-primary-500 font-semibold">{{$job->subject->name}}</p>
         <p class="text-sm text-primary-400">{{$job->subject->course->name}}</p>
     </div>
+
+    @role('teacher')
     <div>
           <a href="{{route('jobs.index', $job->subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
           </a>
     </div>
+    @endrole
+
+    @role('adviser')
+    <div>
+        <a href="{{url()->previous()}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
+        </a>
+    </div>
+    @endrole
 </div>
 
 {{-- card --}}
@@ -37,7 +48,7 @@
             @if ($job->state($job->state) === "Borrador")
             <span class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
             @endif
-            @if ($job->state($job->state) === "Rechazado")
+            @if ($job->state($job->state) === "Revisar")
                 <span class="float-right rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
             @endif
             @if ($job->state($job->state) === "Activa")
@@ -56,7 +67,12 @@
                 rounded-sm text-left">
                     <a href="{{route('jobs.edit',$job->id)}}" class="block py-2">Editar</a>
 
-                    <a href="" class="block py-2">Eliminar</a>
+                <form action="{{route('jobs.destroy', $job->id)}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button href="" class="" class="">Eliminar</button>
+                </form>
+
                 </div>
             </div>
 
@@ -67,7 +83,7 @@
             @if ($job->state($job->state) === "Borrador")
             <span class="rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
             @endif
-            @if ($job->state($job->state) === "Rechazado")
+            @if ($job->state($job->state) === "Revisar")
                 <span class="rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
             @endif
             @if ($job->state($job->state) === "Activa")
@@ -86,7 +102,7 @@
         <div class="flex justify-center p-2">
              {{-- Youtube --}}
              @if ($job->link)
-             <iframe id="player" type="text/html" width="640" height="360"
+             <iframe id="player" type="text/html" width="800" height="600"
                  src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
              @endif
         </div>
@@ -94,9 +110,9 @@
         @if ($job->file_path)
             <div class="flex justify-center p-2 mt-2">
                 <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
-            </div>    
+            </div>
         @endif
-        
+
 
         {{-- Select del asesor  --}}
         @role('adviser')
@@ -115,7 +131,7 @@
                                 <option disabled selected value> {{$job->state($job->state)}} </option>
                                 <option value="0">Borrador</option>
                                 <option value="1">Activa</option>
-                                <option value="2">Rechazado</option>
+                                <option value="2">Revisar</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -128,36 +144,67 @@
             </form>
         @endrole
 
-        {{-- Log de tareas  --}}
-        <div>
-            <h1>Log de Tareas</h1>
-            <table class="table">
-               <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Actividad</th>
-                    <th>Usuario</th>
-                    <th>Test</th>
 
-                </tr>
+        {{-- Movimientos de la tarea --}}
+        <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
+            <div class="border-b">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                Historial de Entregas
+                </label>
+            </div>
 
-               </thead>
-               <tbody>
-                @foreach ($activities as $activity)
-                <tr>
-                    <td>{{$activity->created_at}}</td>
-                    <td>{{$activity->description}}</td>
-                    <td>{{$activity->causer->name}}</td>
-                    <td>
-                        {{$job->state($job->state)}}
-                    </td>
-                </tr>
+            <div>
+            @if ($activities)
+            <div class="card-body py-2 my-2">
+                <div class="overflow-x-auto">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
+                                <th class="px-1 py-2">Fecha</th>
+                                <th class="px-1 py-2">Actividad</th>
+                                <th class="px-1 py-2" >Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-normal text-gray-700">
+                            @foreach ($activities as $activity)
+                                <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
+                                    <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
+                                    <td class="px-1 py-2">{{$activity->description}}</td>
+                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                </tr>
+                            @endforeach
 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                @endforeach
-               </tbody>
-            </table>
-
+                @else
+                <div class="card w-full rounded-sm bg-gray-100 mx-auto mt-6 mb-4">
+                    <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
+                        <div class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                            <span class="text-blue-500">
+                                <svg fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    class="h-6 w-6">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="alert-content ml-4">
+                            <div class="alert-title font-semibold text-lg text-blue-800">
+                                Información
+                            </div>
+                            <div class="alert-description text-sm text-blue-600">
+                                Aún no hay ningún movimiento!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            </div>
         </div>
 
         {{-- end log de tareas  --}}
@@ -206,13 +253,6 @@
                 </div>
             </form>
         </div>
-
-
-
-
-
-
-
     </div>
 </div>
 
@@ -224,20 +264,22 @@
 <script>
     let aux = @json($file);
 
-    let tipos = ['png', 'jpg'];
+    if (aux) {
+        let tipos = ['png', 'jpg'];
 
-    let aux1 = 0;
+        let aux1 = 0;
 
-    tipos.forEach(element => {
-        if (aux.search(element) > 0) {
-            aux1 = aux.search(element);
-        }
-    });
+        tipos.forEach(element => {
+            if (aux.search(element) > 0) {
+                aux1 = aux.search(element);
+            }
+        });
 
-    if (aux1 == 0) {
-        document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
-    } else {
-        document.getElementById('viewer').setAttribute('src', aux);
+        if (aux1 == 0) {
+            document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+        } else {
+            document.getElementById('viewer').setAttribute('src', aux);
+        }   
     }
 
     let ancho = screen.width;

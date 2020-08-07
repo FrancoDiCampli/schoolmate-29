@@ -48,6 +48,8 @@
 
             <div class=" w-full flex relative items-center text-right float-right justify-end ">
                 <div class="p-2 flex absolute">
+                    @if ($cant)
+
                     <button id="boton"
                         class="rounded-full hover:bg-gray-400 focus:shadow-md focus:outline-none md:mr-4 hidden md:flex">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" class="w-6 h-6 m-2">
@@ -60,46 +62,68 @@
                             {{$cant}}</p>
                         @endif
                     </button>
+                    @else
+                    <div class="mx-4 mr-4 items-center pt-1 rounded-full text-bluedark-500 hover:text-gray-600 focus:shadow-md focus:outline-none hidden md:flex">
+                    <svg aria-hidden="true" data-prefix="far" data-icon="bell-slash" class="w-8 h-8 svg-inline--fa fa-bell-slash fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M633.99 471.02L36 3.51C29.1-2.01 19.03-.9 13.51 6l-10 12.49C-2.02 25.39-.9 35.46 6 40.98l598 467.51c6.9 5.52 16.96 4.4 22.49-2.49l10-12.49c5.52-6.9 4.41-16.97-2.5-22.49zM163.53 368c16.71-22.03 34.48-55.8 41.4-110.58l-45.47-35.55c-3.27 90.73-36.47 120.68-54.84 140.42-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h279.66l-61.4-48H163.53zM320 96c61.86 0 112 50.14 112 112 0 .2-.06.38-.06.58.02 16.84 1.16 31.77 2.79 45.73l59.53 46.54c-8.31-22.13-14.34-51.49-14.34-92.85 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84c-26.02 5.41-49.45 16.94-69.13 32.72l38.17 29.84C275 103.18 296.65 96 320 96zm0 416c35.32 0 63.97-28.65 63.97-64H256.03c0 35.35 28.65 64 63.97 64z"/></svg>
+                    @if ($cant > 0)
+                    <p class="absolute bg-red-600 justify-center rounded-full px-1 mr-4 text-white text-xs">
+                        {{$cant}}</p>
+                    @endif
+                    </div>
+                    @endif
 
                       {{-- notificaciones --}}
                     <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
-                        <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex m-1"
+                        <div class="p-2 border-b border-gray-200 hover:bg-gray-100 w-full items-center text-blue-700 leading-none flex lg:inline-flex"
                             role="alert">
 
                             @hasanyrole('teacher|adviser')
                                 @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
-                                    <a class="rounded text-white font-bold p-1"
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                     href="{{route('jobs.showJob', $item->data['job_id'])}}">
                                     <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
                                     </a>
                                 @endif
                             @endhasanyrole
 
                             @role('student')
-                                <a class="rounded text-white font-bold p-1"
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                 href="{{route('deliver', $item->data['job_id'])}}">
                                 <pre
-                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
                                 </a>
                             @endrole
 
                             @role('teacher')
+<<<<<<< HEAD
 
                                 <a class="rounded text-white font-bold p-1"
                                 href="{{route('job.delivery', $item->data['delivery_id'])}}">
                                 <pre
                                     class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}}</pre>
                                 </a>
+=======
+                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
+                                    <a class="rounded text-white font-bold p-1"
+                                    href="{{route('job.delivery', $item->data['delivery_id'])}}">
+                                    <pre
+                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
+                                    </a>
+                                @endif
+>>>>>>> 44b605c9c7adfd4c60ede288a8c403f98058cb38
                             @endrole
 
                         </div>
                         @endforeach
 
-                        <a href="{{route('notifications')}}"
-                            class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a>
+                        {{-- <a href="{{route('notifications')}}"
+                            class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a> --}}
+                            <div class="p-2 justify-center w-full items-center text-blue-700 leading-none flex lg:inline-flex">
+                                <a href="{{route('notifications')}}" class="text-sm text-gray-700 hover:bg-bluedark-500 hover:text-white p-2">Ver más </a>
+                            </div>
                     </div>
 
 

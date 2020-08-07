@@ -50,7 +50,10 @@ class JobCreated extends Notification
     public function toDatabase($notifiable)
     {
         return new DatabaseMessage([
-            'message' => 'Nueva Tarea | ' . $this->job->title .' | '.$this->job->subject->name,
+            'message' => 'Nueva Tarea',
+            'job' => $this->job->title,
+            'subject' => $this->job->subject->name,
+            'teacher' => $this->job->subject->teacher->name,
             'job_id' => $this->job->id
         ]);
     }

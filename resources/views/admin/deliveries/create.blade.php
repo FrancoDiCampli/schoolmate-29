@@ -42,10 +42,10 @@
                     @if ($delivery->state($delivery->state) === "En corrección")
                     <span class="bg-gray-200 text-gray-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
                     @endif
-                    @if ($delivery->state($delivery->state) === "Por Corregir")
+                    {{-- @if ($delivery->state($delivery->state) === "Por Corregir")
                     <span class="bg-orange-200 text-orange-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
-                    @endif
-                    @if ($delivery->state($delivery->state) === "Desaprobado")
+                    @endif --}}
+                    @if ($delivery->state($delivery->state) === "Rehacer")
                     <span class="bg-red-200 text-red-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
                 @endif
 
@@ -103,24 +103,56 @@
             {{$job->description}}
         </div>
 
-
+        {{-- Youtube --}}
+        <div class="flex justify-center p-2">
+            @if ($job->link)
+            <iframe id="player" type="text/html" width="600" height="400"
+                src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
+            @endif
+        </div>
 
         <div class="flex justify-center p-2">
-            {{-- Youtube --}}
-            {{-- <iframe height="600" width="800" src="{{$job->link}}"></iframe> --}}
-            {{-- <iframe id="viewer" height="600" width="800" src="{{asset($job->file_path)}}" frameborder="0"></iframe> --}}
-            <iframe id="" src="{{asset($job->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+            @if ($job->file_path)
+                <iframe id="viewerFile" height="600" width="800" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+            @endif
         </div>
 
         {{-- Movimientos de la tarea --}}
-        <div class="border-t mt-6 flex py-6 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
-            {{-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
+            <div class="border-b">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Historial de Entregas
-            </label> --}}
+                </label>
+            </div>
 
             <div>
             @if ($activities)
-                <table class="table">
+            <div class="card-body py-2 my-2">
+                <div class="overflow-x-auto">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
+                                <th class="px-1 py-2">Fecha</th>
+                                <th class="px-1 py-2">Actividad</th>
+                                <th class="px-1 py-2" >Actor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-normal text-gray-700">
+                            @foreach ($activities as $activity)
+                                <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
+                                    <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
+                                    <td class="px-1 py-2">{{$activity->description}}</td>
+                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+                {{-- viejo --}}
+                {{-- <table class="table">
                    <thead>
                     <tr>
                         <th>Fecha</th>
@@ -144,9 +176,31 @@
                         @endforeach
 
                    </tbody>
-                </table>
+                </table> --}}
                 @else
-                <h1>No hay registros de las entregas</h1>
+                <div class="card w-full rounded-sm bg-gray-100 mx-auto mt-6 mb-4">
+                    <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
+                        <div class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                            <span class="text-blue-500">
+                                <svg fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    class="h-6 w-6">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="alert-content ml-4">
+                            <div class="alert-title font-semibold text-lg text-blue-800">
+                                Información
+                            </div>
+                            <div class="alert-description text-sm text-blue-600">
+                                Aún no hay ningún movimiento!
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endif
             </div>
         </div>
@@ -154,8 +208,8 @@
 
 
         {{-- file entrega --}}
-        <div class="flex flex-wrap my-5">
-            <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+        <div class="flex flex-wrap my-5 border">
+            <div class="w-full md:w-full px-6 md:mb-0 mb-1 py-4">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                   Subir Archivo Adjunto
                 </label>
@@ -177,11 +231,11 @@
 
                 {{-- link de youtube --}}
                 <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-full px-6 md:mb-0 mb-6">
+                    <div class="w-full md:w-full md:mb-0 mb-6">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Link de Youtube (Opcional)
                         </label>
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video">
+                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
                         </span>
@@ -190,7 +244,7 @@
 
                 {{-- Agregando Video a Youtube  --}}
                 <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-full px-6 md:mb-0 mb-1">
+                    <div class="w-full md:w-full md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Video
                         </label>
@@ -204,7 +258,7 @@
                                             <path
                                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                         </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Select a file</span>
+                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Seleccione un video</span>
                                         <input type='file' class="hidden" name="video" id="fileVideoName"
                                             onchange="setNameVideo()" />
                                     </label>
@@ -233,7 +287,7 @@
                                     <path
                                         d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                 </svg>
-                                <span class="mt-2 text-sm leading-normal" id="selected">Select a file</span>
+                                <span class="mt-2 text-sm leading-normal" id="selected">Seleccione un archivo</span>
                                 <input type='file' class="hidden" name="file" id="fileName"
                                     onchange="setName()" />
                             </label>
@@ -268,11 +322,11 @@
         </div>
         @endif
 
-        <button type="submit" class="flex mx-auto btn btn-primary">Entregar</button>
+        <button type="submit" class="flex mx-auto btn btn-primary mb-10">Entregar</button>
         </form>
 
          {{-- Comentarios --}}
-        <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">
+        <div class="border-t mt-3 flex pt-6 text-gray-700 text-sm">
             <svg fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-1" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
             </svg>
@@ -413,6 +467,41 @@
 
 @push('js')
 <script>
+    let aux = @json($file);
+
+    if (aux) {
+        let tipos = ['png', 'jpg'];
+
+        let aux1 = 0;
+
+        tipos.forEach(element => {
+            if (aux.search(element) > 0) {
+                aux1 = aux.search(element);
+            }
+        });
+
+        if (aux1 == 0) {
+            document.getElementById('viewerFile').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+        } else {
+            document.getElementById('viewerFile').setAttribute('src', aux);
+        }   
+    }
+
+    let ancho = screen.width;
+    if (ancho <= 640) {
+        let marco = document.getElementById('viewer');
+        marco.setAttribute('height',200);
+        marco.setAttribute('width',270);
+
+        let marco2 = document.getElementById('player');
+        marco2.setAttribute('height',200);
+        marco2.setAttribute('width',270);
+
+        let marco3 = document.getElementById('viewerFile');
+        marco2.setAttribute('height',200);
+        marco2.setAttribute('width',270);
+    }
+
     let comment = `<div class="">
                         <label for="">Comment</label>
                         <textarea name="comment" id="" cols="60" rows="5" class=""></textarea>
@@ -476,10 +565,13 @@
         cad = cad.split('\\');
         let extension = cad[2].split('.');
         let selected = document.getElementById('selected');
-        selected.innerHTML = cad[2];
+
+        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('boton');
+
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             let ancho = screen.width;
             if (ancho <= 640) {
@@ -493,24 +585,59 @@
     }
     function setNameVideo(){
         let fileVideoName = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+
         var cad = fileVideoName.value;
         cad = cad.split('\\');
         let extension = cad[2].split('.');
         let selectedVideo = document.getElementById('selectedVideo');
-        selectedVideo.innerHTML = cad[2];
+
+        selectedVideo.innerHTML = cad[2] + ' ' +"<button id='botonVideo' type='button' onclick='limpiarVideo()' class='btn-delete'>X</button>";
+        let botoncito = document.getElementById('botonVideo');
+
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-        if (extension[1] == 'mp4') {
-            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
-            let ancho = screen.width;
-            if (ancho <= 640) {
-                let marco = document.getElementById('viewer');
-                marco.setAttribute('height',200);
-                marco.setAttribute('width',270);
-            }
-            toggleModal();
-        }
 
+        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
+        let aux = true;
+        tipos.forEach(element => {
+            if (extension[1].search(element) == 0) {
+                aux = false;
+            }
+        });
+        if (aux) {
+            limpiarVideo();
+        } else{
+            link.setAttribute('disabled', true);
+        }
+    }
+
+    function setLink(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        if (link.value.length > 0) {
+            if (video.value.length == 0) {
+                video.setAttribute('disabled', true);
+            }
+        } else {
+            video.removeAttribute('disabled');
+        }
+    }
+
+    function limpiarVideo(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        video.value = '';
+        let selectedVideo = document.getElementById('selectedVideo');
+        selectedVideo.innerHTML = 'Seleccione un video';
+        link.removeAttribute('disabled');
+    }
+
+    function limpiarFile(){
+        let video = document.getElementById('fileName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selected');
+        selectedVideo.innerHTML = 'Seleccione un archivo';
     }
 
     //Validación input comentario

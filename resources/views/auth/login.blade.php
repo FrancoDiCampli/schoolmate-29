@@ -23,16 +23,16 @@
                 </a>
 
             </div>
-                <h3 class="pt-12 lg:pt-32 text-2xl text-center text-primary-400 font-montserrat font-bold">Welcome Schoolmate!</h3>
+                <h3 class="pt-12 lg:pt-32 text-2xl text-center text-primary-400 font-montserrat font-bold">Bienvenido a Schoolmate!</h3>
                 <form method="POST" action="{{ route('login') }}" class="px-8 md:px-12 lg:px-12 xl:px-24 pt-6 pb-8 mb-4 bg-white rounded">
                     @csrf
                     <div class="mb-4 relative">
                         <input class="input border-b border-gray-400 appearance-none w-full px-3 py-3 pt-5 pb-2 focus focus:border-primary-400 focus:outline-none active:outline-none active:border-indigo-600"
-                            placeholder="dni" id="dni" type="text" name="dni" required>
+                            placeholder="Usuario (DNI sin puntos)" id="dni" type="text" name="dni" required>
 
                     </div>
                     <div class="mb-4 relative">
-                        <input class="input border-b border-gray-400 appearance-none w-full px-3 py-3 pt-5 pb-2 focus focus:border-primary-400 focus:outline-none active:outline-none active:border-indigo-600" placeholder="Password" id="password" type="password" name="password" required>
+                        <input class="input border-b border-gray-400 appearance-none w-full px-3 py-3 pt-5 pb-2 focus focus:border-primary-400 focus:outline-none active:outline-none active:border-indigo-600" placeholder="Contraseña" id="password" type="password" name="password" required>
 
                     </div>
 
@@ -51,7 +51,7 @@
                     <div class="mb-4">
                         <input class="mr-2 leading-tight" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="text-sm" for="remember">
-                            Remember Me
+                            Recordar
                         </label>
                     </div>
                     <div class="mb-6 text-center">
@@ -59,18 +59,18 @@
                             class="btn btn-primary w-full"
                             type="submit"
                         >
-                            Sign In
+                            Ingresar
                         </button>
                     </div>
                     <hr class="mb-6 border-t" />
 
-                    <div class="text-center">
+                    {{-- <div class="text-center">
                         @if (Route::has('password.request'))
                         <a class="btn btn-link inline-block text-sm text-blue-500 align-baseline hover:text-blue-800" href="{{ route('password.request') }}">
                             {{ __('Forgot Your Password?') }}
                         </a>
                          @endif
-                    </div>
+                    </div> --}}
 
                 </form>
             </div>

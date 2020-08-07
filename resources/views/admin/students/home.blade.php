@@ -2,41 +2,6 @@
 
 @section('content')
 
-    {{-- <div class="flex flex-wrap">
-        <div class="w-full mx-2 text-white card bg-gradient-green rounded-sm font-montserrat md:w-5/12 flex p-5 justify-between mt-5 items-center">
-                <div>
-                    <svg aria-hidden="true" data-prefix="fas" data-icon="clipboard-list"
-                        class="h-12 w-12 svg-inline--fa fa-clipboard-list fa-w-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M336 64h-80c0-35.3-28.7-64-64-64s-64 28.7-64 64H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM96 424c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm0-96c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm0-96c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm96-192c13.3 0 24 10.7 24 24s-10.7 24-24 24-24-10.7-24-24 10.7-24 24-24zm128 368c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16zm0-96c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16zm0-96c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16z"/></svg>
-                </div>
-            <div class="text-right">
-                <h1 class="text-sm">Tareas Pendientes</h1>
-                <a href="{{route('deliveries.pendings')}}">
-                        <span>{{$jobs->count()}}</span>
-                </a>
-            </div>
-
-        </div>
-
-        <div class="w-full mx-2 text-white card bg-gradient-red rounded-sm font-montserrat md:w-5/12 flex p-5 justify-between mt-5 items-center">
-
-            <div>
-                <svg aria-hidden="true" data-prefix="fas" data-icon="briefcase"
-                    class="h-12 w-12 svg-inline--fa fa-briefcase fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M320 336c0 8.84-7.16 16-16 16h-96c-8.84 0-16-7.16-16-16v-48H0v144c0 25.6 22.4 48 48 48h416c25.6 0 48-22.4 48-48V288H320v48zm144-208h-80V80c0-25.6-22.4-48-48-48H176c-25.6 0-48 22.4-48 48v48H48c-25.6 0-48 22.4-48 48v80h512v-80c0-25.6-22.4-48-48-48zm-144 0H192V96h128v32z"/></svg>
-            </div>
-            <div class="text-right">
-
-                <h1 class="text-sm">Entregas</h1>
-
-            <a href="">
-                    <span>{{$deliveries->count()}}</span>
-                </a>
-
-            </div>
-
-        </div>
-    </div> --}}
-
-
     {{-- Nuevo index alumnos --}}
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
 
@@ -80,7 +45,7 @@
                             </p> --}}
 
                         <div class="w-3/12 flex justify-end">
-                            <a href="{{route('jobs.index', $subject->id)}}">
+                            <a href="{{route('deliveries.subject',$subject)}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 36 36" width="32px"><path d="M8.377 31.833c6.917 0 11.667 3.583 15 3.583S33.71 33.5 33.71 18.167 24.293.583 20.627.583c-17.167 0-24.5 31.25-12.25 31.25z" fill="#efefef" data-original="#EFEFEF"/><path d="M20.25 9.75h-2v1a1 1 0 01-1 1h-5.5a1 1 0 01-1-1v-1h-2c-1.1 0-2 .9-2 2v12.5c0 1.1.9 2 2 2h11.5c1.1 0 2-.9 2-2v-12.5c0-1.1-.9-2-2-2z" fill="#f3f3f1" data-original="#F3F3F1"/><path d="M18.25 8.75v2a1 1 0 01-1 1h-5.5a1 1 0 01-1-1v-2h1.75c0-1.1.9-2 2-2s2 .9 2 2zM21.532 28.72l-3.005.53.53-3.005 7.425-7.425c.391-.391.847-.567 1.237-.177l1.237 1.237a.999.999 0 010 1.414z" fill="#2c84c7" data-original="#2FDF84" data-old_color="#2fdf84"/><path d="M20.5 10.75v-.975c-.083-.011-.164-.025-.25-.025h-2v1a1 1 0 01-1 1h2.25a1 1 0 001-1zM9 24.25v-12.5c0-1.014.768-1.849 1.75-1.975V9.75h-2c-1.1 0-2 .9-2 2v12.5c0 1.1.9 2 2 2H11c-1.1 0-2-.9-2-2z" fill="#d5dbe1" data-original="#D5DBE1"/><path d="M13 10.75v-2h1.75c0-.683.348-1.289.875-1.65a1.984 1.984 0 00-1.125-.35c-1.1 0-2 .9-2 2h-1.75v2a1 1 0 001 1H14a1 1 0 01-1-1zM21.308 26.245l7.007-7.007-.595-.595c-.391-.391-.847-.214-1.237.177l-7.425 7.425-.53 3.005 2.322-.41z" fill="#216294" data-original="#00B871" class="active-path" data-old_color="#00b871"/><path d="M18.527 30a.748.748 0 01-.738-.88l.53-3.005a.746.746 0 01.208-.4l7.425-7.425c.913-.913 1.808-.668 2.298-.177l1.237 1.237a1.75 1.75 0 010 2.475l-7.425 7.425a.746.746 0 01-.4.208l-3.005.53a.715.715 0 01-.13.012zm1.228-3.392l-.303 1.717 1.717-.303 7.258-7.258a.25.25 0 000-.354l-1.228-1.228c-.01.019-.086.066-.187.167zM16.01 27H8.75A2.752 2.752 0 016 24.25v-12.5A2.752 2.752 0 018.75 9h1.88v1.5H8.75c-.689 0-1.25.561-1.25 1.25v12.5c0 .689.561 1.25 1.25 1.25h7.26zM23 18.81h-1.5v-7.06c0-.689-.561-1.25-1.25-1.25h-1.87V9h1.87A2.752 2.752 0 0123 11.75z" data-original="#000000"/><path d="M17.25 12.5h-5.5c-.965 0-1.75-.785-1.75-1.75v-2a.75.75 0 01.75-.75h1.104c.328-1.153 1.39-2 2.646-2s2.318.847 2.646 2h1.104a.75.75 0 01.75.75v2c0 .965-.785 1.75-1.75 1.75zm-5.75-3v1.25c0 .138.112.25.25.25h5.5a.25.25 0 00.25-.25V9.5h-1a.75.75 0 01-.75-.75c0-.689-.561-1.25-1.25-1.25s-1.25.561-1.25 1.25a.75.75 0 01-.75.75zM9.75 14h9.5v1.5h-9.5zM9.75 17h9.5v1.5h-9.5zM9.75 20h9.5v1.5h-9.5z" data-original="#000000"/><path d="M28.314 14.78c-.827 0-1.5-.673-1.5-1.5s.673-1.5 1.5-1.5 1.5.673 1.5 1.5-.672 1.5-1.5 1.5zm0-2c-.275 0-.5.225-.5.5s.225.5.5.5.5-.225.5-.5-.224-.5-.5-.5zM16.375 3.25h2v1h-2zM10.625 3.25h2v1h-2zM14.125 0h1v2h-1z" fill="#a4afc1" data-original="#A4AFC1"/></svg>
                             </a>
                         </div>
@@ -91,9 +56,29 @@
         @endforeach
 
         @else
-            <div>
-                <h1>No posee materias asignadas</h1>
+        <div class="card md:w-10/12 rounded-sm bg-gray-100 mx-auto mt-6 mb-4 shadow-lg">
+            <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
+                <div class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                    <span class="text-blue-500">
+                        <svg fill="currentColor"
+                            viewBox="0 0 20 20"
+                            class="h-6 w-6">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </div>
+                <div class="alert-content ml-4">
+                    <div class="alert-title font-semibold text-lg text-blue-800">
+                        Información
+                    </div>
+                    <div class="alert-description text-sm text-blue-600">
+                        Aún no hay materias asignadas!
+                    </div>
+                </div>
             </div>
+        </div>
         @endif
     </div>
 

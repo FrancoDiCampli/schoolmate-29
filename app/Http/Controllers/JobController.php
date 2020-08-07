@@ -116,8 +116,10 @@ class JobController extends Controller
         $job = Job::find($id);
         $job->comments;
         $vid = substr($job->link, -11);
-        $file = url($job->file_path);
-
+        if ($job->file_path) {
+            $file = url($job->file_path);
+        } else $file = '';
+        
         if (Auth::user()->roles()->first()->name == 'adviser') {
             NotificationsTrait::adviserMarkAsRead($id);
         } else {
@@ -182,7 +184,20 @@ class JobController extends Controller
 
     public function destroy($id)
     {
-        //
+        $job = Job::find($id);
+        $subjectId =  $job->subject->id;
+
+        $job->deliveries;
+
+        if (count($job->deliveries) > 0) {
+            session()->flash('errores', 'No se puede eliminar, posee entregas');
+            return redirect()->route('jobs.index', $subjectId);
+        }
+
+        $job->delete();
+
+        session()->flash('messages', 'Tarea eliminada');
+        return redirect()->route('jobs.index', $subjectId);
     }
 
     public function descargar($job)
@@ -218,7 +233,14 @@ class JobController extends Controller
             NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
         }
 
-        return view('admin.jobs.delivery', compact('delivery','user', 'vid'));
+        if($delivery){
+            $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
+
+        }else{
+            $activities = null;
+        }
+
+        return view('admin.jobs.delivery', compact('delivery','user', 'vid', 'activities'));
     }
 
     public function test(){

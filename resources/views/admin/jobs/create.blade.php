@@ -219,7 +219,7 @@
 
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             let ancho = screen.width;
             if (ancho <= 640) {
@@ -242,7 +242,7 @@
         } else {
             link.removeAttribute('disabled');
         }
-        
+
         var cad = fileVideoName.value;
         cad = cad.split('\\');
         let extension = cad[2].split('.');
@@ -253,15 +253,18 @@
 
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-        if (extension[1] == 'mp4') {
-            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
-            let ancho = screen.width;
-            if (ancho <= 640) {
-                let marco = document.getElementById('viewer');
-                marco.setAttribute('height',200);
-                marco.setAttribute('width',270);
+
+        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
+        let aux = true;
+        tipos.forEach(element => {
+            if (extension[1].search(element) == 0) {
+                aux = false;
             }
-            toggleModal();
+        });
+        if (aux) {
+            limpiarVideo();
+        } else{
+            link.setAttribute('disabled', true);
         }
     }
 
@@ -279,9 +282,11 @@
 
     function limpiarVideo(){
         let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
         video.value = '';
         let selectedVideo = document.getElementById('selectedVideo');
         selectedVideo.innerHTML = 'Seleccione un video';
+        link.removeAttribute('disabled');
     }
 
     function limpiarFile(){

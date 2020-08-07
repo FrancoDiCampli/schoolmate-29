@@ -7,6 +7,8 @@ use Youtube;
 use App\Comment;
 use App\Subject;
 use App\Delivery;
+use App\Http\Requests\StoreDelivery;
+use App\Http\Requests\UpdateDelivery;
 use Carbon\Carbon;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
@@ -37,10 +39,14 @@ class DeliveryController extends Controller
     {
         $user = Auth::user()->student->id;
         $jobs = Job::where('subject_id', $id)->get();
-        $deliveries =  Delivery::where('job_id', $jobs->modelkeys())->get();
+
+        $subject = Subject::find($id);
+
+        $deliveries =  Delivery::whereIn('job_id', $jobs->modelkeys())->get();
+
         $deliveries->where('student_id', $user);
 
-        return view('admin.deliveries.index', compact('deliveries'));
+        return view('admin.deliveries.index', compact('deliveries', 'subject'));
     }
 
     public function descargar($job)
@@ -54,6 +60,10 @@ class DeliveryController extends Controller
 
         $user = Auth::user();
         $job = Job::find($job);
+        $vid = substr($job->link, -11);
+        if ($job->file_path) {
+            $file = url($job->file_path);
+        } else $file = '';
 
         NotificationsTrait::studentMarkAsRead('job_id', $job->id);
 
@@ -71,10 +81,10 @@ class DeliveryController extends Controller
             $activities = null;
         }
 
-        return view('admin.deliveries.create', compact('job', 'delivery', 'comments','activities'));
+        return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments','activities'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDelivery $request)
     {
         DB::transaction(function () use ($request) {
             $link = $request->link;
@@ -112,7 +122,7 @@ class DeliveryController extends Controller
         return redirect()->route('student');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateDelivery $request, $id)
     {
         $delivery = Delivery::find($id);
         if (Auth::user()->roles()->first()->name == 'teacher') {
