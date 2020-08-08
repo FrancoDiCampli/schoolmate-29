@@ -65,19 +65,21 @@
                     <p class="text-gray-700 font-light text-xs">{{$post->created_at->format('d-m-Y H:i')}} </p>
                 </div>
 
-                <div class="w-3/12 text-right">
-                    <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
-                        <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
-                        class=" h-4 w-4  svg-inline--fa fa-ellipsis-v fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/></svg>
+                @role('teacher')
+                    <div class="w-3/12 text-right">
+                        <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
+                            class=" h-4 w-4  svg-inline--fa fa-ellipsis-v fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/></svg>
 
-                    </button>
-                    <div id="float-menu" class="hidden border bg-white absolute p-2 mt-8 text-sm w-auto top-10 right-0 shadow-lg
-                    rounded-sm text-left">
-                    <a href="{{route('posts.edit', $post)}}" class="block py-2">Editar</a>
+                        </button>
+                        <div id="float-menu" class="hidden border bg-white absolute p-2 mt-8 text-sm w-auto top-10 right-0 shadow-lg
+                        rounded-sm text-left">
+                        <a href="{{route('posts.edit', $post)}}" class="block py-2">Editar</a>
 
-                        <a href="" class="block py-2">Eliminar</a>
+                            <a href="" class="block py-2">Eliminar</a>
+                        </div>
                     </div>
-                </div>
+                @endrole
             </div>
 
             <div class="flex justify-between items-center px-2">

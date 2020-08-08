@@ -89,19 +89,16 @@
         <div class="flex justify-center p-2">
             {{-- Youtube --}}
             @if ($delivery->link)
-            <iframe id="player" type="text/html" width="640" height="360"
+            <iframe id="player" type="text/html" width="800" height="600"
                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
             @endif
        </div>
 
-        @if ($delivery->file_path)
-            <div class="flex justify-center p-2">
-                {{-- Youtube --}}
-                {{-- <iframe height="600" width="800" src="{{$job->link}}"></iframe> --}}
-                {{-- <iframe id="viewer" height="600" width="800" src="{{asset($job->file_path)}}" frameborder="0"></iframe> --}}
-                <iframe id="viewer" src="{{asset($delivery->file_path)}}" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
-            </div>
-        @endif
+       @if ($delivery->file_path)
+           <div class="flex justify-center p-2 mt-2">
+               <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
+           </div>
+       @endif
 
 
         <form action="{{route('delivery.update', $delivery->id)}}" method="POST">
@@ -250,5 +247,37 @@
     </div>
 </div>
 
-
 @endsection
+
+@push('js')
+    <script>
+        let aux = @json($file);
+        if (aux) {
+            let tipos = ['png', 'jpg'];
+
+            let aux1 = 0;
+
+            tipos.forEach(element => {
+                if (aux.search(element) > 0) {
+                    aux1 = aux.search(element);
+                }
+            });
+
+            if (aux1 == 0) {
+                document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+            } else {
+                document.getElementById('viewer').setAttribute('src', aux);
+            }   
+        }
+        let ancho = screen.width;
+        if (ancho <= 640) {
+            let marco = document.getElementById('viewer');
+            marco.setAttribute('height',200);
+            marco.setAttribute('width',270);
+
+            let marco2 = document.getElementById('player');
+            marco2.setAttribute('height',200);
+            marco2.setAttribute('width',270);
+        }
+    </script>
+@endpush

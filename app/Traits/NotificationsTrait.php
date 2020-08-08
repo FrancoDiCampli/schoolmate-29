@@ -8,6 +8,7 @@ use App\Notifications\JobCreated;
 use App\Notifications\JobUpdated;
 use App\Notifications\DeliveryCreated;
 use App\Notifications\DeliveryUpdated;
+use App\Notifications\PostCreated;
 use App\Student;
 
 trait NotificationsTrait
@@ -46,6 +47,14 @@ trait NotificationsTrait
             case 'App\Delivery':
                 $student = Student::find($object->student_id);
                 $student->notify(new DeliveryUpdated($object, 'Revisar Entrega', 'Student'));
+                break;
+
+            case 'App\Post':
+                $matriculas = $object->subject->course->enrollments;
+                $matriculas->map(function ($item) use ($object) {
+                    $student = $item->student;
+                    $student->notify(new PostCreated($object));
+                });
                 break;
         }
     }
