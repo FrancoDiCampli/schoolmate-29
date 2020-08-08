@@ -15,13 +15,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('role:student')->only('student');
-        $this->middleware('role:teacher')->only('teacher');
-        $this->middleware('role:adviser')->only('adviser');
-    }
-
     public function home()
     {
         return view('home');

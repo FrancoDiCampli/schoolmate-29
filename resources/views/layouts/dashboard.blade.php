@@ -27,8 +27,8 @@
         <div class="loader2"></div>
     </div>
 
-    <main id="app" class="">
-        <div class="top-navbar w-full mx-auto flex items-center  bg-gray-200 p-3 border-b border-gray-400">
+    <main id="app" class="">   
+        <div class="top-navbar w-full mx-auto flex items-center  bg-gray-200 p-3 border-b border-gray-400"> {{-- agregar fixed --}}
             @php
             // Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol
             $user = auth()->user()->roles()->first()->name;
@@ -84,22 +84,36 @@
                                     <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                     href="{{route('jobs.showJob', $item->data['job_id'])}}">
                                     <pre
-                class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
                                     </a>
                                 @endif
                             @endhasanyrole
 
                             @role('student')
+                                @if ($item->type == 'App\Notifications\JobCreated')
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                        href="{{route('deliver', $item->data['job_id'])}}">
+                                        <pre
+                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    </a>
+                                @elseif($item->type == 'App\Notifications\PostCreated')
                                 <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                href="{{route('deliver', $item->data['job_id'])}}">
-                                <pre
+                                    href="{{route('posts.show', $item->data['post_id'])}}">
+                                    <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['post']}}</pre>
+                                </a>
+                                @else
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                    href="{{route('deliver', $item->data['job_id'])}}">
+                                    <pre
                                     class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
                                 </a>
+                                @endif
                             @endrole
 
                             @role('teacher')
                                 @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
-                                    <a class="rounded text-white font-bold p-1"
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                     href="{{route('job.delivery', $item->data['delivery_id'])}}">
                                     <pre
                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
@@ -152,10 +166,10 @@
             </div>
         </div>
 
-        <div class="mx-full flex min-h-screen  relative">
+        <div class="mx-full flex min-h-screen  relative"> {{-- relative se va --}}
             @include('partials.sidebar')
 
-            <div class="main-content md:w-10/12 w-10/12 mx-10">
+            <div class="main-content md:w-10/12 w-10/12 mx-10"> {{-- agregar mt-20 --}}
 
                 {{-- Mensaje de sesion --}}
                 <div class="container">
@@ -204,7 +218,7 @@
 
                     @endif
                 </div>
-
+                
                 @yield('content')
 
             </div>

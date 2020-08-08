@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected  $fillable = ['title', 'description', 'content'];
+    protected  $fillable = ['title', 'description', 'subject_id', 'content', 'user_id'];
 
-    protected $guarded = [];
+    // protected $guarded = [];
 
     public function annotations()
     {
