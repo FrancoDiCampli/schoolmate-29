@@ -149,7 +149,7 @@
         <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
             <div class="border-b">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                Historial de Entregas
+                Movimientos de la Tarea
                 </label>
             </div>
 
@@ -170,7 +170,7 @@
                                 <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
                                     <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
                                     <td class="px-1 py-2">{{$activity->description}}</td>
-                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                    <td class="px-1 py-2 mt-1">{{$activity->causer->name}}</td>
                                 </tr>
                             @endforeach
 

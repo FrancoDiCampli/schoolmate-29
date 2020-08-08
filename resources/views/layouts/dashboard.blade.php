@@ -83,7 +83,7 @@
 
 
                       {{-- notificaciones --}}
-                    <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
+                    {{-- <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 border-b border-gray-200 hover:bg-gray-100 w-full items-center text-blue-700 leading-none flex lg:inline-flex"
@@ -118,7 +118,7 @@
                             @endrole
 
                         </div>
-                        @endforeach
+                        @endforeach --}}
 
                         {{-- <a href="{{route('notifications')}}"
                             class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a> --}}

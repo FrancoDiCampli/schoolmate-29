@@ -16,7 +16,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" id="form" >
+        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" >
                 @csrf
 
                 <input hidden type="text" name="subject" id="" value="{{$subject->id}}">
@@ -26,8 +26,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Título
                         </label>
-                        <input type="text" id="title" name="title" onkeyup="setTitle()" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('title') }}" maxlength="41">
-                        <span class="flex italic text-red-600  text-sm" role="alert" id="titleError">
+                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('title') }}">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('title')}}
                         </span>
                     </div>
@@ -38,8 +38,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Descripción/Instrucciones
                         </label>
-                        <textarea name="description" id="description" onkeyup="setDescription()" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value="" maxlength="3001">{{ old('description') }}</textarea>
-                        <span class="flex italic text-red-600  text-sm" role="alert" id="descriptionError">
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value="">{{ old('description') }}</textarea>
+                        <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('description')}}
                         </span>
                     </div>
@@ -51,7 +51,7 @@
                           Fecha de Inicio
                         </label>
                         <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
-                        <span class="flex italic text-red-600  text-sm" role="alert" id="startError">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('start')}}
                         </span>
                     </div>
@@ -63,7 +63,7 @@
                           Fecha Límite de Entrega
                         </label>
                         <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
-                        <span class="flex italic text-red-600  text-sm" role="alert" id="endError">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('end')}}
                         </span>
                     </div>
@@ -75,7 +75,7 @@
                           Link de Youtube (Opcional)
                         </label>
                         <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
-                        <span class="flex italic text-red-600  text-sm" role="alert" id="endError">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
                         </span>
                     </div>
@@ -85,7 +85,7 @@
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full px-6 md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Subir Video (Opcional)
+                          Video
                         </label>
                         <div class="relative">
                             <div class="overflow-hidden relative w-auto mt-4 mb-4">
@@ -115,7 +115,7 @@
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full px-6 md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Adjuntar archivo (Opcional)
+                          File
                         </label>
                         <div class="relative">
                             <div class="overflow-hidden relative w-auto mt-4 mb-4">
@@ -219,7 +219,7 @@
 
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+        if (extension[1] == 'pdf' || extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             let ancho = screen.width;
             if (ancho <= 640) {
@@ -253,18 +253,15 @@
 
         fileDocumentVideo = document.getElementById("fileVideoName").files[0];
         fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-
-        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
-        let aux = true;
-        tipos.forEach(element => {
-            if (extension[1].search(element) == 0) {
-                aux = false;
+        if (extension[1] == 'mp4') {
+            document.getElementById('viewer').setAttribute('src', fileDocumentVideo_url);
+            let ancho = screen.width;
+            if (ancho <= 640) {
+                let marco = document.getElementById('viewer');
+                marco.setAttribute('height',200);
+                marco.setAttribute('width',270);
             }
-        });
-        if (aux) {
-            limpiarVideo();
-        } else{
-            link.setAttribute('disabled', true);
+            toggleModal();
         }
     }
 
@@ -282,11 +279,9 @@
 
     function limpiarVideo(){
         let video = document.getElementById('fileVideoName');
-        let link = document.getElementById('link');
         video.value = '';
         let selectedVideo = document.getElementById('selectedVideo');
         selectedVideo.innerHTML = 'Seleccione un video';
-        link.removeAttribute('disabled');
     }
 
     function limpiarFile(){
@@ -294,117 +289,6 @@
         video.value = '';
         let selectedVideo = document.getElementById('selected');
         selectedVideo.innerHTML = 'Seleccione un archivo';
-    }
-
-
-
-    //Validaciones const
-    const form = document.getElementById("form")
-    const title = document.getElementById("title")
-    const description = document.getElementById("description")
-    const fileName = document.getElementById("fileName")
-    const file = document.getElementById("file")
-    const start = document.getElementById("start")
-    const end = document.getElementById("end")
-    const titleError = document.getElementById("titleError")
-    const descriptionError = document.getElementById("descriptionError")
-    const startError = document.getElementById("startError")
-    const endError = document.getElementById("endError")
-
-
-    // formulario validation
-    form.addEventListener("submit", e=>{
-
-        titleError.innerHTML = ""
-        descriptionError.innerHTML = ""
-        startError.innerHTML = ""
-        endError.innerHTML = ""
-
-        // title
-        if (title.value.length >= 40){
-            document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
-            title.classList.add("form-input-error")
-        }
-        if (title.value.length < 41){
-            document.getElementById("titleError").innerHTML = ""
-            title.classList.remove("form-input-error")
-        }
-        if (title.value.length < 6){
-            document.getElementById("titleError").innerHTML = "Debe tener al menos 5 caracteres"
-            title.classList.add("form-input-error")
-        }
-
-        // description
-        if (description.value.length > 3000){
-            e.preventDefault()
-            document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
-            description.className = 'form-input form-input-error w-full block'
-        }
-        if (description.value.length === 0){
-            e.preventDefault()
-            document.getElementById("descriptionError").innerHTML = "El campo es obligatorio"
-            description.className = 'form-input form-input-error w-full block'
-        }
-        if (description.value.length < 20){
-            document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
-            description.classList.add("form-input-error")
-        }
-
-        // fecha start
-        if (start.value.length <= 0){
-            e.preventDefault()
-            document.getElementById("startError").innerHTML = "La fecha es requerida"
-            start.classList.add("form-input-error")
-        } else{
-            start.classList.remove("form-input-error")
-        }
-
-        // fecha end
-        if (end.value.length <= 0){
-            e.preventDefault()
-            document.getElementById("endError").innerHTML = "La fecha es requerida"
-            end.classList.add("form-input-error")
-        } else{
-            end.classList.remove("form-input-error")
-        }
-
-    })
-    //end  formulario validation
-
-
-    // set title validation
-    function setTitle(){
-        if (title.value.length > 40){
-            document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
-            title.classList.add("form-input-error")
-        }
-        if (title.value.length < 41){
-            document.getElementById("titleError").innerHTML = ""
-            title.classList.remove("form-input-error")
-        }
-        if (title.value.length <= 4){
-            document.getElementById("titleError").innerHTML = "Debe tener al menos 5 caracteres"
-            title.classList.add("form-input-error")
-        }
-    }
-
-    // set description validation
-    function setDescription(){
-        if (description.value.length > 3000){
-            document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
-            description.classList.add("form-input-error")
-        }
-        if (description.value.length <= 3000){
-            document.getElementById("descriptionError").innerHTML = ""
-            description.classList.remove("form-input-error")
-        }
-        if (description.value.length < 20){
-            document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
-            description.classList.add("form-input-error")
-        }
-
-    // end validation
-
     }
 </script>
 @endpush

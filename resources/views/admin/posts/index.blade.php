@@ -57,9 +57,15 @@
         <div class="card my-2 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto">
             <div class=" w-full flex relative items-center ">
                 <div class="p-2">
-                    <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                @if($post->user->teacher->photo)
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
                         src="{{asset($post->user->teacher->photo)}}"
                             alt="avatar">
+                @else
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                src="{{asset('img/avatar/user.png')}}"
+                    alt="avatar">
+                @endif
                 </div>
 
                 <div class="w-9/12">

@@ -30,6 +30,7 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
+        // return $request;
         $sub = Subject::where('id',$request->subject_id)->get();
 
         Post::create([
