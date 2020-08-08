@@ -11,16 +11,14 @@
             @role('teacher|student')
             @if(auth()->user()->$user->photo)
             <img class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden"
-            src="{{asset(auth()->user()->$user->photo)}}"
-                alt="avatar">
+            src="{{asset(auth()->user()->$user->photo)}}">
             @else
             <img class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden"
-            src="{{asset('img/avatar/user.png')}}"
-                alt="avatar">
+            src="{{asset('img/avatar/user.png')}}"                >
             @endif
             @endrole
-            <span class="mx-2 hidden md:block pt-2 md:hidden">{{Auth::user()->name}}</span>
-        </a>
+            <span class="mx-2 hidden md:block pt-2">{{Auth::user()->name}}</span>
+    <div class="md:pt-10 pb-10 px-6 pl-8 "> {{-- agregar md:fixed mt-20 --}}
 
         @php
         // Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol

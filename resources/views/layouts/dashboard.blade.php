@@ -28,7 +28,7 @@
     </div>
 
     <main id="app" class="">
-        <div class="top-navbar w-full mx-auto flex items-center  bg-gray-200 p-3 border-b border-gray-400">
+        <div class="top-navbar w-full mx-auto flex items-center  bg-gray-200 p-3 border-b border-gray-400"> {{-- agregar fixed --}}
             @php
             // Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol
             $user = auth()->user()->roles()->first()->name;
@@ -41,22 +41,13 @@
             <div class="">
                 <h1 class="text-bluedark-400 font-rubik text-2xl ml-12 mr-10 w-auto hidden md:block">Félix<span
                         class="font-semibold">Frías</span></h1>
-                <span class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">UEGP N°
+                <span class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">UEP N°
                     28</span>
             </div>
 
-            <div class=" w-full flex relative items-center text-right float-right justify-end">
+
+            <div class=" w-full flex relative items-center text-right float-right justify-end ">
                 <div class="p-2 flex absolute">
-                    <div class="pt-1">
-                        @role('admin')
-                        <span class="text-r text-gray-700">Administrador</span>
-                        @endrole
-                        @role('adviser')
-                        <span class="text-r text-gray-700">Asesor</span>
-                        @endrole
-
-                    </div>
-
                     @if ($cant)
 
                     <button id="boton"
@@ -81,9 +72,8 @@
                     </div>
                     @endif
 
-
                       {{-- notificaciones --}}
-                    {{-- <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
+                    <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
                         <div class="p-2 border-b border-gray-200 hover:bg-gray-100 w-full items-center text-blue-700 leading-none flex lg:inline-flex"
@@ -94,22 +84,36 @@
                                     <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                     href="{{route('jobs.showJob', $item->data['job_id'])}}">
                                     <pre
-                class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
                                     </a>
                                 @endif
                             @endhasanyrole
 
                             @role('student')
+                                @if ($item->type == 'App\Notifications\JobCreated')
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                        href="{{route('deliver', $item->data['job_id'])}}">
+                                        <pre
+                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    </a>
+                                @elseif($item->type == 'App\Notifications\PostCreated')
                                 <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                href="{{route('deliver', $item->data['job_id'])}}">
-                                <pre
+                                    href="{{route('posts.show', $item->data['post_id'])}}">
+                                    <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['post']}}</pre>
+                                </a>
+                                @else
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                    href="{{route('deliver', $item->data['job_id'])}}">
+                                    <pre
                                     class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
                                 </a>
+                                @endif
                             @endrole
 
                             @role('teacher')
                                 @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
-                                    <a class="rounded text-gray-600 hover:text-bluedark-500"
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                     href="{{route('job.delivery', $item->data['delivery_id'])}}">
                                     <pre
                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
@@ -118,7 +122,7 @@
                             @endrole
 
                         </div>
-                        @endforeach --}}
+                        @endforeach
 
                         {{-- <a href="{{route('notifications')}}"
                             class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a> --}}
@@ -130,20 +134,11 @@
 
                     {{-- <h2 class="text-sm font-medium text-gray-800 m-2">{{auth()->user()->name}} </h2> --}}
                     <p class="tooltip z-50">
-                        @role('teacher|student')
-                        @if(auth()->user()->$user->photo)
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
-                        src="{{asset(auth()->user()->$user->photo)}}"
+                            src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
                             alt="avatar">
-                        @else
-                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
-                        src="{{asset('img/avatar/user.png')}}"
-                            alt="avatar">
-                        @endif
-                        @endrole
                         <span
                             class="tooltip-text hidden md:block bg-gray-600 m-2 -mx-24 absolute text-center text-xs p-1 text-white rounded-md shadow-md">{{Auth::user()->name}}</span>
-
                     </p>
 
                 </div>
@@ -171,10 +166,10 @@
             </div>
         </div>
 
-        <div class="mx-full flex min-h-screen  relative">
+        <div class="mx-full flex min-h-screen  relative"> {{-- relative se va --}}
             @include('partials.sidebar')
 
-            <div class="main-content md:w-10/12 w-10/12 mx-10">
+            <div class="main-content md:w-10/12 w-10/12 mx-10"> {{-- agregar mt-20 --}}
 
                 {{-- Mensaje de sesion --}}
                 <div class="container">
