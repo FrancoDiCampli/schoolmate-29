@@ -50,7 +50,7 @@
 
 
 <div class="mb-8">
-@if($deliveries)
+@if(count($deliveries) > 0)
 @foreach ($deliveries as $delivery)
     <div class="card my-2 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto border-l-2 border-primary-400">
         <div class=" w-full flex relative items-center ">

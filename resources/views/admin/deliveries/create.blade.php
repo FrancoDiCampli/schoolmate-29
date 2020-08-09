@@ -243,7 +243,7 @@
                 </div>
 
                 {{-- Agregando Video a Youtube  --}}
-                <div class="flex flex-wrap my-5">
+                {{-- <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Video
@@ -269,7 +269,7 @@
                             {{$errors->first('video')}}
                         </span>
                     </div>
-                </div>
+                </div> --}}
                 {{-- End video upload  --}}
 
 
