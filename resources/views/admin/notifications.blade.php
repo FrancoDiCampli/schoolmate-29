@@ -28,16 +28,16 @@
                                 {{-- <div>07:45</div> --}}
                             </td>
 
-                            <td class="px-2 py-2 whitespace-no-wrap">
-                                <div class="leading-5 text-gray-600 font-medium">{{$item->data['message']}}</div>
-                                <div class="leading-5 text-gray-900 text-base font-medium hover:text-primary-500 focus:outline-none">
+                            <td class="px-2 py-2 whitespace-no-wrap font-montserrat">
+                                <div class=" text-gray-600 font-medium">{{$item->data['message']}}</div>
+                                <div class="leading-3 text-gray-900 text-base font-medium hover:text-primary-500 focus:outline-none">
 
                                     @hasanyrole('teacher|adviser')
                                 @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
-                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat"
                                     href="{{route('jobs.showJob', $item->data['job_id'])}}">
                                     <pre
-                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
                                     </a>
                                 @endif
                             @endhasanyrole
@@ -47,34 +47,34 @@
                                     <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
                                         href="{{route('deliver', $item->data['job_id'])}}">
                                         <pre
-                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['teacher']}}</pre>
+                                         class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['teacher']}}</pre>
                                     </a>
                                 @elseif($item->type == 'App\Notifications\PostCreated')
-                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat"
                                     href="{{route('posts.show', $item->data['post_id'])}}">
                                     <pre
-                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['post']}}</pre>
+                                    class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['post']}}</pre>
                                 </a>
                                 @else
-                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat"
                                     href="{{route('deliver', $item->data['job_id'])}}">
                                     <pre
-                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['student']}}</pre>
+                                    class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['student']}}</pre>
                                 </a>
                                 @endif
                             @endrole
 
                             @role('teacher')
                                 @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
-                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat break-all"
                                     href="{{route('job.delivery', $item->data['delivery_id'])}}">
                                     <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['student']}}</pre>
+                                        class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['student']}}</pre>
                                     </a>
                                 @endif
                             @endrole
 
-                                </div> 
+                                </div>
                                 </div>
                                 <div class="leading-5 text-primary-300">{{$item->data['subject']}}</div>
                             </td>

@@ -131,7 +131,7 @@ class JobController extends Controller
     {
         $job = Job::find($id);
         $user = Auth::user()->id;
-        $cond = $request->state;
+        $cond = 3;
 
         LogsTrait::logJob($job, $cond);
 

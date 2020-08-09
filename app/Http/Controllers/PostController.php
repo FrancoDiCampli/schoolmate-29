@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Subject;
 use App\Annotation;
+use App\Traits\NotificationsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class PostController extends Controller
         $subject->jobs;
 
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
-        $posts = Post::where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
+        $posts = Post::where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(5);
 
         return view('admin.posts.index', compact('subject','posts'));
     }
@@ -30,6 +31,7 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
+        // return $request;
         $sub = Subject::where('id',$request->subject_id)->get();
 
         Post::create([
@@ -53,6 +55,9 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+        if(Auth::user()->student){
+            NotificationsTrait::studentMarkAsRead('post_id', $id);
+        }
 
         return view('admin.posts.showPost', compact('post'));
     }
@@ -66,7 +71,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post){
 
         $postValidation = $request->validate([
-            'title'=> ['required', 'max:20', Rule::unique('posts')->ignore($post)],
+            'title'=> ['required', 'max:40', Rule::unique('posts')->ignore($post)],
             'description'=>'required|max:120',
             'content'=>'required'
         ]);

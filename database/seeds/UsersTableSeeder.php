@@ -23,8 +23,8 @@ class UsersTableSeeder extends Seeder
         Role::create(['name' => 'adviser']);
 
         $admin = User::create([
-           'dni'=>'11223344',
-           'password' => Hash::make('asdf1234'),
+           'dni'=>'99999999',
+           'password' => Hash::make('99999999'),
            'name'=>'admin'
        ]);
 

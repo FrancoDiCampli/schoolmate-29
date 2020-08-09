@@ -41,6 +41,7 @@
                         @break
                     @case("Activas")
                     <p class="bg-green-600 rounded-full p-3"></p>
+                        @break
                     @case("Rechazadas")
                     <p class="bg-red-600 rounded-full p-3"></p>
                         @break
