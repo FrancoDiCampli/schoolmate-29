@@ -73,7 +73,7 @@
 
         <div class=" w-full flex relative items-center border-b mb-2 py-3">
             <div class="">
-                <img class="w-8 h-8 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                <img class="w-8 h-8 rounded-full object-cover mr-4 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
             </div>
             <div class="flex w-full pt-1">
                 <div class="w-full">
@@ -204,7 +204,7 @@
                 @foreach ($delivery->comments as $item)
                 <div class=" w-full flex relative items-center mt-3">
                     <div class="p-2">
-                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
                     </div>
 
                     <div class="w-full">
@@ -231,17 +231,19 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-        <form action="{{route('comments.store')}}" method="POST">
+        <form action="{{route('comments.store')}}" method="POST" id="formDelivery">
                 @csrf
                 <input type="text" name="delivery" value="{{$delivery->id}}" hidden>
-                <div
-                    class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
-                    <input name="comment" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario">
-                    <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
-                        {{-- <svg aria-hidden="true" data-prefix="fas" data-icon="info" class="h-4 w-4 svg-inline--fa fa-info fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg> --}}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
-                    </button>
-                </div>
+                {{-- <div
+                    class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center"> --}}
+                    {{-- <input name="comment" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario"> --}}
+                    <textarea name="comment" onkeyup="setCommentDelivery()" id="commentDelivery" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Comentario de la entrega" value="" maxlength="3001"></textarea>
+                <span class="flex italic text-red-600  text-sm" role="alert" id="commentDeliveryError">
+                    {{$errors->first('title')}}
+                </span>
+
+                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                {{-- </div> --}}
             </form>
         </div>
     </div>
@@ -267,7 +269,7 @@
                 document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
             } else {
                 document.getElementById('viewer').setAttribute('src', aux);
-            }   
+            }
         }
         let ancho = screen.width;
         if (ancho <= 640) {
@@ -279,5 +281,36 @@
             marco2.setAttribute('height',200);
             marco2.setAttribute('width',270);
         }
+
+
+         //Validación input comentario
+    const commentDelivery = document.getElementById("commentDelivery")
+    const commentDeliveryError = document.getElementById("commentDeliveryError")
+    const formDelivery = document.getElementById("formDelivery")
+
+    function setCommentDelivery(){
+        if (commentDelivery.value.length > 3000){
+            document.getElementById("commentDeliveryError").innerHTML = "No puede tener más de 3000 caracteres"
+            commentDelivery.classList.add("form-input-error")
+        }
+        if (commentDelivery.value.length > 2){
+            document.getElementById("commentDeliveryError").innerHTML = ""
+            commentDelivery.classList.remove("form-input-error")
+            commentDelivery.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-gray-500 border border-gray-400'
+        }
+    }
+
+    formDelivery.addEventListener("submit", e=>{
+
+    commentDeliveryError.innerHTML = ""
+
+    if (commentDelivery.value.length < 3){
+        e.preventDefault()
+        document.getElementById("commentDeliveryError").innerHTML = "Debe tener al menos 3 caracteres"
+        commentDelivery.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
+    }
+
+    })
+    // end validation
     </script>
 @endpush

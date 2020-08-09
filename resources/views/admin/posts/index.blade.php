@@ -73,7 +73,7 @@
                     <p class="text-gray-700 font-light text-xs">{{$post->created_at->format('d-m-Y H:i')}} </p>
                 </div>
 
-                @role('teacher')
+                {{-- @role('teacher')
                     <div class="w-3/12 text-right">
                         <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                             <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -87,7 +87,7 @@
                             <a href="" class="block py-2">Eliminar</a>
                         </div>
                     </div>
-                @endrole
+                @endrole --}}
             </div>
 
             <div class="flex justify-between items-center px-2">

@@ -56,7 +56,7 @@
             @endif
 
 
-
+            @role('teacher')
             <div class="w-auto text-right ml-2">
                 <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                     <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -75,6 +75,7 @@
 
                 </div>
             </div>
+            @endrole
 
 
         </div>
@@ -222,7 +223,7 @@
                 @foreach ($job->comments as $item)
                 <div class=" w-full flex relative items-center mt-3">
                     <div class="p-2">
-                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
                     </div>
 
                     <div class="w-full">
@@ -240,17 +241,23 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
-                <div
+                {{-- <div
                     class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
-                    <input name="comment" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" value="{{ old('comment') }}">
+                    <input name="comment" onkeyup="setCommentJob()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" value="{{ old('comment') }}" id="commentJob">
                     <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
-                        {{-- <svg aria-hidden="true" data-prefix="fas" data-icon="info" class="h-4 w-4 svg-inline--fa fa-info fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg> --}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
                     </button>
-                </div>
+                </div> --}}
+
+                <textarea name="comment" onkeyup="setCommentJob()" id="commentJob" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Contenido de la publicación" value="" maxlength="3001"></textarea>
+                <span class="flex italic text-red-600  text-sm" role="alert" id="commentError">
+                    {{$errors->first('title')}}
+                </span>
+
+                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
             </form>
         </div>
     </div>
@@ -318,6 +325,36 @@
             oo.classList.toggle('hidden')
 
         }
+
+    //Validación input comentario
+    const comentarioJob = document.getElementById("commentJob")
+    const comentarioError = document.getElementById("commentError")
+    const formComment = document.getElementById("formComment")
+
+    function setCommentJob(){
+        if (comentarioJob.value.length > 3000){
+            document.getElementById("commentError").innerHTML = "No puede tener más de 3000 caracteres"
+            comentarioJob.classList.add("form-input-error")
+        }
+        if (comentarioJob.value.length > 2){
+            document.getElementById("commentError").innerHTML = ""
+            comentarioJob.classList.remove("form-input-error")
+            comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-gray-500 border border-gray-400'
+        }
+    }
+
+    formComment.addEventListener("submit", e=>{
+
+    comentarioError.innerHTML = ""
+
+    if (comentarioJob.value.length < 3){
+        e.preventDefault()
+        document.getElementById("commentError").innerHTML = "Debe tener al menos 3 caracteres"
+        comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
+    }
+
+    })
+    // end validation
 
 </script>
 

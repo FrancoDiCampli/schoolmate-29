@@ -65,10 +65,10 @@
             @if ($delivery->state($delivery->state) === "En corrección")
             <span class="rounded-full text-gray-800 bg-gray-200 px-2 py-1 text-xs font-medium md:hidden">{{$delivery->state($delivery->state)}}</span>
             @endif
-            @if ($delivery->state($delivery->state) === "Por Corregir")
+            {{-- @if ($delivery->state($delivery->state) === "Por Corregir")
             <span class="rounded-full text-orange-800 bg-orange-200 px-2 py-1 text-xs font-medium md:hidden">{{$delivery->state($delivery->state)}}</span>
-            @endif
-            @if ($delivery->state($delivery->state) === "Desaprobado")
+            @endif --}}
+            @if ($delivery->state($delivery->state) === "Rehacer")
             <span class="rounded-full text-red-800 bg-red-200 px-2 py-1 text-xs font-medium md:hidden">{{$delivery->state($delivery->state)}}</span>
             @endif
 
@@ -86,7 +86,7 @@
 
         <div class=" w-full flex relative items-center border-b mb-2 py-3">
             <div class="">
-                <img class="w-8 h-8 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                <img class="w-8 h-8 rounded-full object-cover mr-4 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
             </div>
             <div class="flex w-full pt-1">
                 <div class="w-full">
@@ -338,7 +338,7 @@
                 @foreach ($comments ?? [] as $item)
                 <div class=" w-full flex relative items-center mt-3">
                     <div class="p-2">
-                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
+                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
                     </div>
 
                     <div class="w-full">
@@ -362,7 +362,7 @@
                 <input type="text" name="delivery" value="{{$delivery->id}}" hidden>
                 <div
                     class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
-                    <input name="comment" onkeyup="setComment()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" id="comment">
+                    <input name="comment" onkeyup="setComment()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" id="comment" maxlength="2001">
                     <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
                         {{-- <svg aria-hidden="true" data-prefix="fas" data-icon="info" class="h-4 w-4 svg-inline--fa fa-info fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg> --}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
@@ -484,7 +484,7 @@
             document.getElementById('viewerFile').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
         } else {
             document.getElementById('viewerFile').setAttribute('src', aux);
-        }   
+        }
     }
 
     let ancho = screen.width;
@@ -663,7 +663,7 @@
 
         if (comentario.value.length < 3){
             e.preventDefault()
-            document.getElementById("commentError").innerHTML = "Debe tener al menos 2 caracteres"
+            document.getElementById("commentError").innerHTML = "Debe tener al menos 3 caracteres"
             comentario.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-red-400'
         }
 

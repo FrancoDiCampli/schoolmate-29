@@ -88,7 +88,7 @@
                 @endrole
 
                 @role('student')
-                <div class="md:w-6/12 text-right mr-3 text-xs md:text-base">
+                <div class="md:w-6/12 text-right mr-3 text-xs md:text-base hidden md:block">
                     @foreach ($job->deliveries as $delivery)
 
                     @if ($delivery->student_id == Auth::user()->student->id)
@@ -101,9 +101,9 @@
                             <span class="bg-green-200 py-1 px-2 rounded-full text-green-800">{{$delivery->state($delivery->state)}}</span>
                                 @break
 
-                            @case("Aprobado")
+                            {{-- @case("Aprobado")
                             <span class="bg-orange-200 py-1 px-2 rounded-full text-orange-800">{{$delivery->state($delivery->state)}}</span>
-                                @break
+                                @break --}}
 
                             @case("Rehacer")
                             <span class="bg-red-200 py-1 px-2 rounded-full text-red-800">{{$delivery->state($delivery->state)}}</span>
