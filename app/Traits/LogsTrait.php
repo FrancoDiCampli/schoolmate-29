@@ -38,6 +38,15 @@ trait LogsTrait
                 ->log('Tarea por revisar');
 
                     break;
+            case 3 :
+                activity('jobs')
+                ->causedBy($user)
+                ->performedOn($job)
+
+                ->withProperties(['estado' => 'borrador'])
+                ->log('Tarea actualizada');
+
+                    break;
             default:
                 # code...
                 break;

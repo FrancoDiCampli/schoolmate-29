@@ -106,7 +106,7 @@
 
             <div class="hidden text-left md:ml-0 ml-20 pl-6 md:pl-8 text-gray-600" id="users-admin">
                 <div class="py-1 hover:text-gray-700 ">
-                <a href="{{route('user.show',$user)}}">Profile</a>
+                <a href="{{route('user.edit',$user)}}">Perfil</a>
                 </div>
                 <div class="py-1 hover:text-gray-700 ">
                 <a href="{{route('teachers.index')}}">Profesores</a>

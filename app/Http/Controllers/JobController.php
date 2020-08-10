@@ -119,7 +119,7 @@ class JobController extends Controller
         if ($job->file_path) {
             $file = url($job->file_path);
         } else $file = '';
-        
+
         if (Auth::user()->roles()->first()->name == 'adviser') {
             NotificationsTrait::adviserMarkAsRead($id);
         } else {
@@ -138,9 +138,10 @@ class JobController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $job = Job::find($id);
         $user = Auth::user()->id;
-        $cond = $request->state;
+        $cond = 3;
 
         LogsTrait::logJob($job,$cond);
 
