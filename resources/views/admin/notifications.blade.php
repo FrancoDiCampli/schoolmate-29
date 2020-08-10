@@ -5,7 +5,7 @@
 <div class="card mt-6 md:w-10/12 bg-white shadow-lg p-3 rounded-sm mx-auto flex items-center justify-between">
     <div>
         <p class="text-md text-primary-500 font-semibold">Notificaciones</p>
-        <p class="text-sm text-primary-400">cantidad </p>
+        <p class="text-sm text-primary-400">{{$cant}} </p>
     </div>
     <div>
           <a href="" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
@@ -21,39 +21,65 @@
 
             <table class="w-full">
                 <tbody class="">
-                    <tr class="relative transform scale-100 text-xs py-1 border-b border-primary-100 border-opacity-25 cursor-default">
-                        <td class="pl-5 pr-3 whitespace-no-wrap">
-                            <div class="text-gray-600">24 jule</div>
-                            {{-- <div>07:45</div> --}}
-                        </td>
+                    @foreach ($todas as $item)
+                        <tr class="relative transform scale-100 text-xs py-1 border-b border-primary-100 border-opacity-25 cursor-default">
+                            <td class="pl-5 pr-3 whitespace-no-wrap">
+                            <div class="text-gray-600">{{$item->created_at->diffForHumans()}}</div>
+                                {{-- <div>07:45</div> --}}
+                            </td>
 
-                        <td class="px-2 py-2 whitespace-no-wrap">
-                            <div class="leading-5 text-gray-600 font-medium">Nueva Tarea</div>
-                            <div class="leading-5 text-gray-900 text-base font-medium hover:text-primary-500 focus:outline-none">
-                                <a href="">Título de la Tarea</a>
+                            <td class="px-2 py-2 whitespace-no-wrap font-montserrat">
+                                <div class=" text-gray-600 font-medium">{{$item->data['message']}}</div>
+                                <div class="leading-3 text-gray-900 text-base font-medium hover:text-primary-500 focus:outline-none">
+
+                                    @hasanyrole('teacher|adviser')
+                                @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat"
+                                    href="{{route('jobs.showJob', $item->data['job_id'])}}">
+                                    <pre
+                                    class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                                    </a>
+                                @endif
+                            @endhasanyrole
+
+                            @role('student')
+                                @if ($item->type == 'App\Notifications\JobCreated')
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                        href="{{route('deliver', $item->data['job_id'])}}">
+                                        <pre
+                                         class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['teacher']}}</pre>
+                                    </a>
+                                @elseif($item->type == 'App\Notifications\PostCreated')
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat"
+                                    href="{{route('posts.show', $item->data['post_id'])}}">
+                                    <pre
+                                    class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['post']}}</pre>
+                                </a>
+                                @else
+                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat"
+                                    href="{{route('deliver', $item->data['job_id'])}}">
+                                    <pre
+                                    class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['student']}}</pre>
+                                </a>
+                                @endif
+                            @endrole
+
+                            @role('teacher')
+                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
+                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1 font-montserrat break-all"
+                                    href="{{route('job.delivery', $item->data['delivery_id'])}}">
+                                    <pre
+                                        class="font-semibold font-montserrat mr-2 text-left flex-auto">{{$item->data['student']}}</pre>
+                                    </a>
+                                @endif
+                            @endrole
+
                                 </div>
-                            </div>
-                            <div class="leading-5 text-primary-300">Materia</div>
-                        </td>
-                    </tr>
-                    <tr class="relative transform scale-100 text-xs py-1 border-b border-primary-100 border-opacity-25 cursor-default">
-                        <td class="pl-5 pr-3 whitespace-no-wrap">
-                            <div class="text-gray-600">24 jule</div>
-                            {{-- <div>07:45</div> --}}
-                        </td>
-
-                        <td class="px-2 py-2 whitespace-no-wrap">
-                            <div class="leading-5 text-gray-600 font-medium">Nueva Tarea</div>
-                            <div class="leading-5 text-gray-900 text-base font-medium hover:text-primary-500 focus:outline-none">
-                                <a href="">Título de la Tarea</a>
                                 </div>
-                            </div>
-                            <div class="leading-5 text-primary-300">Materia</div>
-                        </td>
-                    </tr>
-
-
-
+                                <div class="leading-5 text-primary-300">{{$item->data['subject']}}</div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -15,38 +15,33 @@ trait LogsTrait
                 activity('jobs')
                 ->causedBy($user)
                 ->performedOn($job)
-
                 ->withProperties(['estado' => 'borrador'])
                 ->log('Tarea creada');
-
                 break;
+
             case 1 :
                 activity('jobs')
                 ->causedBy($user)
                 ->performedOn($job)
-
                 ->withProperties(['estado' => 'activa'])
                 ->log('Tarea activada');
+                break;
 
-                    break;
             case 2 :
                 activity('jobs')
                 ->causedBy($user)
                 ->performedOn($job)
-
                 ->withProperties(['estado' => 'revisar'])
                 ->log('Tarea por revisar');
+                break;
 
-                    break;
             case 3 :
                 activity('jobs')
                 ->causedBy($user)
                 ->performedOn($job)
-
                 ->withProperties(['estado' => 'borrador'])
                 ->log('Tarea actualizada');
-
-                    break;
+                break;
             default:
                 # code...
                 break;

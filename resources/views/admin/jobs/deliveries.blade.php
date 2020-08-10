@@ -103,10 +103,10 @@
                                     @if ($entrega->state($entrega->state) === "En corrección")
                                     <span class="bg-gray-200 py-1 px-2 rounded-full text-gray-800">{{$entrega->state($entrega->state)}}</span>
                                     @endif
-                                    @if ($entrega->state($entrega->state) === "Por Corregir")
+                                    {{-- @if ($entrega->state($entrega->state) === "Rehacer")
                                     <span class="bg-orange-200 py-1 px-2 rounded-full text-orange-800">{{$entrega->state($entrega->state)}}</span>
-                                    @endif
-                                    @if ($entrega->state($entrega->state) === "Desaprobado")
+                                    @endif --}}
+                                    @if ($entrega->state($entrega->state) === "Rehacer")
                                     <span class="bg-red-200 py-1 px-2 rounded-full text-red-800">{{$entrega->state($entrega->state)}}</span>
                                     @endif
 

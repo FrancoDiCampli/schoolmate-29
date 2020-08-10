@@ -10,6 +10,8 @@ use App\Observers\JobObserver;
 use App\Observers\StudentObserver;
 use App\Observers\TeacherObserver;
 use App\Observers\DeliveryObserver;
+use App\Observers\PostObserver;
+use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Job::observe(JobObserver::class);
         Teacher::observe(TeacherObserver::class);
         Student::observe(StudentObserver::class);
+        Post::observe(PostObserver::class);
 
         View::composer('layouts.dashboard', function ($view) {
             if (Auth::check()) {

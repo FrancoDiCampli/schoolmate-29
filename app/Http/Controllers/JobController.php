@@ -18,25 +18,15 @@ use Spatie\Activitylog\Models\Activity;
 
 class JobController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('role:teacher');
-    }
-
-
     public function index($id)
     {
         if (Auth::user()->hasRole('student')) {
             $subject = Subject::find($id);
             // $subject = Job::where('state',1)->get();
             $subject->jobs = $subject->jobs->where('state', 1);
-
-
-        } else{
-
-        $subject = Subject::find($id);
-        $subject->jobs;
-
+        } else {
+            $subject = Subject::find($id);
+            $subject->jobs;
         }
 
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
@@ -45,7 +35,8 @@ class JobController extends Controller
     }
 
     // Yo agregando metodos
-    public function subject($id){
+    public function subject($id)
+    {
         $subject = Subject::find($id);
         $subject->jobs;
 
@@ -61,13 +52,13 @@ class JobController extends Controller
     public function store(StoreJob $request)
     {
         $link = $request->link;
-        if($request->hasFile('video')){
+        if ($request->hasFile('video')) {
             $video = Youtube::upload($request->file('video')->getPathName(), [
                 'title'       => $request->input('title'),
                 'description' => $request->input('description')
-            ],'unlisted');
+            ], 'unlisted');
 
-            $link = "http://www.youtube.com/watch?v=". $video->getVideoId();
+            $link = "http://www.youtube.com/watch?v=" . $video->getVideoId();
         }
 
 
@@ -83,7 +74,7 @@ class JobController extends Controller
 
         $job = Job::create($data);
 
-        LogsTrait::logJob($job,0);
+        LogsTrait::logJob($job, 0);
 
         session()->flash('messages', 'Tarea creada');
 
@@ -111,7 +102,7 @@ class JobController extends Controller
 
     public function showJob($id)
     {
-        $activities = Activity::where('log_name','jobs')->where('subject_id',$id)->get();
+        $activities = Activity::where('log_name', 'jobs')->where('subject_id', $id)->get();
 
         $job = Job::find($id);
         $job->comments;
@@ -127,7 +118,7 @@ class JobController extends Controller
         }
 
 
-        return view('admin.jobs.showJob', compact('job', 'file', 'vid','activities'));
+        return view('admin.jobs.showJob', compact('job', 'file', 'vid', 'activities'));
     }
 
     public function edit($id)
@@ -143,7 +134,7 @@ class JobController extends Controller
         $user = Auth::user()->id;
         $cond = 3;
 
-        LogsTrait::logJob($job,$cond);
+        LogsTrait::logJob($job, $cond);
 
 
 
@@ -157,8 +148,7 @@ class JobController extends Controller
 
             session()->flash('messages', 'Tarea actualizada');
             return redirect()->route('adviser.jobs', $stateJob);
-
-        } else{
+        } else {
             $data = $request->validate([
                 'title' => 'required',
                 'description' => 'required',
@@ -179,8 +169,6 @@ class JobController extends Controller
             session()->flash('messages', 'Tarea actualizada');
             return redirect()->route('jobs.index', $subject->id);
         }
-
-
     }
 
     public function destroy($id)
@@ -229,23 +217,25 @@ class JobController extends Controller
         $delivery =  Delivery::find($delivery);
         $delivery->comments;
         $vid = substr($delivery->link, -11);
+        if ($delivery->file_path) {
+            $file = url($delivery->file_path);
+        } else $file = '';
 
         if (auth()->user()->roles()->first()->name == 'teacher') {
             NotificationsTrait::teacherMarkAsRead('delivery_id', $delivery->id);
         }
 
-        if($delivery){
-            $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
-
-        }else{
+        if ($delivery) {
+            $activities = Activity::where('log_name', 'deliveries')->where('subject_id', $delivery->id)->get();
+        } else {
             $activities = null;
         }
 
-        return view('admin.jobs.delivery', compact('delivery','user', 'vid', 'activities'));
+        return view('admin.jobs.delivery', compact('delivery', 'user', 'vid', 'activities', 'file'));
     }
 
-    public function test(){
-        return $activity = Activity::where('log_name','deliveries')->where('subject_id',3)->get();
-
+    public function test()
+    {
+        return $activity = Activity::where('log_name', 'deliveries')->where('subject_id', 3)->get();
     }
 }
