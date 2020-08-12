@@ -49,9 +49,10 @@ class DeliveryController extends Controller
         return view('admin.deliveries.index', compact('deliveries', 'subject'));
     }
 
-    public function descargar($job)
+    public function descargarDelivery($delivery)
     {
-        $file = public_path('tareas/') . $job;
+        $aux = Delivery::find($delivery);
+        $file = public_path($aux->file_path);
         return response()->download($file);
     }
 
