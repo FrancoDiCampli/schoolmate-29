@@ -1,23 +1,21 @@
 @extends('layouts.dashboard')
 
 @section('content')
-@php
 
-@endphp
 <div class="container font-montserrat text-sm">
     <div class="card  rounded-sm bg-gray-100 mx-auto mt-6 shadow-lg">
         <div class="card-title bg-white w-full p-1 md:p-5  border-b flex items-center justify-between md:justify-between">
            <h1 class="text-teal-600 font-semibold md:m-0 m-2 text-lg">Editar Usuario </h1>
-
-        <a href="" class="flex hover:shadow-lg md:m-0 m-2 px-4 py-2">
+            <a href="" class="flex hover:shadow-lg md:m-0 m-2 px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
-            </a>
+
+              </a>
         </div>
         <div class="card-body py-5">
-        <form method="POST" action="{{route('user.update',$user)}}" enctype="multipart/form-data" class="mx-auto" >
+            <form method="POST" action="{{ route('user.update',$data->id)}}" enctype="multipart/form-data" class="mx-auto" >
                 @method('PUT')
                 @csrf
-                <input type="text" name="id" value="{{$user->id}}" hidden>
+
 
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-1/3 px-3 md:mb-0 mb-6 ">
@@ -35,13 +33,21 @@
                           DNI
                         </label>
                         <input id="dni" type="text"  name="dni" class="form-input w-full block"
-                            type="text" placeholder="Ej: 22212222" value="{{$user->teacher->dni}}">
+                            type="text" placeholder="Ej: 22212222" value="{{$user->dni}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('dni')}}
                         </span>
                     </div>
-
-
+                    <div class="w-full md:w-1/3 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Password
+                        </label>
+                        <input id="dni" type="text"  name="password" class="form-input w-full block"
+                            type="text" placeholder="Ej: 22212222" value="{{$user->password}}">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{-- {{$errors->first('password')}} --}}
+                        </span>
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap my-5">
@@ -50,7 +56,7 @@
                           Cuil
                         </label>
                         <input type="text" id="name" name="cuil" class="form-input w-full block"
-                             placeholder="CUIL" value="{{$user->teacher->cuil}}">
+                             placeholder="CUIL" value="{{$user->cuil}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('cuil')}}
                         </span>
@@ -59,10 +65,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha de Nacimiento
                         </label>
-
-                        <input type="text" id="start" name="fnac"
-                            class="form-input w-full block" id="grid-last-name" type="text"
-                        value="{{ $user->teacher->fnac}}">
+                        <input type="date" id="start" name="fnac" class="form-input w-full block" id="grid-last-name" type="text"
+                        value="{{$user->fnac}}">
 
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('fnac')}}
@@ -76,7 +80,7 @@
                           Telefono
                         </label>
                         <input type="text" id="name" name="phone" class="form-input w-full block"
-                             placeholder="Telefono" value="{{$user->teacher->phone}}">
+                             placeholder="Telefono" value="{{$user->phone}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('phone')}}
                         </span>
@@ -86,7 +90,7 @@
                          Email
                         </label>
                         <input type="email" id="name" name="email" class="form-input w-full block"
-                        placeholder="Email" value="{{$user->teacher->email}}">
+                        placeholder="Email" value="{{$user->email}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('email')}}
                         </span>
@@ -99,7 +103,7 @@
                           Domicilio
                         </label>
                         <input type="text" id="name" name="address" class="form-input w-full block"
-                             placeholder="Telefono" value="{{$user->teacher->address}}">
+                             placeholder="Telefono" value="{{$user->address}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('address')}}
                         </span>
@@ -109,23 +113,18 @@
                          Legajo
                         </label>
                         <input type="text" id="name" name="docket" class="form-input w-full block"
-                        placeholder="Legajo" value="{{$user->teacher->docket}}">
+                        placeholder="Legajo" value="{{$user->docket}}">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('docket')}}
                         </span>
                     </div>
                 </div>
 
-
-
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full px-6 md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Foto
                         </label>
-                        <img class="w-32 h-32 object-cover object-center  visible group-hover:hidden"
-                                src="{{asset($user->photo)}}" alt="">
-
                         <div class="relative">
                             <div class="overflow-hidden relative w-auto mt-4 mb-4">
                                 <div class="flex items-center justify-center bg-grey-lighter">
@@ -149,25 +148,70 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Actualizar Informacion</button>
+                <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
 
             </form>
-
         </div>
     </div>
 </div>
 
-@endsection
-
 @push('js')
-    <script>
-        function setName(){
+<script>
+    var openmodal = document.querySelectorAll('.modal-open')
+    for (var i = 0; i < openmodal.length; i++) {
+      openmodal[i].addEventListener('click', function(event){
+    	event.preventDefault()
+    	toggleModal()
+      })
+    }
+
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', toggleModal)
+    }
+
+    document.onkeydown = function(evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
+    	isEscape = (evt.key === "Escape" || evt.key === "Esc")
+      } else {
+    	isEscape = (evt.keyCode === 27)
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
+    	toggleModal()
+      }
+    };
+
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+
+    function setName(){
         let fileName = document.getElementById('fileName');
         var cad = fileName.value;
         cad = cad.split('\\');
         let selected = document.getElementById('selected');
         selected.innerHTML = cad[2];
-
+        fileDocument = document.getElementById("fileName").files[0];
+        fileDocument_url = URL.createObjectURL(fileDocument);
+        document.getElementById('viewer').setAttribute('src', fileDocument_url);
+        let ancho = screen.width;
+        if (ancho <= 640) {
+            let marco = document.getElementById('viewer');
+            marco.setAttribute('height',200);
+            marco.setAttribute('width',270);
+        }
+        toggleModal();
     }
-    </script>
+</script>
 @endpush
+
+@endsection

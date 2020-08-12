@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
         // Muestra las entregas de la tarea
         Route::get('job/deliveries/{job}', 'JobController@show')->name('job.deliveries');
         Route::get('entrega/{delivery}', 'JobController@delivery')->name('job.delivery');
+        Route::put('updateTeacher/{teacher}','TeacherController@updateTeacher')->name('update.teacher');
     });
 
     // Alumnos
@@ -116,7 +117,10 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::resource('user', 'UserController');
+    Route::get('reset/{user}','UserController@resetPass')->name('user.reset');
+    Route::put('reset','UserController@reset')->name('reset');
 
     // Ruta de  pruebas del log de actividades de una tarea/entrega
     Route::get('test', 'JobController@test')->name('test');
+
 });

@@ -1,23 +1,23 @@
 @extends('layouts.dashboard')
 
 @section('content')
-@php
 
-@endphp
 <div class="container font-montserrat text-sm">
     <div class="card  rounded-sm bg-gray-100 mx-auto mt-6 shadow-lg">
         <div class="card-title bg-white w-full p-1 md:p-5  border-b flex items-center justify-between md:justify-between">
            <h1 class="text-teal-600 font-semibold md:m-0 m-2 text-lg">Editar Usuario </h1>
-
+        @role('student|teacher')
+        <a href="{{route('user.reset',$user)}}" class="flex mx-auto btn btn-primary">Cambiar Contrasenia</a>
+        @endrole
         <a href="" class="flex hover:shadow-lg md:m-0 m-2 px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
             </a>
         </div>
         <div class="card-body py-5">
-        <form method="POST" action="{{route('user.update',$user)}}" enctype="multipart/form-data" class="mx-auto" >
+            <form method="POST" action="{{ route('update.teacher',$user->teacher)}}" enctype="multipart/form-data" class="mx-auto" >
                 @method('PUT')
                 @csrf
-                <input type="text" name="id" value="{{$user->id}}" hidden>
+                <input type="text" name="user_id" value="{{$user->id}}" hidden>
 
                 <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-1/3 px-3 md:mb-0 mb-6 ">
@@ -40,7 +40,18 @@
                             {{$errors->first('dni')}}
                         </span>
                     </div>
-
+                    @role('admin')
+                    <div class="w-full md:w-1/3 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Password
+                        </label>
+                        <input id="dni" type="password"  name="password" class="form-input w-full block"
+                             value="{{$user->password}}">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('password')}}
+                        </span>
+                    </div>
+                    @endrole
 
                 </div>
 

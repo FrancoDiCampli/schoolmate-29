@@ -322,7 +322,7 @@
         </div>
         @endif
 
-        <button type="submit" class="flex mx-auto btn btn-primary mb-10">Entregar</button>
+        <button type="submit"  id="entregar" onclick="deshabilitar()"  class="flex mx-auto btn btn-primary mb-10">Entregar</button>
         </form>
 
          {{-- Comentarios --}}
@@ -467,6 +467,15 @@
 
 @push('js')
 <script>
+
+    function deshabilitar(){
+        let btn = document.getElementById('entregar')
+        btn.disabled = true
+        console.log('des')
+
+    }
+
+
     let aux = @json($file);
 
     if (aux) {
@@ -657,7 +666,7 @@
         }
     }
 
-    form.addEventListener("submit", e=>{
+    form.addEventListener('submit', e=>{
 
         comentarioError.innerHTML = ""
 

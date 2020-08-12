@@ -38,7 +38,7 @@ class TeacherObserver
      */
     public function updated(Teacher $teacher)
     {
-        //
+
     }
 
     /**

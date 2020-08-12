@@ -117,7 +117,11 @@
                     </div>
             </div>
             @endrole
-
+            <div class="text-left md:ml-0 ml-20 pl-6 md:pl-8 text-gray-600" id="users-admin">
+                <div class="py-1 hover:text-gray-700 ">
+                <a href="{{route('user.edit',$user)}}">Perfil</a>
+                </div>
+            </div>
             <a class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2" href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
             <svg aria-hidden="true" data-prefix="fas" data-icon="sign-out-alt" class="svg-inline--fa fa-sign-out-alt fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
