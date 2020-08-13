@@ -217,13 +217,13 @@
                 {{-- inicio formulario enviar tarea y/o comentario --}}
                 @if ($delivery)
                 <form method="POST" action="{{route('delivery.update', $delivery->id)}}" class="mx-auto" id="delivery"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" onsubmit="return checkSubmit();">
                 @method('PUT')
                 @csrf
                 @else
 
                 <form method="POST" action="{{route('deliver.store')}}" class="mx-auto" id="delivery"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" onsubmit="return checkSubmit();">
                 @csrf
                 @endif
 
@@ -322,7 +322,7 @@
         </div>
         @endif
 
-        <button type="submit" class="flex mx-auto btn btn-primary mb-10">Entregar</button>
+        <button type="submit" class="flex mx-auto btn btn-primary mb-10" id="entregaDisabled">Entregar</button>
         </form>
 
          {{-- Comentarios --}}

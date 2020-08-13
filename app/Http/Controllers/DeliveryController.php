@@ -86,40 +86,37 @@ class DeliveryController extends Controller
 
     public function store(StoreDelivery $request)
     {
-        DB::transaction(function () use ($request) {
-            $link = $request->link;
-            if ($request->hasFile('video')) {
-                $video = Youtube::upload($request->file('video')->getPathName(), [
-                    'title'       => $request->input('title'),
-                    'description' => $request->input('description')
-                ], 'unlisted');
 
-                $link = "http://www.youtube.com/watch?v=" . $video->getVideoId();
-            }
-            $nameFile = FilesTrait::store($request, 'entregas', auth()->user()->student->name);
+        $link = $request->link;
+        if ($request->hasFile('video')) {
+            $video = Youtube::upload($request->file('video')->getPathName(), [
+                'title'       => $request->input('title'),
+                'description' => $request->input('description')
+            ], 'unlisted');
 
-            $delivery = Delivery::create([
-                'job_id' => $request->job,
-                'file_path' => $nameFile,
-                'state' => 0,
-                'link' => $link,
-                'student_id' => Auth::user()->student->id,
+            $link = "http://www.youtube.com/watch?v=" . $video->getVideoId();
+        }
+        $nameFile = FilesTrait::store($request, 'entregas', auth()->user()->student->name);
+
+        $delivery = Delivery::create([
+            'job_id' => $request->job,
+            'file_path' => $nameFile,
+            'state' => 0,
+            'link' => $link,
+            'student_id' => Auth::user()->student->id,
+        ]);
+        LogsTrait::logDelivery($delivery,0);
+        // Si tiene comentarios los crea
+        if ($request->comment) {
+            Comment::create([
+                'user_id' => Auth::user()->id,
+                'delivery_id' => $delivery->id,
+                'comment' => $request->comment,
             ]);
-            LogsTrait::logDelivery($delivery,0);
-            // Si tiene comentarios los crea
-            if ($request->comment) {
-                Comment::create([
-                    'user_id' => Auth::user()->id,
-                    'delivery_id' => $delivery->id,
-                    'comment' => $request->comment,
-                ]);
-            }
-        });
+        }
 
-
-        session()->flash('message', 'Entrega creada');
-
-        return redirect()->route('student');
+        session()->flash('messages', 'Entrega creada');
+        return redirect()->route('deliveries.subject', $delivery->job->subject->id);
     }
 
     public function update(UpdateDelivery $request, $id)
@@ -150,7 +147,7 @@ class DeliveryController extends Controller
             ]);
             LogsTrait::logDelivery($delivery,0);
             session()->flash('messages', 'Entrega actualizada');
-            return redirect()->route('jobs.index', $delivery->job->subject->id);
+            return redirect()->route('deliveries.subject', $delivery->job->subject->id);
         }
     }
 }

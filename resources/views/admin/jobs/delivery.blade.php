@@ -101,7 +101,7 @@
        @endif
 
 
-        <form action="{{route('delivery.update', $delivery->id)}}" method="POST">
+        <form action="{{route('delivery.update', $delivery->id)}}" method="POST" onsubmit="return checkSubmit();">>
             @method('PUT')
             @csrf
             <input type="text" hidden name="id_job" value="{{$delivery->job->id}}">
@@ -125,7 +125,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="flex mx-auto btn btn-primary">Guardar</button>
+            <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Guardar</button>
         </form>
 
         {{-- Movimientos de la tarea --}}
@@ -231,7 +231,7 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-        <form action="{{route('comments.store')}}" method="POST" id="formDelivery">
+        <form action="{{route('comments.store')}}" method="POST" id="formDelivery" onsubmit="return checkSubmitComments();">
                 @csrf
                 <input type="text" name="delivery" value="{{$delivery->id}}" hidden>
                 {{-- <div
@@ -242,7 +242,7 @@
                     {{$errors->first('title')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
                 {{-- </div> --}}
             </form>
         </div>
@@ -312,5 +312,6 @@
 
     })
     // end validation
+
     </script>
 @endpush

@@ -16,7 +16,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" id="form" >
+        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" id="form">
                 @csrf
 
                 <input hidden type="text" name="subject" id="" value="{{$subject->id}}">
@@ -50,7 +50,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha de Inicio
                         </label>
-                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
+                        <input type="date" onchange="setDateStart()" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert" id="startError">
                             {{$errors->first('start')}}
                         </span>
@@ -62,7 +62,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha Límite de Entrega
                         </label>
-                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
+                        <input onchange="setDateStart()" type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert" id="endError">
                             {{$errors->first('end')}}
                         </span>
@@ -140,7 +140,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Guardar</button>
 
             </form>
         </div>
@@ -368,12 +368,15 @@
             end.classList.remove("form-input-error")
         }
 
+        document.getElementById("entregaDisabled").disabled = true;
+
     })
     //end  formulario validation
 
 
     // set title validation
     function setTitle(){
+        document.getElementById("entregaDisabled").disabled = false;
         if (title.value.length > 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
             title.classList.add("form-input-error")
@@ -390,6 +393,7 @@
 
     // set description validation
     function setDescription(){
+        document.getElementById("entregaDisabled").disabled = false;
         if (description.value.length > 3000){
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
             description.classList.add("form-input-error")
@@ -403,8 +407,12 @@
             description.classList.add("form-input-error")
         }
 
-    // end validation
-
     }
+
+    function setDateStart(){
+        document.getElementById("entregaDisabled").disabled = false;
+    }
+
+    //end validate
 </script>
 @endpush

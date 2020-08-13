@@ -8,17 +8,6 @@
     <title>Schoolmate</title>
     <link rel="icon" type="image/png" href="{{asset('img/sm-sidebar-png.png')}}" />
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
-
-    <style>
-        .tooltip .tooltip-text {
-            visibility: hidden;
-
-        }
-
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-100 font-montserrat" id="all">
@@ -300,6 +289,17 @@
         }
         window.onunload=function(){
         window.name=self.pageYOffset || (document.documentElement.scrollTop+document.body.scrollTop);
+        }
+
+        //disabled button submit
+        function checkSubmit(){
+            document.getElementById("entregaDisabled").disabled = true;
+
+        }
+
+        function checkSubmitComments(){
+            document.getElementById("entregaDisabledComments").disabled = true;
+
         }
 
 

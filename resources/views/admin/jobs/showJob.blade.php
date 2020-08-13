@@ -117,7 +117,7 @@
 
         {{-- Select del asesor  --}}
         @role('adviser')
-            <form action="{{route('jobs.update', $job->id)}}" method="POST">
+            <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return checkSubmit();">
                 @method('PUT')
                 @csrf
 
@@ -141,7 +141,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Actualizar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Actualizar</button>
             </form>
         @endrole
 
@@ -241,7 +241,7 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST" id="formComment">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment" onsubmit="return checkSubmitComments();">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
                 {{-- <div
@@ -257,7 +257,7 @@
                     {{$errors->first('title')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
             </form>
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\User;
 use App\Notifications\JobCreated;
 use App\Notifications\JobUpdated;
 use App\Traits\NotificationsTrait;
+use Illuminate\Support\Facades\DB;
 
 class JobObserver
 {
@@ -52,7 +53,8 @@ class JobObserver
      */
     public function deleted(Job $job)
     {
-        //
+        DB::table('notifications')->where('data->job_id', $job->id)->delete();
+
     }
 
     /**
