@@ -57,6 +57,7 @@
 
 
             @role('teacher')
+            @if ($job->state != 1)
             <div class="w-auto text-right ml-2">
                 <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                     <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -75,6 +76,7 @@
 
                 </div>
             </div>
+            @endif
             @endrole
 
 
@@ -117,7 +119,7 @@
 
         {{-- Select del asesor  --}}
         @role('adviser')
-            <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return checkSubmit();">
+            <form action="{{route('jobs.update', $job->id)}}" method="POST">
                 @method('PUT')
                 @csrf
 
@@ -332,6 +334,7 @@
     const formComment = document.getElementById("formComment")
 
     function setCommentJob(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (comentarioJob.value.length > 3000){
             document.getElementById("commentError").innerHTML = "No puede tener más de 3000 caracteres"
             comentarioJob.classList.add("form-input-error")
@@ -353,7 +356,10 @@
         comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
     }
 
+    document.getElementById("entregaDisabledComments").disabled = true;
+
     })
+
     // end validation
 
 </script>

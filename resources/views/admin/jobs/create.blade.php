@@ -319,19 +319,23 @@
         descriptionError.innerHTML = ""
         startError.innerHTML = ""
         endError.innerHTML = ""
-
+        loading = true
+        ;
         // title
         if (title.value.length >= 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
             title.classList.add("form-input-error")
+            loading = false;
         }
         if (title.value.length < 41){
             document.getElementById("titleError").innerHTML = ""
             title.classList.remove("form-input-error")
+            loading = false;
         }
         if (title.value.length < 6){
             document.getElementById("titleError").innerHTML = "Debe tener al menos 5 caracteres"
             title.classList.add("form-input-error")
+            loading = false;
         }
 
         // description
@@ -339,15 +343,18 @@
             e.preventDefault()
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
             description.className = 'form-input form-input-error w-full block'
+            loading = false;
         }
         if (description.value.length === 0){
             e.preventDefault()
             document.getElementById("descriptionError").innerHTML = "El campo es obligatorio"
             description.className = 'form-input form-input-error w-full block'
+            loading = false;
         }
         if (description.value.length < 20){
             document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
             description.classList.add("form-input-error")
+            loading = false;
         }
 
         // fecha start
@@ -355,8 +362,10 @@
             e.preventDefault()
             document.getElementById("startError").innerHTML = "La fecha es requerida"
             start.classList.add("form-input-error")
+            loading = false;
         } else{
             start.classList.remove("form-input-error")
+            loading = true;
         }
 
         // fecha end
@@ -364,11 +373,17 @@
             e.preventDefault()
             document.getElementById("endError").innerHTML = "La fecha es requerida"
             end.classList.add("form-input-error")
+            loading = false;
         } else{
             end.classList.remove("form-input-error")
+            loading = true;
         }
 
         document.getElementById("entregaDisabled").disabled = true;
+
+        if(loading){
+            loadingSubmit();
+        }
 
     })
     //end  formulario validation
@@ -376,6 +391,7 @@
 
     // set title validation
     function setTitle(){
+        loading = true;
         document.getElementById("entregaDisabled").disabled = false;
         if (title.value.length > 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
@@ -393,6 +409,7 @@
 
     // set description validation
     function setDescription(){
+        loading = true;
         document.getElementById("entregaDisabled").disabled = false;
         if (description.value.length > 3000){
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"

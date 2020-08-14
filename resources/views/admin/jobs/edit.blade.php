@@ -306,6 +306,7 @@
 
     function disableButton(){
         document.getElementById("entregaDisabled").disabled = true;
+        loadingSubmit()
     }
 </script>
 @endpush

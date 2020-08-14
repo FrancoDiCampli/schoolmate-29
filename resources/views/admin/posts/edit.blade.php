@@ -17,7 +17,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-            <form method="POST" action="{{ route('posts.update', $post) }}" class="mx-auto" onsubmit="return checkSubmit();">
+            <form method="POST" action="{{ route('posts.update', $post) }}" class="mx-auto" onsubmit="return disableButton();">
                 @csrf
                 @method('PUT')
                 <input hidden type="text" value="{{$post->subject->id}}" name="subject_id" >
@@ -64,4 +64,14 @@
 
 
 @endsection
+
+@push('js')
+
+<script>
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
+</script>
+
+@endpush
 
