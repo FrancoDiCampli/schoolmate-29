@@ -219,7 +219,7 @@
 
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'pdf') {
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             let ancho = screen.width;
             if (ancho <= 640) {

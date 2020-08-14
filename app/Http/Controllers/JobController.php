@@ -188,15 +188,10 @@ class JobController extends Controller
         return redirect()->route('jobs.index', $subjectId);
     }
 
-    public function descargar($job)
+    public function descargarJob($job)
     {
-        $file = public_path('tareas/') . $job;
-        return response()->download($file);
-    }
-
-    public function descargarDelivery($delivery)
-    {
-        $file = public_path('entregas/') . $delivery;
+        $aux = Job::find($job);
+        $file = public_path($aux->file_path);
         return response()->download($file);
     }
 

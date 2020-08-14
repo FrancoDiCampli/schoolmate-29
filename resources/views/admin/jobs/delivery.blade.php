@@ -98,6 +98,7 @@
            <div class="flex justify-center p-2 mt-2">
                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
            </div>
+           <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Entrega</a>
        @endif
 
 
@@ -252,10 +253,15 @@
 @endsection
 
 @push('js')
+
+    {{-- script archivos --}}
     <script>
         let aux = @json($file);
+        let ancho = screen.width;
+        let descFile = document.getElementById('descargarFile');
+
         if (aux) {
-            let tipos = ['png', 'jpg'];
+            let tipos = ['png', 'jpg', 'pdf'];
 
             let aux1 = 0;
 
@@ -266,23 +272,27 @@
             });
 
             if (aux1 == 0) {
-                document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+                document.getElementById('viewer').setAttribute('src', 'https://view.officeapps.live.com/op/embed.aspx?src='+aux);
+            } else if (ancho <= 640) {
+                document.getElementById('viewer').classList.toggle('hidden');
+                descFile.removeAttribute('hidden');
             } else {
                 document.getElementById('viewer').setAttribute('src', aux);
             }
         }
-        let ancho = screen.width;
+
         if (ancho <= 640) {
             let marco = document.getElementById('viewer');
-            marco.setAttribute('height',200);
+            marco.setAttribute('height',500);
             marco.setAttribute('width',270);
 
             let marco2 = document.getElementById('player');
             marco2.setAttribute('height',200);
             marco2.setAttribute('width',270);
         }
+    </script>
 
-
+    <script>
          //Validación input comentario
     const commentDelivery = document.getElementById("commentDelivery")
     const commentDeliveryError = document.getElementById("commentDeliveryError")

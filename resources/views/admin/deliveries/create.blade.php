@@ -114,6 +114,7 @@
         <div class="flex justify-center p-2">
             @if ($job->file_path)
                 <iframe id="viewerFile" height="600" width="800" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Tarea</a>
             @endif
         </div>
 
@@ -413,11 +414,14 @@
 
 
 @push('js')
+{{-- script archivos --}}
 <script>
     let aux = @json($file);
+    let ancho = screen.width;
+    let descFile = document.getElementById('descargarFile');
 
     if (aux) {
-        let tipos = ['png', 'jpg'];
+        let tipos = ['png', 'jpg', 'pdf'];
 
         let aux1 = 0;
 
@@ -428,84 +432,51 @@
         });
 
         if (aux1 == 0) {
-            document.getElementById('viewerFile').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+            document.getElementById('viewerFile').setAttribute('src', 'https://view.officeapps.live.com/op/embed.aspx?src='+aux);
+        } else if (ancho <= 640) {
+            document.getElementById('viewerFile').classList.toggle('hidden');
+            descFile.removeAttribute('hidden');
         } else {
             document.getElementById('viewerFile').setAttribute('src', aux);
         }
     }
 
-    let ancho = screen.width;
     if (ancho <= 640) {
-        let marco = document.getElementById('viewer');
-        marco.setAttribute('height',200);
+        let marco = document.getElementById('viewerFile');
+        marco.setAttribute('height',500);
         marco.setAttribute('width',270);
 
         let marco2 = document.getElementById('player');
         marco2.setAttribute('height',200);
         marco2.setAttribute('width',270);
 
-        let marco3 = document.getElementById('viewerFile');
-        marco2.setAttribute('height',200);
-        marco2.setAttribute('width',270);
+        let marco1 = document.getElementById('viewer');
+        marco1.setAttribute('height',200);
+        marco1.setAttribute('width',270);
+    }
+</script>
+
+{{-- script clear inputs file and video --}}
+<script>
+    function limpiarVideo(){
+        let video = document.getElementById('fileVideoName');
+        let link = document.getElementById('link');
+        video.value = '';
+        let selectedVideo = document.getElementById('selectedVideo');
+        selectedVideo.innerHTML = 'Seleccione un video';
+        link.removeAttribute('disabled');
     }
 
-    let comment = `<div class="">
-                        <label for="">Comment</label>
-                        <textarea name="comment" id="" cols="60" rows="5" class=""></textarea>
-                        </div> `
-        let delivery = document.getElementById('delivery')
-        delivery.addEventListener('submit',function(e){
-            e.preventDefault();
-           delivery.submit();
-
-        })
-
-        let com = document.getElementById('comment')
-
-        function addComment(event){
-            event.preventDefault()
-
-            com.innerHTML = comment
-        }
-
-        var openmodal = document.querySelectorAll('.modal-open')
-    for (var i = 0; i < openmodal.length; i++) {
-      openmodal[i].addEventListener('click', function(event){
-    	event.preventDefault()
-    	toggleModal()
-      })
+    function limpiarFile(){
+        let video = document.getElementById('fileName');
+        video.value = '';
+        let selectedVideo = document.getElementById('selected');
+        selectedVideo.innerHTML = 'Seleccione un archivo';
     }
+</script>
 
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-      closemodal[i].addEventListener('click', toggleModal)
-    }
-
-    document.onkeydown = function(evt) {
-      evt = evt || window.event
-      var isEscape = false
-      if ("key" in evt) {
-    	isEscape = (evt.key === "Escape" || evt.key === "Esc")
-      } else {
-    	isEscape = (evt.keyCode === 27)
-      }
-      if (isEscape && document.body.classList.contains('modal-active')) {
-    	toggleModal()
-      }
-    };
-
-
-    function toggleModal () {
-      const body = document.querySelector('body')
-      const modal = document.querySelector('.modal')
-      modal.classList.toggle('opacity-0')
-      modal.classList.toggle('pointer-events-none')
-      body.classList.toggle('modal-active')
-    }
-
+{{-- script set inputs file and video --}}
+<script>
     function setName(){
         let fileName = document.getElementById('fileName');
         var cad = fileName.value;
@@ -570,23 +541,65 @@
             video.removeAttribute('disabled');
         }
     }
+</script>
 
-    function limpiarVideo(){
-        let video = document.getElementById('fileVideoName');
-        let link = document.getElementById('link');
-        video.value = '';
-        let selectedVideo = document.getElementById('selectedVideo');
-        selectedVideo.innerHTML = 'Seleccione un video';
-        link.removeAttribute('disabled');
+<script>
+    let comment = `<div class="">
+                        <label for="">Comment</label>
+                        <textarea name="comment" id="" cols="60" rows="5" class=""></textarea>
+                        </div> `
+        let delivery = document.getElementById('delivery')
+        delivery.addEventListener('submit',function(e){
+            e.preventDefault();
+           delivery.submit();
+
+        })
+
+        let com = document.getElementById('comment')
+
+        function addComment(event){
+            event.preventDefault()
+
+            com.innerHTML = comment
+        }
+
+        var openmodal = document.querySelectorAll('.modal-open')
+    for (var i = 0; i < openmodal.length; i++) {
+      openmodal[i].addEventListener('click', function(event){
+    	event.preventDefault()
+    	toggleModal()
+      })
     }
 
-    function limpiarFile(){
-        let video = document.getElementById('fileName');
-        video.value = '';
-        let selectedVideo = document.getElementById('selected');
-        selectedVideo.innerHTML = 'Seleccione un archivo';
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', toggleModal)
     }
 
+    document.onkeydown = function(evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
+    	isEscape = (evt.key === "Escape" || evt.key === "Esc")
+      } else {
+    	isEscape = (evt.keyCode === 27)
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
+    	toggleModal()
+      }
+    };
+
+
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
     //Validación input comentario
     const comentario = document.getElementById("comment")
     const comentarioError = document.getElementById("commentError")

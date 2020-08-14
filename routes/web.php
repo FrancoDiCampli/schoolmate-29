@@ -83,10 +83,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('newpost/{subject}', 'PostController@create')->name('new.post');
         // Comentarios de los post del muro
         Route::resource('annotations', 'AnnotationController');
+
+        Route::get('descargarDelivery/{delivery}', 'DeliveryController@descargarDelivery')->name('descargarDelivery');
     });
 
     // Alumnos, Asesores y Profesores
     Route::group(['middleware' => ['role:student|teacher|adviser']], function () {
+        Route::get('descargarJob/{job}', 'JobController@descargarJob')->name('descargarJob');
         // Notificaciones
         Route::get('notifications', function () {
             if (Auth::check()) {
