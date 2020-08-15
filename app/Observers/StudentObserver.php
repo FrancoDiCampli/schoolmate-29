@@ -17,11 +17,12 @@ class StudentObserver
      */
     public function created(Student $student)
     {
+
         $user  = User::create([
             'dni'=>$student->dni,
-
             'password' =>Hash::make($student->dni),
             'name'=>$student->name,
+
         ]);
         $user->assignRole('student');
 

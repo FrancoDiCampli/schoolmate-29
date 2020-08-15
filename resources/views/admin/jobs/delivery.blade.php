@@ -98,7 +98,9 @@
            <div class="flex justify-center p-2 mt-2">
                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
            </div>
-           <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Entrega</a>
+           <div class="flex justify-center p-2 mt-2">
+              <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="bg-teal-500 rounded text-white font-bold p-2">Descargar Entrega</a> 
+           </div>
        @endif
 
 
@@ -257,7 +259,6 @@
     <script>
         let aux = @json($file);
         let ancho = screen.width;
-        let descFile = document.getElementById('descargarFile');
 
         if (aux) {
             let tipos = ['png', 'jpg', 'pdf'];
@@ -274,7 +275,6 @@
                 document.getElementById('viewer').setAttribute('src', 'https://view.officeapps.live.com/op/embed.aspx?src='+aux);
             } else if (ancho <= 640) {
                 document.getElementById('viewer').classList.toggle('hidden');
-                descFile.removeAttribute('hidden');
             } else {
                 document.getElementById('viewer').setAttribute('src', aux);
             }

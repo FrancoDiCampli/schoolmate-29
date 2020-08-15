@@ -2,7 +2,9 @@
 
 namespace App\Traits;
 
+use App\User;
 use App\Teacher;
+use Illuminate\Support\Facades\Hash;
 
 trait TeachersTrait
 {
@@ -22,5 +24,41 @@ trait TeachersTrait
         //     $sub->course;
         //     $sub->jobs->each->deliveries;
         // });
+    }
+
+    public static function teacherUpdate($request,$teacher){
+
+        $path = null;
+
+        $data = $request->validated();
+
+        if($request->hasFile('file')){
+            $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
+            $data['photo'] = $path;
+
+        }
+        Teacher::where('id',$teacher->id)->update($data);
+        $usuario =  User::find($data['user_id']);
+
+        $pw = $request->password;
+
+        if(strlen($pw)>7){
+           $pw =  Hash::make($pw);
+           $usuario->update([
+               'password'=>$pw
+           ]);
+        }
+
+        $usuario->update([
+            'name'=>$data['name'],
+            'dni'=>$data['dni']
+            ]);
+
+
+
+        if(!is_null($path)){
+           $usuario->update(['photo'=>$data['photo']]);
+        }
+
     }
 }

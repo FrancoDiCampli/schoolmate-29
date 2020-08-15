@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\Enrollment;
 use App\Student;
+use App\Enrollment;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
+use App\Traits\StudentsTrait;
 use App\Imports\StudentsImport;
 use App\Http\Requests\StoreStudent;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\UpdateStudentProfile;
 
 class StudentController extends Controller
 {
@@ -128,6 +130,25 @@ class StudentController extends Controller
         }
 
         return redirect()->route('students.index') ->with('messages', 'Alumnos creados correctamente.');;
+
+    }
+
+
+    public function updateStudent(UpdateStudentProfile $request, Student $student)
+    {
+        StudentsTrait::studentUpdate($request,$student);
+
+        $rol = auth()->user()->roles->first()->name;
+
+        if($rol =='student'){
+
+            return redirect()->route('student') ->with('messages', 'Estudiante actualizado correctamente.');
+
+        }else{
+            return redirect()->route('students.index') ->with('messages', 'Estudiante actualizado correctamente.');
+
+        }
+
 
     }
 }

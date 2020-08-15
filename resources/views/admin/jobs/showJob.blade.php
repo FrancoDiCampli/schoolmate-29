@@ -106,14 +106,18 @@
              {{-- Youtube --}}
              @if ($job->link)
              <iframe id="player" type="text/html" width="800" height="600"
-                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
+                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0"
+                 allowfullscreen></iframe>
              @endif
         </div>
 
         @if ($job->file_path)
             <div class="flex justify-center p-2 mt-2">
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded text-white font-bold p-2" >Descargar Tarea</a>
+            </div>
+
+            <div class="flex justify-center p-2 mt-2">
                 <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
-                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Tarea</a>
             </div>
         @endif
 
@@ -291,7 +295,6 @@
             document.getElementById('viewer').setAttribute('src', 'https://view.officeapps.live.com/op/embed.aspx?src='+aux);
         } else if (ancho <= 640) {
             document.getElementById('viewer').classList.toggle('hidden');
-            descFile.removeAttribute('hidden');
         } else {
             document.getElementById('viewer').setAttribute('src', aux);
         }
