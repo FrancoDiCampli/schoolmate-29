@@ -92,7 +92,7 @@ class AdminController extends Controller
 
     public function tareasZip()
     {
-        $zip_file = 'tareas.zip';
+        $zip_file = 'tareasBackup.zip';
         $zip = new ZipArchive();
         $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $path = public_path('tareas');
@@ -112,7 +112,7 @@ class AdminController extends Controller
 
     public function entregasZip()
     {
-        $zip_file = 'entregas.zip';
+        $zip_file = 'entregasBackup.zip';
         $zip = new ZipArchive();
         $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $path = public_path('entregas');
