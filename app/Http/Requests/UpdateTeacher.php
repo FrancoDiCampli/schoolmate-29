@@ -29,12 +29,13 @@ class UpdateTeacher extends FormRequest
         return [
             'name' => ['required','max:50',Rule::unique('teachers')->ignore($teacher)],
             'dni' => ['required',Rule::unique('teachers')->ignore($teacher)],
+
             'address'=>'required',
-            'fnac'=>'date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
+            'fnac'=>'string',
             'phone'=>'required',
             'email'=>'required',
             'user_id'=>'required',
-            'docket'=>Rule::unique('teachers')->ignore($teacher),
+            'docket'=>['nullable',Rule::unique('teachers')->ignore($teacher)],
             'photo' => 'nullable|file|mimes:jpg,jpeg,png'
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\User;
 use App\Teacher;
+use Illuminate\Support\Facades\Hash;
 
 trait TeachersTrait
 {
@@ -25,10 +26,12 @@ trait TeachersTrait
         // });
     }
 
-    public function teacherUpdate($request,$teacher){
+    public static function teacherUpdate($request,$teacher){
+
         $path = null;
 
         $data = $request->validated();
+
         if($request->hasFile('file')){
             $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
             $data['photo'] = $path;
@@ -36,7 +39,22 @@ trait TeachersTrait
         }
         Teacher::where('id',$teacher->id)->update($data);
         $usuario =  User::find($data['user_id']);
-        $usuario->update(['name'=>$data['name']]);
+
+        $pw = $request->password;
+
+        if(strlen($pw)>7){
+           $pw =  Hash::make($pw);
+           $usuario->update([
+               'password'=>$pw
+           ]);
+        }
+
+        $usuario->update([
+            'name'=>$data['name'],
+            'dni'=>$data['dni']
+            ]);
+
+
 
         if(!is_null($path)){
            $usuario->update(['photo'=>$data['photo']]);

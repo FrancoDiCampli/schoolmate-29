@@ -32,13 +32,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     //Asesores
-    Route::group(['middleware' => ['role:adviser']], function () {
+    Route::group(['middleware' => ['role:adviser|admin']], function () {
         Route::get('adviser', 'AdminController@adviser')->name('adviser');
         Route::get('stateJobs/{id}', 'AdviserController@stateJobs')->name('adviser.jobs');
     });
 
     // Profesores
-    Route::group(['middleware' => ['role:teacher']], function () {
+    Route::group(['middleware' => ['role:teacher|admin']], function () {
         Route::get('teacher', 'AdminController@teacher')->name('teacher');
         //   Tareas
         Route::resource('jobs', 'JobController')->except(['index', 'create', 'update']);
@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Alumnos
-    Route::group(['middleware' => ['role:student']], function () {
+    Route::group(['middleware' => ['role:student|admin']], function () {
         Route::get('student', 'AdminController@student')->name('student');
         Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
         Route::get('pendings/{subject}', 'DeliveryController@pendings')->name('deliveries.pendings');
@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Asesores y Profesores
-    Route::group(['middleware' => ['role:adviser|teacher']], function () {
+    Route::group(['middleware' => ['role:adviser|teacher|admin']], function () {
         Route::get('jobs/showJob/{id}', 'JobController@showJob')->name('jobs.showJob');
         Route::resource('jobs', 'JobController')->only(['update']);
         //Comentario de la tarea, entre el profesor y el asesor
@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Alumnos y Profesores
-    Route::group(['middleware' => ['role:student|teacher']], function () {
+    Route::group(['middleware' => ['role:student|teacher|admin']], function () {
         Route::put('updateDelivery/{id}', 'DeliveryController@update')->name('delivery.update');
         Route::get('tareas/{subject}', 'JobController@index')->name('jobs.index');
         // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
@@ -87,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Alumnos, Asesores y Profesores
-    Route::group(['middleware' => ['role:student|teacher|adviser']], function () {
+    Route::group(['middleware' => ['role:student|teacher|adviser|admin']], function () {
         // Notificaciones
         Route::get('notifications', function () {
             if (Auth::check()) {

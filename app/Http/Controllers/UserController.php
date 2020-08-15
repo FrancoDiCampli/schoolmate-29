@@ -111,17 +111,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = Auth::user();
 
-        $user = User::where('id',$id)->with('teacher')->first();
+        $user = User::find($id);
+        $rol = $user->roles()->first()->name;
 
-        return view('admin.users.edit',compact('user'));
+        if($rol == 'teacher'){
+            return view('admin.users.teacherprofile',compact('user'));
+        }elseif($rol == 'student'){
+            return view('admin.users.studentprofile',compact('user'));
+        }
 
-        // if($id == 'teacher'){
-        //     return view('admin.users.u',compact('user'));
-        // }else{
-        //     return view('admin.users.studentprofile',compact('user'));
-        // }
+
 
 
     }
@@ -135,7 +135,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request;
+        return $id;
     }
 
     /**

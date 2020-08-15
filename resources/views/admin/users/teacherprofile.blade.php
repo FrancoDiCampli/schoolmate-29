@@ -45,8 +45,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Password
                         </label>
-                        <input id="dni" type="password"  name="password" class="form-input w-full block"
-                             value="{{$user->password}}">
+                        <input id="dni" type="text"  name="password" class="form-input w-full block"
+                             value="">
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('password')}}
                         </span>

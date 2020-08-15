@@ -82,7 +82,7 @@ class TeacherController extends Controller
     public function edit($id)
     {
 
-       return  $teacher = Teacher::find($id);
+        $teacher = Teacher::find($id);
         $user = User::find($teacher->user_id);
         return view('admin.users.teacherprofile',compact('user'));
     }
@@ -97,23 +97,19 @@ class TeacherController extends Controller
     public function updateTeacher(UpdateTeacher $request, Teacher $teacher)
     {
 
-        TeachersTrait::updateTeacher($request,$teacher);
-        // $path = null;
 
-        // $data = $request->validated();
-        // if($request->hasFile('file')){
-        //     $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
-        //     $data['photo'] = $path;
+        TeachersTrait::teacherUpdate($request,$teacher);
 
-        // }
-        // Teacher::where('id',$teacher->id)->update($data);
-        // $usuario =  User::find($data['user_id']);
-        // $usuario->update(['name'=>$data['name']]);
+        $rol = auth()->user()->roles->first()->name;
 
-        // if(!is_null($path)){
-        //    $usuario->update(['photo'=>$data['photo']]);
-        // }
-        return redirect()->route('teacher') ->with('messages', 'Profesor actualizado correctamente.');
+        if($rol =='teacher'){
+
+            return redirect()->route('teacher') ->with('messages', 'Profesor actualizado correctamente.');
+
+        }else{
+            return redirect()->route('teachers.index') ->with('messages', 'Profesor actualizado correctamente.');
+
+        }
 
 
     }
