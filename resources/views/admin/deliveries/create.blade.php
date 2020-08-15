@@ -111,12 +111,22 @@
             @endif
         </div>
 
-        <div class="flex justify-center p-2">
-            @if ($job->file_path)
-                <iframe id="viewerFile" height="600" width="800" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
-                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Tarea</a>
+        @if ($delivery)
+            @if ($delivery->file_path)
+                <div class="flex justify-center p-2 mt-2">
+                    <a id="descargarFile" target="_blank" href="{{asset($delivery->file_path)}}" class="bg-teal-500 rounded text-white font-bold p-2" >Ver Mi Entrega</a>
+                </div>
             @endif
-        </div>
+        @endif
+
+        @if ($job->file_path)
+            <div class="flex justify-center p-2 mt-2">
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded text-white font-bold p-2" >Descargar Tarea</a>
+            </div>
+            <div class="flex justify-center p-2">
+                <iframe id="viewerFile" height="600" width="800" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
+            </div>
+        @endif
 
         {{-- Movimientos de la tarea --}}
         <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">

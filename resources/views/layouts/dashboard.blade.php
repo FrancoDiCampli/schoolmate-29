@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Schoolmate</title>
     <link rel="icon" type="image/png" href="{{asset('img/sm-sidebar-png.png')}}" />
-    <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/main.css')}}"> --}}
+    <link rel="stylesheet" href="{{ asset('css/main.css?v='.filemtime(public_path('css/main.css'))) }}"/>
 </head>
 
 <body class="bg-gray-100 font-montserrat" id="all">
