@@ -266,9 +266,9 @@
                     </button>
                 </div> --}}
 
-                <textarea name="comment" onkeyup="setCommentJob()" id="commentJob" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800 mb-3" id="grid-last-name" type="text" placeholder="Contenido de la publicación" value="" maxlength="3001"></textarea>
+            <textarea name="comment" onkeyup="setCommentJob()" id="commentJob" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Contenido de la publicación" maxlength="3001">{{old('comment')}}</textarea>
                 <span class="flex italic text-red-600  text-sm" role="alert" id="commentError">
-                    {{$errors->first('title')}}
+                    {{$errors->first('comment')}}
                 </span>
 
                 <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>

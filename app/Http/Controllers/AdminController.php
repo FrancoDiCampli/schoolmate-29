@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use App\User;
+use ZipArchive;
 use App\Student;
 use App\Subject;
 use App\Teacher;
@@ -11,6 +12,8 @@ use App\Delivery;
 use Illuminate\Http\Request;
 use App\Traits\StudentsTrait;
 use App\Traits\TeachersTrait;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -85,5 +88,45 @@ class AdminController extends Controller
         $activas = count($activas);
         $rechazadas = count($rechazadas);
         return view('admin.advisers.home', compact('jobs', 'activas', 'rechazadas'));
+    }
+
+    public function tareasZip()
+    {
+        $zip_file = 'tareas.zip';
+        $zip = new ZipArchive();
+        $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $path = public_path('tareas');
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+
+        foreach ($files as $name => $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                $relarivePath = 'tareas/'.substr($filePath, strlen($path) + 1);
+
+                $zip->addFile($filePath, $relarivePath);
+            }
+        }
+        $zip->close();
+        return response()->download($zip_file);
+    }
+
+    public function entregasZip()
+    {
+        $zip_file = 'entregas.zip';
+        $zip = new ZipArchive();
+        $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $path = public_path('entregas');
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+
+        foreach ($files as $name => $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                $relarivePath = 'entregas/'.substr($filePath, strlen($path) + 1);
+
+                $zip->addFile($filePath, $relarivePath);
+            }
+        }
+        $zip->close();
+        return response()->download($zip_file);
     }
 }

@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     public function store(Request $request){
-
-
+        $datos = $request->validate([
+            'comment' => 'min:3|max:3000',
+        ]);
         Comment::create([
             'user_id' => Auth::user()->id,
             'delivery_id' => $request->delivery,
-            'comment' => $request->comment,
+            'comment' => $datos['comment'],
         ]);
 
         return redirect()->back();
@@ -25,7 +26,7 @@ class CommentController extends Controller
     public function addJobComment(Request $request)
     {
         $datos = $request->validate([
-            'comment' => 'min:3',
+            'comment' => 'min:3|max:3000',
         ]);
         JobComment::create([
             'user_id' => Auth::user()->id,

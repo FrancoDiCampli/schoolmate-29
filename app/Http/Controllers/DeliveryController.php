@@ -99,13 +99,15 @@ class DeliveryController extends Controller
         }
         $nameFile = FilesTrait::store($request, 'entregas', auth()->user()->student->name);
 
-        $delivery = Delivery::create([
-            'job_id' => $request->job,
-            'file_path' => $nameFile,
-            'state' => 0,
-            'link' => $link,
-            'student_id' => Auth::user()->student->id,
-        ]);
+        $data = $request->validated();
+        $data['job_id'] = $request->job;
+        $data['state'] = 0;
+        unset($data['file']);
+        $data['file_path'] = $nameFile;
+        $data['student_id'] = Auth::user()->student->id;
+
+        $delivery = Delivery::create($data);
+        
         LogsTrait::logDelivery($delivery,0);
         // Si tiene comentarios los crea
         if ($request->comment) {

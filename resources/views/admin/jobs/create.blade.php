@@ -174,6 +174,98 @@
 @endsection
 
 @push('js')
+    {{-- script archivos --}}
+    <script>
+        function setName(){
+            let fileName = document.getElementById('fileName');
+            var cad = fileName.value;
+            cad = cad.split('\\');
+            let extension = cad[2].split('.');
+            let selected = document.getElementById('selected');
+
+            selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
+            let botoncito = document.getElementById('boton');
+
+            fileDocument = document.getElementById("fileName").files[0];
+            fileDocument_url = URL.createObjectURL(fileDocument);
+            if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'pdf') {
+                document.getElementById('viewer').setAttribute('src', fileDocument_url);
+                let ancho = screen.width;
+                if (ancho <= 640) {
+                    let marco = document.getElementById('viewer');
+                    marco.setAttribute('height',200);
+                    marco.setAttribute('width',270);
+                }
+                toggleModal();
+            }
+
+        }
+        function setNameVideo(){
+            let fileVideoName = document.getElementById('fileVideoName');
+            let link = document.getElementById('link');
+
+            if (fileVideoName.value.length > 0) {
+                if (link.value.length == 0) {
+                    link.setAttribute('disabled', true);
+                }
+            } else {
+                link.removeAttribute('disabled');
+            }
+
+            var cad = fileVideoName.value;
+            cad = cad.split('\\');
+            let extension = cad[2].split('.');
+            let selectedVideo = document.getElementById('selectedVideo');
+
+            selectedVideo.innerHTML = cad[2] + ' ' +"<button id='botonVideo' type='button' onclick='limpiarVideo()' class='btn-delete'>X</button>";
+            let botoncito = document.getElementById('botonVideo');
+
+            fileDocumentVideo = document.getElementById("fileVideoName").files[0];
+            fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
+
+            let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
+            let aux = true;
+            tipos.forEach(element => {
+                if (extension[1].search(element) == 0) {
+                    aux = false;
+                }
+            });
+            if (aux) {
+                limpiarVideo();
+            } else{
+                link.setAttribute('disabled', true);
+            }
+        }
+
+        function setLink(){
+            let video = document.getElementById('fileVideoName');
+            let link = document.getElementById('link');
+            if (link.value.length > 0) {
+                if (video.value.length == 0) {
+                    video.setAttribute('disabled', true);
+                }
+            } else {
+                video.removeAttribute('disabled');
+            }
+        }
+
+        function limpiarVideo(){
+            let video = document.getElementById('fileVideoName');
+            let link = document.getElementById('link');
+            video.value = '';
+            let selectedVideo = document.getElementById('selectedVideo');
+            selectedVideo.innerHTML = 'Seleccione un video';
+            link.removeAttribute('disabled');
+        }
+
+        function limpiarFile(){
+            let video = document.getElementById('fileName');
+            video.value = '';
+            let selectedVideo = document.getElementById('selected');
+            selectedVideo.innerHTML = 'Seleccione un archivo';
+        }
+    </script>
+
 <script>
     var openmodal = document.querySelectorAll('.modal-open')
     for (var i = 0; i < openmodal.length; i++) {
@@ -207,105 +299,8 @@
       modal.classList.toggle('pointer-events-none')
       body.classList.toggle('modal-active')
     }
-    function setName(){
-        let fileName = document.getElementById('fileName');
-        var cad = fileName.value;
-        cad = cad.split('\\');
-        let extension = cad[2].split('.');
-        let selected = document.getElementById('selected');
-
-        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
-        let botoncito = document.getElementById('boton');
-
-        fileDocument = document.getElementById("fileName").files[0];
-        fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'pdf') {
-            document.getElementById('viewer').setAttribute('src', fileDocument_url);
-            let ancho = screen.width;
-            if (ancho <= 640) {
-                let marco = document.getElementById('viewer');
-                marco.setAttribute('height',200);
-                marco.setAttribute('width',270);
-            }
-            toggleModal();
-        }
-
-    }
-    function setNameVideo(){
-        let fileVideoName = document.getElementById('fileVideoName');
-        let link = document.getElementById('link');
-
-        if (fileVideoName.value.length > 0) {
-            if (link.value.length == 0) {
-                link.setAttribute('disabled', true);
-            }
-        } else {
-            link.removeAttribute('disabled');
-        }
-
-        var cad = fileVideoName.value;
-        cad = cad.split('\\');
-        let extension = cad[2].split('.');
-        let selectedVideo = document.getElementById('selectedVideo');
-
-        selectedVideo.innerHTML = cad[2] + ' ' +"<button id='botonVideo' type='button' onclick='limpiarVideo()' class='btn-delete'>X</button>";
-        let botoncito = document.getElementById('botonVideo');
-
-        fileDocumentVideo = document.getElementById("fileVideoName").files[0];
-        fileDocumentVideo_url = URL.createObjectURL(fileDocumentVideo);
-
-        let tipos = ['mov','mpeg4','mp4','avi','wmv','mpegps','flv','3gpp','webm','dnxhr','hevc'];
-        let aux = true;
-        tipos.forEach(element => {
-            if (extension[1].search(element) == 0) {
-                aux = false;
-            }
-        });
-        if (aux) {
-            limpiarVideo();
-        } else{
-            link.setAttribute('disabled', true);
-        }
-    }
-
-    function setLink(){
-        let video = document.getElementById('fileVideoName');
-        let link = document.getElementById('link');
-        if (link.value.length > 0) {
-            if (video.value.length == 0) {
-                video.setAttribute('disabled', true);
-            }
-        } else {
-            video.removeAttribute('disabled');
-        }
-    }
-
-    function limpiarVideo(){
-        let video = document.getElementById('fileVideoName');
-        let link = document.getElementById('link');
-        video.value = '';
-        let selectedVideo = document.getElementById('selectedVideo');
-        selectedVideo.innerHTML = 'Seleccione un video';
-        link.removeAttribute('disabled');
-    }
-
-    function limpiarFile(){
-        let video = document.getElementById('fileName');
-        video.value = '';
-        let selectedVideo = document.getElementById('selected');
-        selectedVideo.innerHTML = 'Seleccione un archivo';
-    }
-
-
-
     //Validaciones const
     const form = document.getElementById("form")
-    const title = document.getElementById("title")
-    const description = document.getElementById("description")
-    const fileName = document.getElementById("fileName")
-    const file = document.getElementById("file")
-    const start = document.getElementById("start")
-    const end = document.getElementById("end")
     const titleError = document.getElementById("titleError")
     const descriptionError = document.getElementById("descriptionError")
     const startError = document.getElementById("startError")
@@ -314,84 +309,14 @@
 
     // formulario validation
     form.addEventListener("submit", e=>{
-
-        titleError.innerHTML = ""
-        descriptionError.innerHTML = ""
-        startError.innerHTML = ""
-        endError.innerHTML = ""
-        loading = true
-
-        // title
-        if (title.value.length >= 40){
-            document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
-            title.classList.add("form-input-error")
-            loading = false;
-        }
-        if (title.value.length < 41){
-            document.getElementById("titleError").innerHTML = ""
-            title.classList.remove("form-input-error")
-            loading = false;
-        }
-        if (title.value.length < 6){
-            document.getElementById("titleError").innerHTML = "Debe tener al menos 5 caracteres"
-            title.classList.add("form-input-error")
-            loading = false;
-        }
-
-        // description
-        if (description.value.length > 3000){
-            e.preventDefault()
-            document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
-            description.className = 'form-input form-input-error w-full block'
-            loading = false;
-        }
-        if (description.value.length === 0){
-            e.preventDefault()
-            document.getElementById("descriptionError").innerHTML = "El campo es obligatorio"
-            description.className = 'form-input form-input-error w-full block'
-            loading = false;
-        }
-        if (description.value.length < 20){
-            document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
-            description.classList.add("form-input-error")
-            loading = false;
-        }
-
-        // fecha start
-        if (start.value.length <= 0){
-            e.preventDefault()
-            document.getElementById("startError").innerHTML = "La fecha es requerida"
-            start.classList.add("form-input-error")
-            loading = false;
-        } else{
-            start.classList.remove("form-input-error")
-            loading = true;
-        }
-
-        // fecha end
-        if (end.value.length <= 0){
-            e.preventDefault()
-            document.getElementById("endError").innerHTML = "La fecha es requerida"
-            end.classList.add("form-input-error")
-            loading = false;
-        } else{
-            end.classList.remove("form-input-error")
-            loading = true;
-        }
-
         document.getElementById("entregaDisabled").disabled = true;
-
-        if(loading){
-            loadingSubmit();
-        }
-
+        loadingSubmit();
     })
     //end  formulario validation
 
 
     // set title validation
     function setTitle(){
-        loading = true;
         document.getElementById("entregaDisabled").disabled = false;
         if (title.value.length > 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
@@ -409,7 +334,6 @@
 
     // set description validation
     function setDescription(){
-        loading = true;
         document.getElementById("entregaDisabled").disabled = false;
         if (description.value.length > 3000){
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"

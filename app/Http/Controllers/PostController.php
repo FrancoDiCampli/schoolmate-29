@@ -34,13 +34,15 @@ class PostController extends Controller
         // return $request;
         $sub = Subject::where('id',$request->subject_id)->get();
 
-        Post::create([
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'content'=>$request->content,
-            'subject_id'=>$request->subject_id,
-            'user_id'=>auth()->user()->id
+        $data = $request->validate([
+            'title' => 'min:5|max:40',
+            'description' => 'min:19|max:90',
+            'content' => 'min:20|max:3000',
         ]);
+        $data['subject_id'] = $request->subject_id;
+        $data['user_id'] = auth()->user()->id;
+        
+        Post::create($data);
 
         return redirect()->route('posts.index',$request->subject_id);
     }
@@ -71,9 +73,9 @@ class PostController extends Controller
     public function update(Request $request, Post $post){
 
         $postValidation = $request->validate([
-            'title'=> ['required', 'max:40', Rule::unique('posts')->ignore($post)],
-            'description'=>'required|max:120',
-            'content'=>'required'
+            'title'=> 'min:5|max:40|unique:posts,id,'.$post->id,
+            'description'=>'min:19|max:90',
+            'content'=>'min:20|max:3000'
         ]);
 
         $post->update($postValidation);

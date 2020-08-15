@@ -24,15 +24,15 @@ class StoreJob extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'min:5|max:40',
+            'description' => 'min:20|max:3000',
             // 'link' => 'nullable|url',
             'link' => 'nullable|regex:/^.+youtu.+$/i',
             'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',
             'video' => 'nullable|file|mimes:mov,mpeg4,mp4,avi,wmv,mpegps,flv,3gpp,webm,dnxhr,hevc',
-            'start' => 'date',
+            'start' => 'date|after_or_equal:' . now()->format('d-m-Y'),
             'end' => 'date|after_or_equal:' . $this->start,
-            'comment' => 'nullable|min:3'
+            'comment' => 'nullable|min:3|max:3000'
         ];
     }
 }
