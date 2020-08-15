@@ -81,25 +81,60 @@
                         <h2 class="text-sm font-medium text-gray-900 -mt-1">{{$delivery->student->name}} </h2>
                         <p class="text-gray-700 font-light text-xs">Entregada el {{$delivery->created_at->format('d-m-Y')}}</p>
                     </div>
-
                 </div>
+                @if ($delivery->file_path)
+                    <div class="flex justify-center">
+                        <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="btn btn-default mr-3 py-1 px-2 rounded-md hidden md:flex">
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
 
+        {{-- Mensaje de alerta si la entrega está en blanco --}}
+        @if (! $delivery->file_path)
+        <div class="alert flex flex-row items-center bg-yellow-200 p-5 rounded border-b-2 border-yellow-300">
+			<div class="alert-icon flex items-center bg-yellow-100 border-2 border-yellow-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+				<span class="text-yellow-500">
+					<svg fill="currentColor"
+						 viewBox="0 0 20 20"
+						 class="h-6 w-6">
+						<path fill-rule="evenodd"
+							  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+							  clip-rule="evenodd"></path>
+					</svg>
+				</span>
+			</div>
+			<div class="alert-content ml-4">
+				<div class="alert-title font-semibold text-lg text-yellow-800">
+					Atención!
+				</div>
+				<div class="alert-description text-sm text-yellow-600">
+					Esta entrega no contiene archivos...!
+				</div>
+			</div>
+        </div>
+        @endif
+        {{-- fin mensaje --}}
+
+        {{-- Youtube --}}
+        @if ($delivery->link)
         <div class="flex justify-center p-2">
-            {{-- Youtube --}}
-            @if ($delivery->link)
             <iframe id="player" type="text/html" width="800" height="600"
                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
-            @endif
        </div>
+       @endif
 
        @if ($delivery->file_path)
            <div class="flex justify-center p-2 mt-2">
                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
            </div>
-           <div class="flex justify-center p-2 mt-2">
-              <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="bg-teal-500 rounded text-white font-bold p-2">Descargar Entrega</a> 
+           <div class="flex justify-center mb-6 mt-2">
+              <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="btn btn-default flex md:hidden">
+                Descargar Entrega
+                <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download ml-2 fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+            </a>
            </div>
        @endif
 
@@ -155,7 +190,7 @@
                                 <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
                                     <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
                                     <td class="px-1 py-2">{{$activity->description}}</td>
-                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                    <td class="px-1 py-2 mt-1">{{$activity->causer->name}}</td>
                                 </tr>
                             @endforeach
 
@@ -239,7 +274,7 @@
                 {{-- <div
                     class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center"> --}}
                     {{-- <input name="comment" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario"> --}}
-                    <textarea name="comment" onkeyup="setCommentDelivery()" id="commentDelivery" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Comentario de la entrega" value="" maxlength="3001"></textarea>
+                    <textarea name="comment" onkeyup="setCommentDelivery()" id="commentDelivery" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800 mb-3" id="grid-last-name" type="text" placeholder="Comentario de la entrega" value="" maxlength="3001"></textarea>
                 <span class="flex italic text-red-600  text-sm" role="alert" id="commentDeliveryError">
                     {{$errors->first('title')}}
                 </span>
