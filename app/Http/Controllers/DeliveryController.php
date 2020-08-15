@@ -44,7 +44,7 @@ class DeliveryController extends Controller
 
         $deliveries =  Delivery::whereIn('job_id', $jobs->modelkeys())->get();
 
-        $deliveries->where('student_id', $user);
+        $deliveries = $deliveries->where('student_id', $user);
 
         return view('admin.deliveries.index', compact('deliveries', 'subject'));
     }

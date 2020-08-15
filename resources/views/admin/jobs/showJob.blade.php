@@ -120,7 +120,7 @@
 
         {{-- Select del asesor  --}}
         @role('adviser')
-            <form action="{{route('jobs.update', $job->id)}}" method="POST">
+            <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return disableButton();">
                 @method('PUT')
                 @csrf
 
@@ -133,7 +133,6 @@
                         <div class="relative">
                             <select  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
                                 <option disabled selected value> {{$job->state($job->state)}} </option>
-                                <option value="0">Borrador</option>
                                 <option value="1">Activa</option>
                                 <option value="2">Revisar</option>
                             </select>
@@ -368,6 +367,10 @@
     })
 
     // end validation
+
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
 
 </script>
 
