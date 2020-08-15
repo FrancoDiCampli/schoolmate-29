@@ -29,6 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('teachers', 'TeacherController');
         Route::get('importar', 'TeacherController@import')->name('import.teachers');
         Route::post('importarProfes', 'TeacherController@importTeachers')->name('save.teachers');
+
+        // Backup Tareas
+        Route::get('tareasZip', 'AdminController@tareasZip');
+        Route::get('entregasZip', 'AdminController@entregasZip');
     });
 
     //Asesores
