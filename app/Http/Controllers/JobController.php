@@ -74,7 +74,11 @@ class JobController extends Controller
 
         $job = Job::create($data);
 
-        LogsTrait::logJob($job, 0);
+        activity('jobs')
+        ->causedBy(Auth::user())
+        ->performedOn($job)
+        ->withProperties(['estado' => 'creada'])
+        ->log('Tarea creada');
 
         session()->flash('messages', 'Tarea creada');
 
@@ -131,10 +135,10 @@ class JobController extends Controller
     {
         $job = Job::find($id);
         $user = Auth::user()->id;
-        $cond = 3;
+
 
         if($job->state != 1){
-            LogsTrait::logJob($job, $cond);
+           LogsTrait::logJob($job, $request->state);
 
             $stateJob = $job->state;
             $subject = Subject::find($request->subject);

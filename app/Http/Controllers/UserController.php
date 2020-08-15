@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 use App\Imports\StudentsImport;
 use App\Observers\StudentObserver;
+use App\Http\Requests\UpdateProfile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -109,7 +111,19 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $user = User::find($id);
+        $rol = $user->roles()->first()->name;
+
+        if($rol == 'teacher'){
+            return view('admin.users.teacherprofile',compact('user'));
+        }elseif($rol == 'student'){
+            return view('admin.users.studentprofile',compact('user'));
+        }
+
+
+
+
     }
 
     /**
@@ -121,7 +135,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $id;
     }
 
     /**
@@ -143,9 +157,21 @@ class UserController extends Controller
         StudentObserver::$course = $request->course_id;
         Excel::import(new StudentsImport, request()->file('file'));
 
-
-
-
         // Excel::import(new StudentsImport, asset('files/students.xlsx'));
+    }
+
+    public function resetPass(User $user){
+        return view('admin.users.resetpassword',compact('user'));
+    }
+
+    public function reset(UpdateProfile $request, User $user){
+       $data = $request->all();
+        // $user->update($data);
+        User::where('id',$request->id)->update([
+            'password'=>Hash::make($request->password)
+        ]);
+        session()->flash('messages', 'La contrasenia se cambio con exito');
+
+        return redirect()->route(Auth::user()->roles->first()->name);
     }
 }

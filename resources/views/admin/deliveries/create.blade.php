@@ -426,6 +426,15 @@
 @push('js')
 {{-- script archivos --}}
 <script>
+
+    function deshabilitar(){
+        let btn = document.getElementById('entregar')
+        btn.disabled = true
+        console.log('des')
+
+    }
+
+
     let aux = @json($file);
     let ancho = screen.width;
     let descFile = document.getElementById('descargarFile');
@@ -628,7 +637,7 @@
         }
     }
 
-    form.addEventListener("submit", e=>{
+    form.addEventListener('submit', e=>{
 
         comentarioError.innerHTML = ""
 

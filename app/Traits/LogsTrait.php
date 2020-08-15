@@ -10,48 +10,65 @@ trait LogsTrait
 
     public static function logJob($job,$cond){
         $user = Auth::user()->id;
-        switch ($cond) {
-            case 0 :
-                activity('jobs')
+
+        $e = $job->state;
+
+
+
+       if($e == 0 && $cond == 0){
+            $estado = 'Tarea actualizada';
+        }elseif($e == 0 && $cond == 1){
+            $estado = 'Tarea activada';
+
+            }elseif($e == 0 && $cond == 2){
+                $estado = 'Revisar Tarea';
+
+                }elseif($e == 2 && $cond == 0){
+                        $estado = 'Tarea corregida';
+                    }
+
+            activity('jobs')
                 ->causedBy($user)
                 ->performedOn($job)
+                ->withProperties(['estado' => 'actualizada'])
+                ->log($estado);
 
-                ->withProperties(['estado' => 'borrador'])
-                ->log('Tarea creada');
+        // switch ($cond) {
+        //     case 0 :
+        //         activity('jobs')
+        //         ->causedBy($user)
+        //         ->performedOn($job)
+        //         ->withProperties(['estado' => 'borrador'])
+        //         ->log('Tarea creada');
+        //         break;
 
-                break;
-            case 1 :
-                activity('jobs')
-                ->causedBy($user)
-                ->performedOn($job)
+        //     case 1 :
+        //         activity('jobs')
+        //         ->causedBy($user)
+        //         ->performedOn($job)
+        //         ->withProperties(['estado' => 'activa'])
+        //         ->log('Tarea activada');
+        //         break;
 
-                ->withProperties(['estado' => 'activa'])
-                ->log('Tarea activada');
+        //     case 2 :
+        //         activity('jobs')
+        //         ->causedBy($user)
+        //         ->performedOn($job)
+        //         ->withProperties(['estado' => 'revisar'])
+        //         ->log('Tarea por revisar');
+        //         break;
 
-                    break;
-            case 2 :
-                activity('jobs')
-                ->causedBy($user)
-                ->performedOn($job)
-
-                ->withProperties(['estado' => 'revisar'])
-                ->log('Tarea por revisar');
-
-                    break;
-
-            case 3 :
-                activity('jobs')
-                ->causedBy($user)
-                ->performedOn($job)
-
-                ->withProperties(['estado' => 'borrador'])
-                ->log('Tarea actualizada');
-
-                    break;
-            default:
-                # code...
-                break;
-        }
+        //     case 3 :
+        //         activity('jobs')
+        //         ->causedBy($user)
+        //         ->performedOn($job)
+        //         ->withProperties(['estado' => 'borrador'])
+        //         ->log('Tarea actualizada');
+        //         break;
+        //     default:
+        //         # code...
+        //         break;
+        // }
 
     }
 

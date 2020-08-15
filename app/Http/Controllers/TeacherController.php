@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Imports\TeachersImport;
 
 use App\Http\Requests\StoreTeacher;
+use App\Http\Requests\UpdateTeacher;
+use App\Traits\TeachersTrait;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
@@ -79,10 +81,10 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        // $teacher = Teacher::where('id',$id)->with('user')->get();
-        $teacher = Teacher::find($id);
 
-        return view('admin.teacher.edit',compact('teacher'));
+        $teacher = Teacher::find($id);
+        $user = User::find($teacher->user_id);
+        return view('admin.users.teacherprofile',compact('user'));
     }
 
     /**
@@ -92,22 +94,23 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function updateTeacher(UpdateTeacher $request, Teacher $teacher)
     {
 
-        $teacher->update($request->all());
 
-        // Hay que crear una condicion para ver si se cambio el dni y/o las contrasenia
-        // en caso de que no se haya cambiano ni buscar el user
-        User::where('id', $teacher->user_id)
-              ->update([
-                        'dni' =>$request->dni,
-                        'password' =>bcrypt($request->password)
-                        ]);
+        TeachersTrait::teacherUpdate($request,$teacher);
 
+        $rol = auth()->user()->roles->first()->name;
 
-        return redirect()->route('teachers.index')
-        ->with('messages', 'Profesor actualizado correctamente.');
+        if($rol =='teacher'){
+
+            return redirect()->route('teacher') ->with('messages', 'Profesor actualizado correctamente.');
+
+        }else{
+            return redirect()->route('teachers.index') ->with('messages', 'Profesor actualizado correctamente.');
+
+        }
+
 
     }
 
@@ -137,5 +140,7 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index') ->with('messages', 'Profesores creados correctamente.');;
 
     }
+
+
 
 }
