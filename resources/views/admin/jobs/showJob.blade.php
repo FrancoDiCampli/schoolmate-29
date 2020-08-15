@@ -45,6 +45,12 @@
                 </div>
             </div>
 
+            @if ($job->file_path)
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default mr-5 py-1 px-2 rounded-md hidden md:flex">
+                    <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                </a>
+            @endif
+
             @if ($job->state($job->state) === "Borrador")
             <span class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
             @endif
@@ -98,7 +104,7 @@
         </div>
 
 
-        <div class="py-3 text-md text-gray-800 mt-3 mb-3">
+        <div class="py-3 text-md text-gray-800 mt-3 mb-3 break-words">
             {{$job->description}}
         </div>
 
@@ -112,8 +118,10 @@
         </div>
 
         @if ($job->file_path)
-            <div class="flex justify-center p-2 mt-2">
-                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded text-white font-bold p-2" >Descargar Tarea</a>
+            <div class="flex justify-center p-2 mt-2 md:hidden">
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default flex">Descargar Tarea
+                    <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download ml-2 fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                </a>
             </div>
 
             <div class="flex justify-center p-2 mt-2">
@@ -217,7 +225,7 @@
         {{-- end log de tareas  --}}
 
         {{-- Comentarios --}}
-        <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">
+        <div class="border-t mt-6 flex pt-3 text-gray-700 text-sm">
             <svg fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-1" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
             </svg>
@@ -247,7 +255,7 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST" id="formComment" onsubmit="return checkSubmitComments();">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
                 {{-- <div

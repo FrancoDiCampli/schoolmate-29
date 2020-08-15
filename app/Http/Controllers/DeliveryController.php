@@ -102,6 +102,7 @@ class DeliveryController extends Controller
         $data = $request->validated();
         $data['job_id'] = $request->job;
         $data['state'] = 0;
+        unset($data['file']);
         $data['file_path'] = $nameFile;
         $data['student_id'] = Auth::user()->student->id;
 

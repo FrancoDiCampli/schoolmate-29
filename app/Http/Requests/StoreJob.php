@@ -30,7 +30,7 @@ class StoreJob extends FormRequest
             'link' => 'nullable|regex:/^.+youtu.+$/i',
             'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',
             'video' => 'nullable|file|mimes:mov,mpeg4,mp4,avi,wmv,mpegps,flv,3gpp,webm,dnxhr,hevc',
-            'start' => 'date',
+            'start' => 'date|after_or_equal:' . now()->format('d-m-Y'),
             'end' => 'date|after_or_equal:' . $this->start,
             'comment' => 'nullable|min:3|max:3000'
         ];
