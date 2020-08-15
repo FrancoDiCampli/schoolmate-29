@@ -12,7 +12,7 @@
             </a>
         </div>
         <div class="card-body py-5">
-            <form method="POST" action="{{ route('user.update',$user->id)}}" enctype="multipart/form-data" class="mx-auto" >
+            <form method="POST" action="{{ route('update.student',$user->student)}}" enctype="multipart/form-data" class="mx-auto" >
                 @method('PUT')
                 @csrf
 
@@ -111,11 +111,15 @@
                     </div>
                 </div>
 
-                {{-- <div class="flex flex-wrap my-5">
+
+                <div class="flex flex-wrap my-5">
                     <div class="w-full md:w-full px-6 md:mb-0 mb-1">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Foto
                         </label>
+                        <img class="w-32 h-32 object-cover object-center  visible group-hover:hidden"
+                                src="{{asset($user->photo)}}" alt="">
+
                         <div class="relative">
                             <div class="overflow-hidden relative w-auto mt-4 mb-4">
                                 <div class="flex items-center justify-center bg-grey-lighter">
@@ -137,8 +141,7 @@
                             {{$errors->first('file')}}
                         </span>
                     </div>
-                </div> --}}
-
+                </div>
                 <button type="submit" class="flex mx-auto btn btn-primary">Actualizar Informacion</button>
 
             </form>
@@ -146,5 +149,16 @@
         </div>
     </div>
 </div>
+@push('js')
+    <script>
+        function setName(){
+        let fileName = document.getElementById('fileName');
+        var cad = fileName.value;
+        cad = cad.split('\\');
+        let selected = document.getElementById('selected');
+        selected.innerHTML = cad[2];
 
+    }
+    </script>
+@endpush
 @endsection

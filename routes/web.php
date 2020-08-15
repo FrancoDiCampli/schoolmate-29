@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('deliveries', 'DeliveryController')->except('create', 'index', 'update');
         Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver');
         Route::get('entregas/{subject}', 'DeliveryController@index')->name('deliveries.subject');
+        Route::put('updateStudent/{student}','StudentController@updateStudent')->name('update.student');
     });
 
     // Asesores y Profesores

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Job;
+use App\Student;
 use App\Delivery;
 use App\Enrollment;
 use Illuminate\Support\Facades\Auth;
@@ -63,5 +64,40 @@ trait StudentsTrait
 
     }
 
+    public static function studentUpdate($request,$student){
+
+        $path = null;
+
+        $data = $request->validated();
+
+        if($request->hasFile('file')){
+            $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
+            $data['photo'] = $path;
+
+        }
+        Student::where('id',$student->id)->update($data);
+        $usuario =  User::find($data['user_id']);
+
+        $pw = $request->password;
+
+        if(strlen($pw)>7){
+           $pw =  Hash::make($pw);
+           $usuario->update([
+               'password'=>$pw
+           ]);
+        }
+
+        $usuario->update([
+            'name'=>$data['name'],
+            'dni'=>$data['dni']
+            ]);
+
+
+
+        if(!is_null($path)){
+           $usuario->update(['photo'=>$data['photo']]);
+        }
+
+    }
 
 }
