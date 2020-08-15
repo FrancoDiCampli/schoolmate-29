@@ -8,23 +8,12 @@
     <title>Schoolmate</title>
     <link rel="icon" type="image/png" href="{{asset('img/sm-sidebar-png.png')}}" />
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
-
-    <style>
-        .tooltip .tooltip-text {
-            visibility: hidden;
-
-        }
-
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-100 font-montserrat" id="all">
-    <div class="loader-container">
-        <div class="loader"></div>
-        <div class="loader2"></div>
+    <div id="enviando" hidden>
+        <div class="spin"></div>
+        <div class="mx-2">Por favor espere...</div>
     </div>
 
     <main id="app" class="">
@@ -237,6 +226,14 @@
 
     {{-- <script src="{{asset('js/app.js')}}"></script> --}}
     @stack('js')
+    {{-- script loading submit --}}
+    <script>
+        function loadingSubmit(){
+            document.getElementById('enviando').classList.add('loading');
+            document.getElementById('enviando').removeAttribute('hidden');
+        }
+    </script>
+
     <script>
         let sidebar = document.getElementById('sidebar')
         let bar = document.getElementById('bar')
@@ -301,7 +298,6 @@
         window.onunload=function(){
         window.name=self.pageYOffset || (document.documentElement.scrollTop+document.body.scrollTop);
         }
-
 
     </script>
 </body>

@@ -112,7 +112,7 @@
                         class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
                         {{-- <input name="annotation" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario"> --}}
                         <input name="annotation" onkeyup="setAnnotation()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" id="annotation" maxlength="2001">
-                        <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+                        <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none" id="entregaDisabledComments">
                             {{-- <svg aria-hidden="true" data-prefix="fas" data-icon="info" class="h-4 w-4 svg-inline--fa fa-info fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg> --}}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
                         </button>
@@ -163,6 +163,7 @@
     const formAnnotation = document.getElementById("formAnnotation")
 
     function setAnnotation(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (annotation.value.length > 3000){
             document.getElementById("annotationError").innerHTML = "No puede tener más de 3000 caracteres"
             description.classList.add("form-input-error")
@@ -183,6 +184,8 @@
             document.getElementById("annotationError").innerHTML = "Debe tener al menos 3 caracteres"
             annotation.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-red-400'
         }
+
+        document.getElementById("entregaDisabledComments").disabled = true;
 
     })
     // end validation

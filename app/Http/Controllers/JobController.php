@@ -133,40 +133,40 @@ class JobController extends Controller
         $user = Auth::user()->id;
         $cond = 3;
 
-        LogsTrait::logJob($job, $cond);
+        if($job->state != 1){
+            LogsTrait::logJob($job, $cond);
 
+            $stateJob = $job->state;
+            $subject = Subject::find($request->subject);
 
+            if (Auth::user()->roles()->first()->name == 'adviser') {
+                $job->update(['state' => $request->state]);
 
+                session()->flash('messages', 'Tarea actualizada');
+                return redirect()->route('adviser.jobs', $stateJob);
+            } else {
+                $data = $request->validate([
+                    'title' => 'required',
+                    'description' => 'required',
+                    'link' => 'nullable|url',
+                    'start' => 'date',
+                    'end' => 'date'
+                ]);
+                $data['subject_id'] = $subject->id;
+                $data['state'] = 0;
 
+                if ($request->file) {
+                    $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
+                    $data['file_path'] = $nameFile;
+                }
 
-        $stateJob = $job->state;
-        $subject = Subject::find($request->subject);
+                $job->update($data);
 
-        if (Auth::user()->roles()->first()->name == 'adviser') {
-            $job->update(['state' => $request->state]);
-
-            session()->flash('messages', 'Tarea actualizada');
-            return redirect()->route('adviser.jobs', $stateJob);
-        } else {
-            $data = $request->validate([
-                'title' => 'required',
-                'description' => 'required',
-                'link' => 'nullable|url',
-                'start' => 'date',
-                'end' => 'date'
-            ]);
-            $data['subject_id'] = $subject->id;
-            $data['state'] = 0;
-
-            if ($request->file) {
-                $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
-                $data['file_path'] = $nameFile;
+                session()->flash('messages', 'Tarea actualizada');
+                return redirect()->route('jobs.index', $subject->id);
             }
-
-            $job->update($data);
-
-            session()->flash('messages', 'Tarea actualizada');
-            return redirect()->route('jobs.index', $subject->id);
+        } else {
+            return back();
         }
     }
 
@@ -177,15 +177,19 @@ class JobController extends Controller
 
         $job->deliveries;
 
-        if (count($job->deliveries) > 0) {
-            session()->flash('errores', 'No se puede eliminar, posee entregas');
+        if($job->state != 1){
+            if (count($job->deliveries) > 0) {
+                session()->flash('errores', 'No se puede eliminar, posee entregas');
+                return redirect()->route('jobs.index', $subjectId);
+            }
+
+            $job->delete();
+
+            session()->flash('messages', 'Tarea eliminada');
             return redirect()->route('jobs.index', $subjectId);
+        }else{
+            return back();
         }
-
-        $job->delete();
-
-        session()->flash('messages', 'Tarea eliminada');
-        return redirect()->route('jobs.index', $subjectId);
     }
 
     public function descargarJob($job)

@@ -57,6 +57,7 @@
 
 
             @role('teacher')
+            @if ($job->state != 1)
             <div class="w-auto text-right ml-2">
                 <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                     <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -75,6 +76,7 @@
 
                 </div>
             </div>
+            @endif
             @endrole
 
 
@@ -118,7 +120,7 @@
 
         {{-- Select del asesor  --}}
         @role('adviser')
-            <form action="{{route('jobs.update', $job->id)}}" method="POST">
+            <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return disableButton();">
                 @method('PUT')
                 @csrf
 
@@ -131,7 +133,6 @@
                         <div class="relative">
                             <select  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
                                 <option disabled selected value> {{$job->state($job->state)}} </option>
-                                <option value="0">Borrador</option>
                                 <option value="1">Activa</option>
                                 <option value="2">Revisar</option>
                             </select>
@@ -142,7 +143,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Actualizar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Actualizar</button>
             </form>
         @endrole
 
@@ -242,7 +243,7 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST" id="formComment">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment" onsubmit="return checkSubmitComments();">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
                 {{-- <div
@@ -258,7 +259,7 @@
                     {{$errors->first('title')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
             </form>
         </div>
     </div>
@@ -339,6 +340,7 @@
     const formComment = document.getElementById("formComment")
 
     function setCommentJob(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (comentarioJob.value.length > 3000){
             document.getElementById("commentError").innerHTML = "No puede tener más de 3000 caracteres"
             comentarioJob.classList.add("form-input-error")
@@ -360,8 +362,15 @@
         comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
     }
 
+    document.getElementById("entregaDisabledComments").disabled = true;
+
     })
+
     // end validation
+
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
 
 </script>
 

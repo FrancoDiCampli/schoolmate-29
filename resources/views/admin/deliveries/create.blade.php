@@ -10,7 +10,7 @@
         <p class="text-sm text-primary-400">{{$job->subject->course->name}}</p>
     </div>
     <div>
-        <a href="{{ URL::previous() }}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+        <a href="{{URL::previous()}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
           </a>
     </div>
@@ -218,13 +218,13 @@
                 {{-- inicio formulario enviar tarea y/o comentario --}}
                 @if ($delivery)
                 <form method="POST" action="{{route('delivery.update', $delivery->id)}}" class="mx-auto" id="delivery"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" onsubmit="return disableButton();">
                 @method('PUT')
                 @csrf
                 @else
 
                 <form method="POST" action="{{route('deliver.store')}}" class="mx-auto" id="delivery"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" onsubmit="return disableButton();">
                 @csrf
                 @endif
 
@@ -323,7 +323,7 @@
         </div>
         @endif
 
-        <button type="submit" class="flex mx-auto btn btn-primary mb-10">Entregar</button>
+        <button type="submit" class="flex mx-auto btn btn-primary mb-10" id="entregaDisabled" onclick="return confirm('¿Seguro desea enviar la tarea?')">Entregar</button>
         </form>
 
          {{-- Comentarios --}}
@@ -364,7 +364,7 @@
                 <div
                     class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
                     <input name="comment" onkeyup="setComment()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" id="comment" maxlength="2001">
-                    <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+                    <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none" id="entregaDisabledComments">
                         {{-- <svg aria-hidden="true" data-prefix="fas" data-icon="info" class="h-4 w-4 svg-inline--fa fa-info fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg> --}}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
                     </button>
@@ -412,59 +412,6 @@
 
 
 
-{{-- file entrega --}}
-{{-- <div class="container font-montserrat text-sm w-11/12">
-    <div class="card  rounded-sm bg-gray-100 mx-auto md:mt-10 shadow-lg">
-        <div
-            class="card-title bg-white w-full p-1 md:p-5  border-b flex items-center justify-between md:justify-between ">
-            <h1 class="text-teal-600 font-semibold">{{$job->title}}</h1>
-        </div>
-        <div class="card-body py-5">
-            <form method="POST" action="{{route('deliver.store')}}" class="mx-auto" id="delivery"
-                enctype="multipart/form-data">
-                @csrf
-                <input type="text" name="job" value="{{$job->id}}" hidden>
-
-                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                        Deliver
-                    </label>
-                    <div class="relative">
-                        <div class="overflow-hidden relative w-64 mt-4 mb-4">
-                            <div class="flex items-center justify-center bg-grey-lighter">
-                                <label
-                                    class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-teal-600 hover:text-white">
-                                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                                    </svg>
-                                    <span class="mt-2 text-base leading-normal" id="selected">Select a file</span>
-                                    <input type='file' class="hidden" name="file" id="fileName" onchange="setName()" />
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="">
-                        <label for="">Leave a comment</label>
-                        <button onclick="addComment(event)" class="bg-teal-600 text-white text-2xl p-2  ">+</button>
-                    </div>
-                    <div id="comment">
-
-                    </div>
-
-                </div>
-
-                <button type="submit"
-                    class="w-8/12 mb-5 font-semibold md:w-5/12 py-2 flex mx-auto  justify-center bg-teal-600 text-gray-200 ">Save</button>
-            </form>
-
-
-        </div>
-    </div>
-</div> --}}
 
 @push('js')
 {{-- script archivos --}}
@@ -659,6 +606,7 @@
     const form = document.getElementById("form")
 
     function setComment(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (comentario.value.length > 3000){
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
             description.classList.add("form-input-error")
@@ -680,7 +628,15 @@
             comentario.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-red-400'
         }
 
+        document.getElementById("entregaDisabledComments").disabled = true;
+
     })
+
+    //button disable entrega
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+        loadingSubmit()
+    }
 
 </script>
 @endpush

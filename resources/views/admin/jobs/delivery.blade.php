@@ -102,7 +102,7 @@
        @endif
 
 
-        <form action="{{route('delivery.update', $delivery->id)}}" method="POST">
+        <form action="{{route('delivery.update', $delivery->id)}}" method="POST" onsubmit="return disableButton();">
             @method('PUT')
             @csrf
             <input type="text" hidden name="id_job" value="{{$delivery->job->id}}">
@@ -115,7 +115,6 @@
                     <div class="relative">
                         <select onchange="setCode()"  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
                             <option disabled selected value> {{$delivery->state($delivery->state)}} </option>
-                            <option value="0">En corrección</option>
                             <option value="1">Rehacer</option>
                             <option value="2">Aprobado</option>
                         </select>
@@ -126,7 +125,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="flex mx-auto btn btn-primary">Guardar</button>
+            <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Guardar</button>
         </form>
 
         {{-- Movimientos de la tarea --}}
@@ -243,7 +242,7 @@
                     {{$errors->first('title')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
                 {{-- </div> --}}
             </form>
         </div>
@@ -293,12 +292,14 @@
     </script>
 
     <script>
-         //Validación input comentario
+
+    //Validación input comentario
     const commentDelivery = document.getElementById("commentDelivery")
     const commentDeliveryError = document.getElementById("commentDeliveryError")
     const formDelivery = document.getElementById("formDelivery")
 
     function setCommentDelivery(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (commentDelivery.value.length > 3000){
             document.getElementById("commentDeliveryError").innerHTML = "No puede tener más de 3000 caracteres"
             commentDelivery.classList.add("form-input-error")
@@ -320,7 +321,14 @@
         commentDelivery.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
     }
 
+    document.getElementById("entregaDisabledComments").disabled = true;
+
     })
     // end validation
+
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
+
     </script>
 @endpush

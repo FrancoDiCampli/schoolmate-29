@@ -17,7 +17,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-            <form method="POST" action="{{route('jobs.update', $job->id)}}" enctype="multipart/form-data" class="mx-auto">
+            <form method="POST" action="{{route('jobs.update', $job->id)}}" enctype="multipart/form-data" class="mx-auto" onsubmit="return disableButton();">
                 @csrf
                 @method('PUT')
 
@@ -142,7 +142,7 @@
                 </div>
 
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Guardar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Guardar</button>
 
             </form>
         </div>
@@ -269,6 +269,11 @@
         video.value = '';
         let selectedVideo = document.getElementById('selected');
         selectedVideo.innerHTML = 'Seleccione un archivo';
+    }
+
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+        loadingSubmit()
     }
 </script>
 
