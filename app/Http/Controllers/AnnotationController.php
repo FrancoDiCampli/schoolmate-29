@@ -9,14 +9,14 @@ class AnnotationController extends Controller
 {
     public function store(Request $request){
 
-        Annotation::create([
-            'annotation'=>$request->annotation,
-            'post_id'=>$request->post_id,
-            'user_id'=>auth()->user()->id
+        $data = $request->validate([
+            'annotation' => 'min:3|max:250'
         ]);
+        $data['post_id'] = $request->post_id;
+        $data['user_id'] = auth()->user()->id;
+
+        Annotation::create($data);
 
             return redirect()->back();
-
-        // return redirect()->route('teacher.index',$request->subject_id);
     }
 }

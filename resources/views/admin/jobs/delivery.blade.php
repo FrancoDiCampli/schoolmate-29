@@ -239,9 +239,9 @@
                 {{-- <div
                     class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center"> --}}
                     {{-- <input name="comment" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario"> --}}
-                    <textarea name="comment" onkeyup="setCommentDelivery()" id="commentDelivery" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Comentario de la entrega" value="" maxlength="3001"></textarea>
+                    <textarea name="comment" onkeyup="setCommentDelivery()" id="commentDelivery" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Comentario de la entrega" value="" maxlength="3001">{{old('comment')}}</textarea>
                 <span class="flex italic text-red-600  text-sm" role="alert" id="commentDeliveryError">
-                    {{$errors->first('title')}}
+                    {{$errors->first('comment')}}
                 </span>
 
                 <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>

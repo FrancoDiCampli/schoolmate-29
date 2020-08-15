@@ -17,7 +17,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-            <form method="POST" action="{{route('jobs.update', $job->id)}}" enctype="multipart/form-data" class="mx-auto" onsubmit="return disableButton();">
+            <form method="POST" action="{{route('jobs.update', $job->id)}}" enctype="multipart/form-data" class="mx-auto" id="form">
                 @csrf
                 @method('PUT')
 
@@ -28,8 +28,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Título
                         </label>
-                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{$job->title}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <input type="text" id="title" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" onchange="setTitle()" value="{{$job->title}}">
+                        <span class="flex italic text-red-600  text-sm" id="titleError" role="alert">
                             {{$errors->first('title')}}
                         </span>
                     </div>
@@ -40,8 +40,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Descripción/Instrucciones
                         </label>
-                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" value="">{{$job->description}}</textarea>
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Descripción o instrucciones de la tarea" onchange="setDescription()" value="">{{$job->description}}</textarea>
+                        <span class="flex italic text-red-600  text-sm" id="descriptionError" role="alert">
                             {{$errors->first('description')}}
                         </span>
                     </div>
@@ -52,8 +52,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha de Inicio
                         </label>
-                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{$job->start->format('Y-m-d')}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" onchange="setDateStart()" value="{{$job->start->format('Y-m-d')}}">
+                        <span class="flex italic text-red-600 text-sm" id="startError" role="alert">
                             {{$errors->first('start')}}
                         </span>
                     </div>
@@ -64,8 +64,8 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha Límite de Entrega
                         </label>
-                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{$job->end->format('Y-m-d')}}">
-                        <span class="flex italic text-red-600  text-sm" role="alert">
+                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" onchange="setDateStart()" value="{{$job->end->format('Y-m-d')}}">
+                        <span class="flex italic text-red-600  text-sm" id="endError" role="alert">
                             {{$errors->first('end')}}
                         </span>
                     </div>
@@ -314,6 +314,64 @@
       modal.classList.toggle('pointer-events-none')
       body.classList.toggle('modal-active')
     }
+</script>
+
+<script>
+    //Validaciones const
+    const form = document.getElementById("form")
+    const titleError = document.getElementById("titleError")
+    const descriptionError = document.getElementById("descriptionError")
+    const startError = document.getElementById("startError")
+    const endError = document.getElementById("endError")
+
+    // formulario validation
+    form.addEventListener("submit", e=>{
+        document.getElementById("entregaDisabled").disabled = true;
+        loadingSubmit();
+    })
+    //end  formulario validation
+
+
+    // set title validation
+    function setTitle(){
+        document.getElementById("entregaDisabled").disabled = false;
+        if (title.value.length > 40){
+            document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
+            title.classList.add("form-input-error")
+        }
+        if (title.value.length < 41){
+            document.getElementById("titleError").innerHTML = ""
+            title.classList.remove("form-input-error")
+        }
+        if (title.value.length <= 4){
+            document.getElementById("titleError").innerHTML = "Debe tener al menos 5 caracteres"
+            title.classList.add("form-input-error")
+        }
+    }
+
+    // set description validation
+    function setDescription(){
+        document.getElementById("entregaDisabled").disabled = false;
+        if (description.value.length > 3000){
+            document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
+            description.classList.add("form-input-error")
+        }
+        if (description.value.length <= 3000){
+            document.getElementById("descriptionError").innerHTML = ""
+            description.classList.remove("form-input-error")
+        }
+        if (description.value.length < 20){
+            document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
+            description.classList.add("form-input-error")
+        }
+
+    }
+
+    function setDateStart(){
+        document.getElementById("entregaDisabled").disabled = false;
+    }
+
+    //end validate
 </script>
 @endpush
 

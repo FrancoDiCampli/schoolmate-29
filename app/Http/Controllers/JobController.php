@@ -12,6 +12,7 @@ use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreJob;
+use App\Http\Requests\UpdateJob;
 use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -131,7 +132,7 @@ class JobController extends Controller
         return view('admin.jobs.edit', compact('job'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
         $user = Auth::user()->id;
@@ -149,13 +150,15 @@ class JobController extends Controller
                 session()->flash('messages', 'Tarea actualizada');
                 return redirect()->route('adviser.jobs', $stateJob);
             } else {
-                $data = $request->validate([
-                    'title' => 'required',
-                    'description' => 'required',
-                    'link' => 'nullable|url',
-                    'start' => 'date',
-                    'end' => 'date'
-                ]);
+                // $data = $request->validate([
+                //     'title' => 'min:5|max:40',
+                //     'description' => 'min:20|max:3000',
+                //     'link' => 'nullable|regex:/^.+youtu.+$/i',
+                //     'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',
+                //     'start' => 'date',
+                //     'end' => 'date|after_or_equal:' . $request->start,
+                // ]);
+                $data = $request->validated();
                 $data['subject_id'] = $subject->id;
                 $data['state'] = 0;
 

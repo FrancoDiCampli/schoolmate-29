@@ -90,7 +90,7 @@
     }
 
     function setDescription(){
-        if (description.value.length > 80){
+        if (description.value.length > 90){
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 90 caracteres";
             description.classList.add("form-input-error")
         }
