@@ -320,7 +320,7 @@
         startError.innerHTML = ""
         endError.innerHTML = ""
         loading = true
-        ;
+
         // title
         if (title.value.length >= 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"

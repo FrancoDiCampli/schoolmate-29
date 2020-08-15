@@ -84,6 +84,37 @@
             Fecha de Entrega: {{$job->end->format('d-m-Y')}}
         </div>
 
+        {{-- Mensaje una vez que entrega --}}
+        @if ($delivery)
+        <div class="alert flex flex-row items-center bg-green-100 p-5 rounded border-b-2 border-blue-300 mt-6 mb-6">
+            <div class="alert-icon flex items-center bg-green-100 border-2 border-blue-300 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+				<span class="text-blue-500">
+                    <svg aria-hidden="true" data-prefix="far" data-icon="laugh-beam" class="svg-inline--fa fa-laugh-beam fa-w-16 w-8 h-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm141.4 389.4c-37.8 37.8-88 58.6-141.4 58.6s-103.6-20.8-141.4-58.6S48 309.4 48 256s20.8-103.6 58.6-141.4S194.6 56 248 56s103.6 20.8 141.4 58.6S448 202.6 448 256s-20.8 103.6-58.6 141.4zM328 152c-23.8 0-52.7 29.3-56 71.4-.7 8.6 10.8 11.9 14.9 4.5l9.5-17c7.7-13.7 19.2-21.6 31.5-21.6s23.8 7.9 31.5 21.6l9.5 17c4.1 7.4 15.6 4 14.9-4.5-3.1-42.1-32-71.4-55.8-71.4zm-201 75.9l9.5-17c7.7-13.7 19.2-21.6 31.5-21.6s23.8 7.9 31.5 21.6l9.5 17c4.1 7.4 15.6 4 14.9-4.5-3.3-42.1-32.2-71.4-56-71.4s-52.7 29.3-56 71.4c-.6 8.5 10.9 11.9 15.1 4.5zM362.4 288H133.6c-8.2 0-14.5 7-13.5 15 7.5 59.2 58.9 105 121.1 105h13.6c62.2 0 113.6-45.8 121.1-105 1-8-5.3-15-13.5-15z"/></svg>
+				</span>
+			</div>
+
+			<div class="alert-content ml-4 w-full">
+				<div class="alert-title font-semibold text-lg text-blue-800">
+                    Tu tarea fue entregada!
+                </div>
+
+                @if ($delivery->file_path)
+				<div class="alert-description text-sm text-blue-600 flex py-1 items-center">
+                    <a id="descargarFile" target="_blank" href="{{asset($delivery->file_path)}}" class="flex hover:text-blue-800 items-center">
+                    Ver mi entrega
+                    <svg aria-hidden="true" data-prefix="fas" data-icon="file-import" class="ml-2 svg-inline--fa fa-file-import fa-w-16 fa-w-16 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z"/></svg>
+                    </a>
+                </div>
+                @else
+                <p class="text-sm text-blue-600 flex py-1 items-center">Sin archivo
+                    <svg aria-hidden="true" data-prefix="fas" data-icon="exclamation-circle" class="svg-inline--fa fa-exclamation-circle fa-w-16 w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg>
+                </p>
+                @endif
+            </div>
+        </div>
+        @endif
+        {{-- Fin Mensaje una vez que entrega --}}
+
         <div class=" w-full flex relative items-center border-b mb-2 py-3">
             <div class="">
                 <img class="w-8 h-8 rounded-full object-cover mr-4 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
@@ -94,12 +125,16 @@
                         <h2 class="text-sm font-medium text-gray-900 -mt-1">{{$job->subject->teacher->name}} </h2>
                         <p class="text-gray-700 font-light text-xs">Publicada el {{$job->created_at->format('d-m-Y')}} </p>
                     </div>
-
                 </div>
+                @if ($job->file_path)
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default mr-3 py-1 px-2 rounded-md hidden md:flex">
+                    <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                </a>
+                @endif
             </div>
         </div>
 
-        <div class="py-3 text-md text-gray-800 mt-3 mb-3">
+        <div class="py-3 text-md text-gray-800 mt-3 mb-3 break-words">
             {{$job->description}}
         </div>
 
@@ -111,17 +146,21 @@
             @endif
         </div>
 
-        @if ($delivery)
+        {{-- @if ($delivery)
             @if ($delivery->file_path)
                 <div class="flex justify-center p-2 mt-2">
-                    <a id="descargarFile" target="_blank" href="{{asset($delivery->file_path)}}" class="bg-teal-500 rounded text-white font-bold p-2" >Ver Mi Entrega</a>
+                    <a id="descargarFile" target="_blank" href="{{asset($delivery->file_path)}}" class="btn btn-secondary flex" >Ver Mi Entrega
+                        <svg aria-hidden="true" data-prefix="fas" data-icon="file-import" class="svg-inline--fa fa-file-import fa-w-16 ml-2 fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z"/></svg>
+                    </a>
                 </div>
             @endif
-        @endif
+        @endif --}}
 
         @if ($job->file_path)
-            <div class="flex justify-center p-2 mt-2">
-                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded text-white font-bold p-2" >Descargar Tarea</a>
+            <div class="flex justify-center p-2 mt-2 md:hidden">
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default flex">Descargar Tarea
+                    <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download ml-2 fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                </a>
             </div>
             <div class="flex justify-center p-2">
                 <iframe id="viewerFile" height="600" width="800" frameborder="0" class="w-full h-64 md:h-screen"></iframe>
@@ -153,7 +192,7 @@
                                 <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
                                     <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
                                     <td class="px-1 py-2">{{$activity->description}}</td>
-                                    <td class="px-1 py-2 mt-1 hidden md:block">{{$activity->causer->name}}</td>
+                                    <td class="px-1 py-2 mt-1">{{$activity->causer->name}}</td>
                                 </tr>
                             @endforeach
 
@@ -162,32 +201,6 @@
                 </div>
             </div>
 
-                {{-- viejo --}}
-                {{-- <table class="table">
-                   <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Actividad</th>
-                        <th>Usuario</th>
-                        <th>Test</th>
-
-                    </tr>
-
-                   </thead>
-                   <tbody>
-                     @foreach ($activities as $activity)
-                        <tr>
-                            <td>{{$activity->created_at}}</td>
-                            <td>{{$activity->description}}</td>
-                            <td>{{$activity->causer->name}}</td>
-                            <td>
-                                {{$delivery->state($delivery->state)}}
-                            </td>
-                        </tr>
-                        @endforeach
-
-                   </tbody>
-                </table> --}}
                 @else
                 <div class="card w-full rounded-sm bg-gray-100 mx-auto mt-6 mb-4">
                     <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
@@ -288,7 +301,7 @@
                 <div class="relative">
                     <div class="overflow-hidden relative w-auto mt-4 mb-4">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                            File
+                            Archivo
                           </label>
                         <div class="flex items-center justify-center bg-grey-lighter">
                             <label
@@ -333,7 +346,7 @@
         </div>
         @endif
 
-        <button type="submit" class="flex mx-auto btn btn-primary mb-10" id="entregaDisabled" onclick="return confirm('¿Seguro desea enviar la tarea?')">Entregar</button>
+        <button type="submit" class="flex mx-auto btn btn-primary mb-10" id="entregaDisabled" onclick="return confirm('¿Seguro desea enviar la tarea?')">Entregar Tarea</button>
         </form>
 
          {{-- Comentarios --}}
