@@ -16,7 +16,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" id="form" >
+        <form method="POST" action="{{route('jobs.store')}}" enctype="multipart/form-data" class="mx-auto" id="form">
                 @csrf
 
                 <input hidden type="text" name="subject" id="" value="{{$subject->id}}">
@@ -50,7 +50,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha de Inicio
                         </label>
-                        <input type="date" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
+                        <input type="date" onchange="setDateStart()" id="start" name="start" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('start') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert" id="startError">
                             {{$errors->first('start')}}
                         </span>
@@ -62,7 +62,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Fecha Límite de Entrega
                         </label>
-                        <input type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
+                        <input onchange="setDateStart()" type="date" id="end" name="end" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la tarea" value="{{ old('end') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert" id="endError">
                             {{$errors->first('end')}}
                         </span>
@@ -140,7 +140,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Guardar</button>
 
             </form>
         </div>
@@ -219,7 +219,7 @@
 
         fileDocument = document.getElementById("fileName").files[0];
         fileDocument_url = URL.createObjectURL(fileDocument);
-        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'txt') {
+        if (extension[1] == 'png' || extension[1] == 'jpg' || extension[1] == 'pdf') {
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             let ancho = screen.width;
             if (ancho <= 640) {
@@ -319,19 +319,23 @@
         descriptionError.innerHTML = ""
         startError.innerHTML = ""
         endError.innerHTML = ""
-
+        loading = true
+        ;
         // title
         if (title.value.length >= 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
             title.classList.add("form-input-error")
+            loading = false;
         }
         if (title.value.length < 41){
             document.getElementById("titleError").innerHTML = ""
             title.classList.remove("form-input-error")
+            loading = false;
         }
         if (title.value.length < 6){
             document.getElementById("titleError").innerHTML = "Debe tener al menos 5 caracteres"
             title.classList.add("form-input-error")
+            loading = false;
         }
 
         // description
@@ -339,15 +343,18 @@
             e.preventDefault()
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
             description.className = 'form-input form-input-error w-full block'
+            loading = false;
         }
         if (description.value.length === 0){
             e.preventDefault()
             document.getElementById("descriptionError").innerHTML = "El campo es obligatorio"
             description.className = 'form-input form-input-error w-full block'
+            loading = false;
         }
         if (description.value.length < 20){
             document.getElementById("descriptionError").innerHTML = "Debe tener al menos 20 caracteres"
             description.classList.add("form-input-error")
+            loading = false;
         }
 
         // fecha start
@@ -355,8 +362,10 @@
             e.preventDefault()
             document.getElementById("startError").innerHTML = "La fecha es requerida"
             start.classList.add("form-input-error")
+            loading = false;
         } else{
             start.classList.remove("form-input-error")
+            loading = true;
         }
 
         // fecha end
@@ -364,8 +373,16 @@
             e.preventDefault()
             document.getElementById("endError").innerHTML = "La fecha es requerida"
             end.classList.add("form-input-error")
+            loading = false;
         } else{
             end.classList.remove("form-input-error")
+            loading = true;
+        }
+
+        document.getElementById("entregaDisabled").disabled = true;
+
+        if(loading){
+            loadingSubmit();
         }
 
     })
@@ -374,6 +391,8 @@
 
     // set title validation
     function setTitle(){
+        loading = true;
+        document.getElementById("entregaDisabled").disabled = false;
         if (title.value.length > 40){
             document.getElementById("titleError").innerHTML = "No puede tener más de 40 caracteres"
             title.classList.add("form-input-error")
@@ -390,6 +409,8 @@
 
     // set description validation
     function setDescription(){
+        loading = true;
+        document.getElementById("entregaDisabled").disabled = false;
         if (description.value.length > 3000){
             document.getElementById("descriptionError").innerHTML = "No puede tener más de 3000 caracteres"
             description.classList.add("form-input-error")
@@ -403,8 +424,12 @@
             description.classList.add("form-input-error")
         }
 
-    // end validation
-
     }
+
+    function setDateStart(){
+        document.getElementById("entregaDisabled").disabled = false;
+    }
+
+    //end validate
 </script>
 @endpush

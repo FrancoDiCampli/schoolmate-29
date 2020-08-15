@@ -17,7 +17,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-            <form method="POST" action="{{ route('posts.store') }}" class="mx-auto" id="form2">
+            <form method="POST" action="{{ route('posts.store') }}" class="mx-auto" id="formPostCreate">
                 @csrf
                 <input hidden type="text" value="{{$subject->id}}" name="subject_id" >
                 <div class="flex flex-wrap my-5">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Publicar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Publicar</button>
 
             </form>
         </div>
@@ -70,6 +70,7 @@
     const postTitulo = document.getElementById('tituloPost');
     const description = document.getElementById('description');
     const contentPost = document.getElementById('content');
+    const formPostCreate = document.getElementById('formPostCreate');
 
 
     // seteos validatios
@@ -117,6 +118,12 @@
             contentPost.classList.add("form-input-error")
         }
     }
+
+    formPostCreate.addEventListener("submit", e=>{
+
+    document.getElementById("entregaDisabledComments").disabled = true;
+
+    })
 
 
 </script>

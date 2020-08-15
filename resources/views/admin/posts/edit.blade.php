@@ -17,7 +17,7 @@
               </a>
         </div>
         <div class="card-body py-4">
-            <form method="POST" action="{{ route('posts.update', $post) }}" class="mx-auto" >
+            <form method="POST" action="{{ route('posts.update', $post) }}" class="mx-auto" onsubmit="return disableButton();">
                 @csrf
                 @method('PUT')
                 <input hidden type="text" value="{{$post->subject->id}}" name="subject_id" >
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Actualizar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Actualizar</button>
 
             </form>
         </div>
@@ -64,4 +64,14 @@
 
 
 @endsection
+
+@push('js')
+
+<script>
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
+</script>
+
+@endpush
 

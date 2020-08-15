@@ -57,6 +57,7 @@
 
 
             @role('teacher')
+            @if ($job->state != 1)
             <div class="w-auto text-right ml-2">
                 <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                     <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
@@ -75,6 +76,7 @@
 
                 </div>
             </div>
+            @endif
             @endrole
 
 
@@ -112,13 +114,14 @@
         @if ($job->file_path)
             <div class="flex justify-center p-2 mt-2">
                 <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
+                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Tarea</a>
             </div>
         @endif
 
 
         {{-- Select del asesor  --}}
         @role('adviser')
-            <form action="{{route('jobs.update', $job->id)}}" method="POST">
+            <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return disableButton();">
                 @method('PUT')
                 @csrf
 
@@ -131,7 +134,6 @@
                         <div class="relative">
                             <select  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
                                 <option disabled selected value> {{$job->state($job->state)}} </option>
-                                <option value="0">Borrador</option>
                                 <option value="1">Activa</option>
                                 <option value="2">Revisar</option>
                             </select>
@@ -142,7 +144,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Actualizar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Actualizar</button>
             </form>
         @endrole
 
@@ -242,7 +244,7 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST" id="formComment">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment" onsubmit="return checkSubmitComments();">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
                 {{-- <div
@@ -258,7 +260,7 @@
                     {{$errors->first('title')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
             </form>
         </div>
     </div>
@@ -269,11 +271,14 @@
 
 @push('js')
 
+{{-- script archivos --}}
 <script>
     let aux = @json($file);
+    let ancho = screen.width;
+    let descFile = document.getElementById('descargarFile');
 
     if (aux) {
-        let tipos = ['png', 'jpg'];
+        let tipos = ['png', 'jpg', 'pdf'];
 
         let aux1 = 0;
 
@@ -284,24 +289,27 @@
         });
 
         if (aux1 == 0) {
-            document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+            document.getElementById('viewer').setAttribute('src', 'https://view.officeapps.live.com/op/embed.aspx?src='+aux);
+        } else if (ancho <= 640) {
+            document.getElementById('viewer').classList.toggle('hidden');
+            descFile.removeAttribute('hidden');
         } else {
             document.getElementById('viewer').setAttribute('src', aux);
         }
     }
 
-    let ancho = screen.width;
-        if (ancho <= 640) {
-            let marco = document.getElementById('viewer');
-            marco.setAttribute('height',200);
-            marco.setAttribute('width',270);
+    if (ancho <= 640) {
+        let marco = document.getElementById('viewer');
+        marco.setAttribute('height',500);
+        marco.setAttribute('width',270);
 
-            let marco2 = document.getElementById('player');
-            marco2.setAttribute('height',200);
-            marco2.setAttribute('width',270);
-        }
+        let marco2 = document.getElementById('player');
+        marco2.setAttribute('height',200);
+        marco2.setAttribute('width',270);
+    }
+</script>
 
-
+<script>
         let fm = document.getElementById('float-menu')
         let oo = document.getElementById('orderOption')
 
@@ -333,6 +341,7 @@
     const formComment = document.getElementById("formComment")
 
     function setCommentJob(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (comentarioJob.value.length > 3000){
             document.getElementById("commentError").innerHTML = "No puede tener más de 3000 caracteres"
             comentarioJob.classList.add("form-input-error")
@@ -354,8 +363,15 @@
         comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
     }
 
+    document.getElementById("entregaDisabledComments").disabled = true;
+
     })
+
     // end validation
+
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
 
 </script>
 

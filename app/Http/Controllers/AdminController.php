@@ -17,7 +17,25 @@ class AdminController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $data = auth()->user()->roles()->first();
+        switch ($data->name) {
+            case 'admin':
+                return redirect()->route('admin');
+                break;
+            case 'student':
+                return redirect()->route('student');
+                break;
+            case 'teacher':
+                return redirect()->route('teacher');
+                break;
+            case 'adviser':
+                return redirect()->route('adviser');
+                break;
+
+            default:
+                # code...
+                break;
+        }
     }
 
     public function studentx()

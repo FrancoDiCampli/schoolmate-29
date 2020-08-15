@@ -98,10 +98,11 @@
            <div class="flex justify-center p-2 mt-2">
                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
            </div>
+           <a id="descargarFile" href="{{route('descargarDelivery', $delivery)}}" class="bg-teal-500 rounded p-2" hidden>Descargar Entrega</a>
        @endif
 
 
-        <form action="{{route('delivery.update', $delivery->id)}}" method="POST">
+        <form action="{{route('delivery.update', $delivery->id)}}" method="POST" onsubmit="return disableButton();">
             @method('PUT')
             @csrf
             <input type="text" hidden name="id_job" value="{{$delivery->job->id}}">
@@ -114,7 +115,6 @@
                     <div class="relative">
                         <select onchange="setCode()"  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
                             <option disabled selected value> {{$delivery->state($delivery->state)}} </option>
-                            <option value="0">En corrección</option>
                             <option value="1">Rehacer</option>
                             <option value="2">Aprobado</option>
                         </select>
@@ -125,7 +125,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="flex mx-auto btn btn-primary">Guardar</button>
+            <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Guardar</button>
         </form>
 
         {{-- Movimientos de la tarea --}}
@@ -242,7 +242,7 @@
                     {{$errors->first('title')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
                 {{-- </div> --}}
             </form>
         </div>
@@ -252,10 +252,15 @@
 @endsection
 
 @push('js')
+
+    {{-- script archivos --}}
     <script>
         let aux = @json($file);
+        let ancho = screen.width;
+        let descFile = document.getElementById('descargarFile');
+
         if (aux) {
-            let tipos = ['png', 'jpg'];
+            let tipos = ['png', 'jpg', 'pdf'];
 
             let aux1 = 0;
 
@@ -266,29 +271,35 @@
             });
 
             if (aux1 == 0) {
-                document.getElementById('viewer').setAttribute('src', 'http://docs.google.com/gview?url='+aux+'&time=300000&embedded=true');
+                document.getElementById('viewer').setAttribute('src', 'https://view.officeapps.live.com/op/embed.aspx?src='+aux);
+            } else if (ancho <= 640) {
+                document.getElementById('viewer').classList.toggle('hidden');
+                descFile.removeAttribute('hidden');
             } else {
                 document.getElementById('viewer').setAttribute('src', aux);
             }
         }
-        let ancho = screen.width;
+
         if (ancho <= 640) {
             let marco = document.getElementById('viewer');
-            marco.setAttribute('height',200);
+            marco.setAttribute('height',500);
             marco.setAttribute('width',270);
 
             let marco2 = document.getElementById('player');
             marco2.setAttribute('height',200);
             marco2.setAttribute('width',270);
         }
+    </script>
 
+    <script>
 
-         //Validación input comentario
+    //Validación input comentario
     const commentDelivery = document.getElementById("commentDelivery")
     const commentDeliveryError = document.getElementById("commentDeliveryError")
     const formDelivery = document.getElementById("formDelivery")
 
     function setCommentDelivery(){
+        document.getElementById("entregaDisabledComments").disabled = false;
         if (commentDelivery.value.length > 3000){
             document.getElementById("commentDeliveryError").innerHTML = "No puede tener más de 3000 caracteres"
             commentDelivery.classList.add("form-input-error")
@@ -310,7 +321,14 @@
         commentDelivery.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
     }
 
+    document.getElementById("entregaDisabledComments").disabled = true;
+
     })
     // end validation
+
+    function disableButton(){
+        document.getElementById("entregaDisabled").disabled = true;
+    }
+
     </script>
 @endpush
