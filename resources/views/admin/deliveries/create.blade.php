@@ -86,8 +86,8 @@
 
         {{-- Mensaje una vez que entrega --}}
         @if ($delivery)
-        <div class="alert flex flex-row items-center bg-green-100 p-5 rounded border-b-2 border-blue-300 mt-6 mb-6">
-            <div class="alert-icon flex items-center bg-green-100 border-2 border-blue-300 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+        <div class="alert flex flex-row items-center bg-gray-100 p-5 rounded border-b-2 border-blue-300 mt-6 mb-6">
+            <div class="alert-icon flex items-center bg-gray-100 border-2 border-blue-300 justify-center h-10 w-10 flex-shrink-0 rounded-full">
 				<span class="text-blue-500">
                     <svg aria-hidden="true" data-prefix="far" data-icon="laugh-beam" class="svg-inline--fa fa-laugh-beam fa-w-16 w-8 h-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm141.4 389.4c-37.8 37.8-88 58.6-141.4 58.6s-103.6-20.8-141.4-58.6S48 309.4 48 256s20.8-103.6 58.6-141.4S194.6 56 248 56s103.6 20.8 141.4 58.6S448 202.6 448 256s-20.8 103.6-58.6 141.4zM328 152c-23.8 0-52.7 29.3-56 71.4-.7 8.6 10.8 11.9 14.9 4.5l9.5-17c7.7-13.7 19.2-21.6 31.5-21.6s23.8 7.9 31.5 21.6l9.5 17c4.1 7.4 15.6 4 14.9-4.5-3.1-42.1-32-71.4-55.8-71.4zm-201 75.9l9.5-17c7.7-13.7 19.2-21.6 31.5-21.6s23.8 7.9 31.5 21.6l9.5 17c4.1 7.4 15.6 4 14.9-4.5-3.3-42.1-32.2-71.4-56-71.4s-52.7 29.3-56 71.4c-.6 8.5 10.9 11.9 15.1 4.5zM362.4 288H133.6c-8.2 0-14.5 7-13.5 15 7.5 59.2 58.9 105 121.1 105h13.6c62.2 0 113.6-45.8 121.1-105 1-8-5.3-15-13.5-15z"/></svg>
 				</span>
@@ -100,7 +100,7 @@
 
                 @if ($delivery->file_path)
 				<div class="alert-description text-sm text-blue-600 flex py-1 items-center">
-                    <a id="descargarFile" target="_blank" href="{{asset($delivery->file_path)}}" class="flex hover:text-blue-800 items-center">
+                    <a id="verFileEntrega" target="_blank" href="" class="flex hover:text-blue-800 items-center">
                     Ver mi entrega
                     <svg aria-hidden="true" data-prefix="fas" data-icon="file-import" class="ml-2 svg-inline--fa fa-file-import fa-w-16 fa-w-16 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z"/></svg>
                     </a>
@@ -442,10 +442,28 @@
 
     }
 
-
     let aux = @json($file);
+    let auxFileDelivery = @json($fileDelivery);
     let ancho = screen.width;
     let descFile = document.getElementById('descargarFile');
+
+    if (auxFileDelivery) {
+        let tipos = ['png', 'jpg', 'pdf'];
+
+        let aux2 = 0;
+
+        tipos.forEach(element => {
+            if (aux.search(element) > 0) {
+                aux2 = aux.search(element);
+            }
+        });
+
+        if (aux2 == 0) {
+            document.getElementById('verFileEntrega').setAttribute('href', 'https://view.officeapps.live.com/op/embed.aspx?src='+auxFileDelivery);
+        } else {
+            document.getElementById('verFileEntrega').setAttribute('href', auxFileDelivery);
+        }
+    }
 
     if (aux) {
         let tipos = ['png', 'jpg', 'pdf'];
