@@ -111,7 +111,7 @@
         <div class="flex justify-center p-2">
              {{-- Youtube --}}
              @if ($job->link)
-             <iframe id="player" type="text/html" width="800" height="600"
+             <iframe id="player" type="text/html" width="800" height="400"
                  src="http://www.youtube.com/embed/{{$vid}}" frameborder="0"
                  allowfullscreen></iframe>
              @endif

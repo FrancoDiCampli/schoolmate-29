@@ -24,7 +24,7 @@
 
             </div>
                 <h3 class="pt-2 lg:pt-10  text-2xl text-center text-bluedark-400 font-montserrat font-bold">U.E.G.P. N° 28</h3>
-                <h3 class="pt-2 text-center text-bluedark-300 font-montserrat font-bold">{{ config('app.level') }}</h3>
+                <h3 class="pt-2 text-center text-bluedark-300 font-montserrat font-bold">Félix Frías - {{ config('app.level') }}</h3>
                 <h3 class="pt-12 lg:pt-24 text-2xl text-center text-primary-400 font-montserrat font-bold">Bienvenido a Schoolmate!</h3>
                 <form method="POST" action="{{ route('login') }}" class="px-8 md:px-12 lg:px-12 xl:px-24 pt-6 pb-8 mb-4 bg-white rounded">
                     @csrf
