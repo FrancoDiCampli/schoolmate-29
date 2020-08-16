@@ -70,6 +70,10 @@ class DeliveryController extends Controller
 
         $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
 
+        if ($delivery->file_path) {
+            $fileDelivery = url($delivery->file_path);
+        } else $fileDelivery = '';
+
         if ($delivery) {
             $comments = $delivery->comments;
         } else {
@@ -82,7 +86,7 @@ class DeliveryController extends Controller
             $activities = null;
         }
 
-        return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments','activities'));
+        return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments','activities', 'fileDelivery'));
     }
 
     public function store(StoreDelivery $request)
