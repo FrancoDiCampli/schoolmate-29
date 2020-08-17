@@ -30,7 +30,7 @@ class UpdateJob extends FormRequest
             'link' => 'nullable|regex:/^.+youtu.+$/i',
             'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',
             'video' => 'nullable|file|mimes:mov,mpeg4,mp4,avi,wmv,mpegps,flv,3gpp,webm,dnxhr,hevc',
-            'start' => 'date|after_or_equal:' . now()->format('d-m-Y'),
+            'start' => 'date',
             'end' => 'date|after_or_equal:' . $this->start
         ];
     }

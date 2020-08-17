@@ -141,7 +141,7 @@
         {{-- Youtube --}}
         <div class="flex justify-center p-2">
             @if ($job->link)
-            <iframe id="player" type="text/html" width="600" height="400"
+            <iframe id="player" type="text/html" width="800" height="400"
                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0" allowfullscreen></iframe>
             @endif
         </div>
@@ -259,7 +259,15 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Link de Youtube (Opcional)
                         </label>
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                        @if($delivery)
+                            @if($delivery->link)
+                            <input type="text" name="link" id="link" value="{{$delivery->link}}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                            @else
+                            <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                            @endif
+                        @else
+                            <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                        @endif
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
                         </span>
@@ -453,8 +461,8 @@
         let aux2 = 0;
 
         tipos.forEach(element => {
-            if (aux.search(element) > 0) {
-                aux2 = aux.search(element);
+            if (auxFileDelivery.search(element) > 0) {
+                aux2 = auxFileDelivery.search(element);
             }
         });
 

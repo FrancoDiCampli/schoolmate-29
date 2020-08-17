@@ -70,9 +70,11 @@ class DeliveryController extends Controller
 
         $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
 
-        if ($delivery->file_path) {
-            $fileDelivery = url($delivery->file_path);
-        } else $fileDelivery = '';
+        if($delivery){
+            if ($delivery->file_path) {
+                $fileDelivery = url($delivery->file_path);
+            } else $fileDelivery = '';
+        } else { $fileDelivery = ''; }
 
         if ($delivery) {
             $comments = $delivery->comments;
@@ -111,7 +113,7 @@ class DeliveryController extends Controller
         $data['student_id'] = Auth::user()->student->id;
 
         $delivery = Delivery::create($data);
-        
+
         LogsTrait::logDelivery($delivery,0);
         // Si tiene comentarios los crea
         if ($request->comment) {
