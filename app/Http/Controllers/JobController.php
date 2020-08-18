@@ -159,6 +159,7 @@ class JobController extends Controller
                 //     'end' => 'date|after_or_equal:' . $request->start,
                 // ]);
                 $data = $request->validated();
+                unset($data['file']);
                 $data['subject_id'] = $subject->id;
                 $data['state'] = 0;
 

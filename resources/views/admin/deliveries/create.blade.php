@@ -259,10 +259,14 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Link de Youtube (Opcional)
                         </label>
-                        @if($delivery->link)
-                        <input type="text" name="link" id="link" value="{{$delivery->link}}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                        @if($delivery)
+                            @if($delivery->link)
+                            <input type="text" name="link" id="link" value="{{$delivery->link}}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                            @else
+                            <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                            @endif
                         @else
-                        <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
+                            <input type="text" name="link" id="link" value="{{ old('link') }}" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Link del video" onchange="setLink()">
                         @endif
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('link')}}
@@ -457,8 +461,8 @@
         let aux2 = 0;
 
         tipos.forEach(element => {
-            if (aux.search(element) > 0) {
-                aux2 = aux.search(element);
+            if (auxFileDelivery.search(element) > 0) {
+                aux2 = auxFileDelivery.search(element);
             }
         });
 
