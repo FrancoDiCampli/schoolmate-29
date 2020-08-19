@@ -15,17 +15,19 @@ trait LogsTrait
 
 
 
-       if($e == 0 && $cond == 0){
+        if ($e == 0 && $cond == 0) {
             $estado = 'Tarea actualizada';
-        }elseif($e == 0 && $cond == 1){
+        } elseif ($e == 0 && $cond == 1) {
             $estado = 'Tarea activada';
-
-            }elseif($e == 0 && $cond == 2){
-                $estado = 'Revisar Tarea';
-
-                }elseif($e == 2 && $cond == 0){
-                        $estado = 'Tarea corregida';
-                    }
+        } elseif ($e == 0 && $cond == 2) {
+            $estado = 'Revisar Tarea';
+        } elseif ($e == 2 && $cond == 0) {
+            $estado = 'Tarea corregida';
+        } elseif ($e == 1 && $cond == 2) {
+            $estado = 'Revisar Tarea';
+        } elseif ($e == 2 && $cond == 1) {
+            $estado = 'Tarea activada';
+        }
 
             activity('jobs')
                 ->causedBy($user)

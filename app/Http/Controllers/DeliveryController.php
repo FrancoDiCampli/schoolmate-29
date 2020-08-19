@@ -71,20 +71,12 @@ class DeliveryController extends Controller
         $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
 
         if($delivery){
-            if ($delivery->file_path) {
-                $fileDelivery = url($delivery->file_path);
-            } else $fileDelivery = '';
-        } else { $fileDelivery = ''; }
-
-        if ($delivery) {
             $comments = $delivery->comments;
-        } else {
+            $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
+            $delivery->file_path ? $fileDelivery = url($delivery->file_path) : $fileDelivery = '';
+        } else { 
+            $fileDelivery = '';
             $comments = [];
-        }
-        if($delivery){
-                  $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
-
-        }else{
             $activities = null;
         }
 
