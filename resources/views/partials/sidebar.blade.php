@@ -63,7 +63,7 @@
                 <span class="mx-2 hidden md:block">Materias</span>
         </a>
 
-    <a href="{{route('enrollments.index')}}"
+        <a href="{{route('enrollments.index')}}"
             class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="chart-pie"
                 class="h-5 w-5  svg-inline--fa fa-chart-pie fa-w-17" xmlns="http://www.w3.org/2000/svg"
@@ -114,15 +114,16 @@
                     <a href="{{route('students.index')}}">Alumnos</a>
                     </div>
             </div>
-
             @endrole
-            {{-- @role('teacher|student')
-            <div class="text-left md:ml-0 ml-20 pl-6 md:pl-8 text-gray-600" id="users-admin">
-                <div class="py-1 hover:text-gray-700 ">
-                <a href="{{route('user.edit',auth()->user()->id)}}">Perfil</a>
-                </div>
-            </div>
-            @endrole --}}
+
+            @role('teacher|student')
+            <a href="{{route('user.edit',auth()->user()->id)}}"
+                class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+                <svg aria-hidden="true" data-prefix="fas" data-icon="user" class="h-5 w-5 svg-inline--fa fa-user fa-w-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>
+                <span class="mx-2 hidden md:block">Mi Perfil</span>
+            </a>
+            @endrole
+
             <a class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2" href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
             <svg aria-hidden="true" data-prefix="fas" data-icon="sign-out-alt" class="svg-inline--fa fa-sign-out-alt fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

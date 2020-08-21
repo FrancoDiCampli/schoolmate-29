@@ -25,6 +25,9 @@ trait LogsTrait
 
                 }elseif($e == 2 && $cond == 0){
                         $estado = 'Tarea corregida';
+
+                    }elseif($e == 1 && $cond == 2){
+                        $estado = 'Revisar Tarea';
                     }
 
             activity('jobs')

@@ -84,9 +84,10 @@ Route::group(['middleware' => 'auth'], function () {
         // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
         Route::resource('comments', 'CommentController');
         // Posts
-        Route::resource('posts', 'PostController')->except('create', 'index');
+        Route::resource('posts', 'PostController')->except('create', 'index', 'destroy');
         Route::get('posts/index/{subject}', 'PostController@index')->name('posts.index'); //agregado para index del post
         Route::get('newpost/{subject}', 'PostController@create')->name('new.post');
+        Route::get('deletePost/{post}', 'PostController@destroy')->name('post.delete'); //para eliminar un post
         // Comentarios de los post del muro
         Route::resource('annotations', 'AnnotationController');
 

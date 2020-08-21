@@ -25,7 +25,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Título
                         </label>
-                        <input type="text" id="tituloPost" onkeyup="setPost()" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la publicación" value="" maxlength="41" required>
+                        <input type="text" id="tituloPost" onkeyup="setPost()" name="title" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Título de la publicación" maxlength="41" required value="{{ old('title') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert" id="postTituloError">
                             {{$errors->first('title')}}
                         </span>
@@ -36,7 +36,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Descripción
                         </label>
-                        <input type="text" id="description" onkeyup="setDescription()" name="description" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Breve descripción de la publicación" value="" maxlength="91" required>
+                        <input type="text" id="description" onkeyup="setDescription()" name="description" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Breve descripción de la publicación" maxlength="91" required value="{{ old('description') }}">
                         <span class="flex italic text-red-600  text-sm" role="alert" id="descriptionError">
                             {{$errors->first('description')}}
                         </span>
@@ -47,7 +47,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                           Contenido
                         </label>
-                        <textarea name="content" id="content" onkeyup="contenido()" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Contenido de la publicación" value="" maxlength="3001" required></textarea>
+                        <textarea name="content" id="content" onkeyup="contenido()" cols="30" rows="10" class="form-input w-full block" id="grid-last-name" type="text" placeholder="Contenido de la publicación">{{ old('content') }}</textarea>
                         <span class="flex italic text-red-600  text-sm" role="alert" id="contentPostError">
                             {{$errors->first('content')}}
                         </span>

@@ -261,14 +261,14 @@
                 </div>
 
                 <div class="text-sm text-gray-700 w-full px-2">
-                    <p class="text-sm font-medium text-gray-900 ml-10">{{$item->comment}}</p>
+                    <p class="text-sm font-medium text-gray-900 ml-10">{!!$item->comment!!}</p>
                 </div>
                 @endforeach
             </div>
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-        <form action="{{route('comments.store')}}" method="POST" id="formDelivery">
+        <form action="{{route('comments.store')}}" method="POST" id="formDelivery" onsubmit="return disableButtonComment();">
                 @csrf
                 <input type="text" name="delivery" value="{{$delivery->id}}" hidden>
                 {{-- <div
@@ -279,7 +279,7 @@
                     {{$errors->first('comment')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary mt-5" id="entregaDisabledComments">Comentar</button>
                 {{-- </div> --}}
             </form>
         </div>
@@ -328,41 +328,12 @@
 
     <script>
 
-    //Validación input comentario
-    const commentDelivery = document.getElementById("commentDelivery")
-    const commentDeliveryError = document.getElementById("commentDeliveryError")
-    const formDelivery = document.getElementById("formDelivery")
-
-    function setCommentDelivery(){
-        document.getElementById("entregaDisabledComments").disabled = false;
-        if (commentDelivery.value.length > 3000){
-            document.getElementById("commentDeliveryError").innerHTML = "No puede tener más de 3000 caracteres"
-            commentDelivery.classList.add("form-input-error")
-        }
-        if (commentDelivery.value.length > 2){
-            document.getElementById("commentDeliveryError").innerHTML = ""
-            commentDelivery.classList.remove("form-input-error")
-            commentDelivery.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-gray-500 border border-gray-400'
-        }
-    }
-
-    formDelivery.addEventListener("submit", e=>{
-
-    commentDeliveryError.innerHTML = ""
-
-    if (commentDelivery.value.length < 3){
-        e.preventDefault()
-        document.getElementById("commentDeliveryError").innerHTML = "Debe tener al menos 3 caracteres"
-        commentDelivery.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
-    }
-
-    document.getElementById("entregaDisabledComments").disabled = true;
-
-    })
-    // end validation
-
     function disableButton(){
         document.getElementById("entregaDisabled").disabled = true;
+    }
+
+    function disableButtonComment(){
+        document.getElementById("entregaDisabledComments").disabled = true;
     }
 
     </script>

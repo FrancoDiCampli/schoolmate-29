@@ -138,7 +138,7 @@ class JobController extends Controller
         $user = Auth::user()->id;
 
 
-        if($job->state != 1){
+        // if($job->state != 1){
            LogsTrait::logJob($job, $request->state);
 
             $stateJob = $job->state;
@@ -173,9 +173,9 @@ class JobController extends Controller
                 session()->flash('messages', 'Tarea actualizada');
                 return redirect()->route('jobs.index', $subject->id);
             }
-        } else {
-            return back();
-        }
+        // } else {
+        //     return back();
+        // }
     }
 
     public function destroy($id)

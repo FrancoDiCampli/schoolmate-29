@@ -10,7 +10,7 @@ class AnnotationController extends Controller
     public function store(Request $request){
 
         $data = $request->validate([
-            'annotation' => 'min:3|max:250'
+            'annotation' => 'min:3|max:3000'
         ]);
         $data['post_id'] = $request->post_id;
         $data['user_id'] = auth()->user()->id;

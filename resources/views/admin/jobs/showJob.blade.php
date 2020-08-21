@@ -105,7 +105,7 @@
 
 
         <div class="py-3 text-md text-gray-800 mt-3 mb-3 break-words">
-            {{$job->description}}
+            {!! $job->description !!}
         </div>
 
         <div class="flex justify-center p-2">
@@ -248,14 +248,14 @@
                 </div>
 
                 <div class="text-sm text-gray-700 w-full px-2">
-                    <p class="text-sm font-medium text-gray-900 ml-10">{{$item->comment}}</p>
+                    <p class="text-sm font-medium text-gray-900 ml-10">{!!$item->comment!!}</p>
                 </div>
                 @endforeach
             </div>
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST" id="formComment">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment" onsubmit="return disableButtonComment();">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
                 {{-- <div
@@ -266,12 +266,12 @@
                     </button>
                 </div> --}}
 
-            <textarea name="comment" onkeyup="setCommentJob()" id="commentJob" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Contenido de la publicación" maxlength="3001">{{old('comment')}}</textarea>
+            <textarea name="comment" id="commentJob" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Contenido de la publicación" maxlength="3001">{{old('comment')}}</textarea>
                 <span class="flex italic text-red-600  text-sm" role="alert" id="commentError">
                     {{$errors->first('comment')}}
                 </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabledComments">Comentar</button>
+                <button type="submit" class="flex mx-auto btn btn-primary mt-5" id="entregaDisabledComments">Comentar</button>
             </form>
         </div>
     </div>
@@ -345,42 +345,12 @@
 
         }
 
-    //Validación input comentario
-    const comentarioJob = document.getElementById("commentJob")
-    const comentarioError = document.getElementById("commentError")
-    const formComment = document.getElementById("formComment")
-
-    function setCommentJob(){
-        document.getElementById("entregaDisabledComments").disabled = false;
-        if (comentarioJob.value.length > 3000){
-            document.getElementById("commentError").innerHTML = "No puede tener más de 3000 caracteres"
-            comentarioJob.classList.add("form-input-error")
-        }
-        if (comentarioJob.value.length > 2){
-            document.getElementById("commentError").innerHTML = ""
-            comentarioJob.classList.remove("form-input-error")
-            comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 placeholder-gray-500 border border-gray-400'
-        }
-    }
-
-    formComment.addEventListener("submit", e=>{
-
-    comentarioError.innerHTML = ""
-
-    if (comentarioJob.value.length < 3){
-        e.preventDefault()
-        document.getElementById("commentError").innerHTML = "Debe tener al menos 3 caracteres"
-        comentarioJob.className = ' bg-transparent focus:outline-none w-full text-sm p-3 text-gray-800 border border-red-500'
-    }
-
-    document.getElementById("entregaDisabledComments").disabled = true;
-
-    })
-
-    // end validation
 
     function disableButton(){
         document.getElementById("entregaDisabled").disabled = true;
+    }
+    function disableButtonComment(){
+        document.getElementById("entregaDisabledComments").disabled = true;
     }
 
 </script>

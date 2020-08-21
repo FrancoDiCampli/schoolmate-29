@@ -25,7 +25,7 @@ class UpdateJob extends FormRequest
     {
         return [
             'title' => 'min:5|max:40',
-            'description' => 'min:20|max:3000',
+            'description' => 'min:20|max:30000',
             // 'link' => 'nullable|url',
             'link' => 'nullable|regex:/^.+youtu.+$/i',
             'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',

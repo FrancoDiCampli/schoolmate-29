@@ -36,12 +36,12 @@ class PostController extends Controller
 
         $data = $request->validate([
             'title' => 'min:5|max:40',
-            'description' => 'min:19|max:90',
-            'content' => 'min:20|max:3000',
+            'description' => 'min:20|max:90',
+            'content' => 'min:20|max:30000',
         ]);
         $data['subject_id'] = $request->subject_id;
         $data['user_id'] = auth()->user()->id;
-        
+
         Post::create($data);
 
         return redirect()->route('posts.index',$request->subject_id);
@@ -74,13 +74,24 @@ class PostController extends Controller
 
         $postValidation = $request->validate([
             'title'=> 'min:5|max:40|unique:posts,id,'.$post->id,
-            'description'=>'min:19|max:90',
-            'content'=>'min:20|max:3000'
+            'description'=>'min:20|max:90',
+            'content'=>'min:20|max:30000'
         ]);
 
         $post->update($postValidation);
 
         session()->flash('messages', 'Post actualizado');
         return redirect()->route('posts.index', $post->subject->id);
+    }
+
+    public function destroy($id){
+        $post = Post::find($id);
+        $idSucject = $post->subject->id;
+        $post->annotations()->delete();
+        $post->delete();
+
+        session()->flash('messages', 'Post eliminado');
+        return redirect()->route('posts.index', $idSucject);
+
     }
 }

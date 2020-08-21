@@ -50,7 +50,7 @@
                 rounded-sm text-left">
                     <a href="{{route('posts.edit', $post)}}" class="block py-2">Editar</a>
 
-                    <a href="" class="block py-2">Eliminar</a>
+                    <a href="{{route('post.delete', $post)}}" class="block py-2" onclick="return confirm('¿Desea eliminar permanentemente la publicación?')">Eliminar</a>
                 </div>
             </div>
             @endrole
@@ -67,7 +67,7 @@
             {{$post->description}}
         </div>
         <div class="py-3 text-md text-gray-800 break-words">
-            {{$post->content}}
+            {!!$post->content!!}
         </div>
 
         <div class="border-t mt-3 flex pt-3 text-gray-700 text-sm">
@@ -110,7 +110,7 @@
                     <input type="text" name="subject_id" value="{{$post->subject_id}}" hidden>
                     <div
                         class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
-            <input name="annotation" onkeyup="setAnnotation()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" id="annotation" maxlength="2001" value="{{old('annotation')}}">
+            <input name="annotation" onkeyup="setAnnotation()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" id="annotation" maxlength="3001" value="{{old('annotation')}}">
                         <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none" id="entregaDisabledComments">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
                         </button>

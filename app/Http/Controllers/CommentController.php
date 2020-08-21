@@ -11,7 +11,7 @@ class CommentController extends Controller
 {
     public function store(Request $request){
         $datos = $request->validate([
-            'comment' => 'min:3|max:3000',
+            'comment' => 'min:1|max:30000',
         ]);
         Comment::create([
             'user_id' => Auth::user()->id,
@@ -26,7 +26,7 @@ class CommentController extends Controller
     public function addJobComment(Request $request)
     {
         $datos = $request->validate([
-            'comment' => 'min:3|max:3000',
+            'comment' => 'min:1|max:30000',
         ]);
         JobComment::create([
             'user_id' => Auth::user()->id,
