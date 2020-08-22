@@ -135,9 +135,15 @@
 
                     {{-- <h2 class="text-sm font-medium text-gray-800 m-2">{{auth()->user()->name}} </h2> --}}
                     <p class="tooltip z-50">
+                        @if (Auth::user()->photo)
+                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                            src="{{asset(Auth::user()->photo)}}"
+                            alt="avatar">
+                        @else
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
                             src="{{asset('img/avatar/user.png')}}"
                             alt="avatar">
+                        @endif
                         <span
                             class="tooltip-text hidden md:block bg-gray-600 m-2 -mx-24 absolute text-center text-xs p-1 text-white rounded-md shadow-md">{{Auth::user()->name}}</span>
                     </p>

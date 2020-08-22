@@ -76,10 +76,10 @@ class JobController extends Controller
         $job = Job::create($data);
 
         activity('jobs')
-        ->causedBy(Auth::user())
-        ->performedOn($job)
-        ->withProperties(['estado' => 'creada'])
-        ->log('Tarea creada');
+            ->causedBy(Auth::user())
+            ->performedOn($job)
+            ->withProperties(['estado' => 'creada'])
+            ->log('Tarea creada');
 
         session()->flash('messages', 'Tarea creada');
 
@@ -137,45 +137,40 @@ class JobController extends Controller
         $job = Job::find($id);
         $user = Auth::user()->id;
 
+        LogsTrait::logJob($job, $request->state);
 
-        // if($job->state != 1){
-           LogsTrait::logJob($job, $request->state);
+        $stateJob = $job->state;
+        $subject = Subject::find($request->subject);
 
-            $stateJob = $job->state;
-            $subject = Subject::find($request->subject);
+        if (Auth::user()->roles()->first()->name == 'adviser') {
+            $job->update(['state' => $request->state]);
 
-            if (Auth::user()->roles()->first()->name == 'adviser') {
-                $job->update(['state' => $request->state]);
+            session()->flash('messages', 'Tarea actualizada');
+            return redirect()->route('adviser.jobs', $stateJob);
+        } else {
+            // $data = $request->validate([
+            //     'title' => 'min:5|max:40',
+            //     'description' => 'min:20|max:3000',
+            //     'link' => 'nullable|regex:/^.+youtu.+$/i',
+            //     'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',
+            //     'start' => 'date',
+            //     'end' => 'date|after_or_equal:' . $request->start,
+            // ]);
+            $data = $request->validated();
+            unset($data['file']);
+            $data['subject_id'] = $subject->id;
+            $data['state'] = 0;
 
-                session()->flash('messages', 'Tarea actualizada');
-                return redirect()->route('adviser.jobs', $stateJob);
-            } else {
-                // $data = $request->validate([
-                //     'title' => 'min:5|max:40',
-                //     'description' => 'min:20|max:3000',
-                //     'link' => 'nullable|regex:/^.+youtu.+$/i',
-                //     'file' => 'nullable|file|mimes:pdf,xlsx,pptx,docx,jpg,jpeg,png',
-                //     'start' => 'date',
-                //     'end' => 'date|after_or_equal:' . $request->start,
-                // ]);
-                $data = $request->validated();
-                unset($data['file']);
-                $data['subject_id'] = $subject->id;
-                $data['state'] = 0;
-
-                if ($request->file) {
-                    $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
-                    $data['file_path'] = $nameFile;
-                }
-
-                $job->update($data);
-
-                session()->flash('messages', 'Tarea actualizada');
-                return redirect()->route('jobs.index', $subject->id);
+            if ($request->file) {
+                $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);
+                $data['file_path'] = $nameFile;
             }
-        // } else {
-        //     return back();
-        // }
+
+            $job->update($data);
+
+            session()->flash('messages', 'Tarea actualizada');
+            return redirect()->route('jobs.index', $subject->id);
+        }
     }
 
     public function destroy($id)
@@ -185,7 +180,7 @@ class JobController extends Controller
 
         $job->deliveries;
 
-        if($job->state != 1){
+        if ($job->state != 1) {
             if (count($job->deliveries) > 0) {
                 session()->flash('errores', 'No se puede eliminar, posee entregas');
                 return redirect()->route('jobs.index', $subjectId);
@@ -195,7 +190,7 @@ class JobController extends Controller
 
             session()->flash('messages', 'Tarea eliminada');
             return redirect()->route('jobs.index', $subjectId);
-        }else{
+        } else {
             return back();
         }
     }

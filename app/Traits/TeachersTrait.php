@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\User;
 use App\Teacher;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 trait TeachersTrait
@@ -31,6 +32,9 @@ trait TeachersTrait
         $path = null;
 
         $data = $request->validated();
+
+        $fecha = new Carbon($data['fnac']);
+        $data['fnac'] = $fecha->format('d/m/Y');
 
         if($request->hasFile('file')){
             $path =  FilesTrait::store($request, 'img/avatar', $request->dni);

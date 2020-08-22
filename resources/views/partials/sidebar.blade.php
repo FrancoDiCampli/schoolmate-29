@@ -7,7 +7,11 @@
         <span class="text-white md:text-bluedark-400 font-semibold text-lg w-auto hidden md:block text-center mb-6 border border-gray-400 border-sm ">{{ config('app.level') }}</span>
 
         <a href='{{route("$user")}}' class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
+            @if(Auth::user()->photo)
+            <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="{{asset(Auth::user()->photo)}}" alt="">
+            @else
             <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="{{asset('img/avatar/user.png')}}" alt="">
+            @endif
             <span class="mx-2 hidden md:block pt-2">{{Auth::user()->name}}</span>
         </a>
 

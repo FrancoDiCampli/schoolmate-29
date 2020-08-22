@@ -3,10 +3,13 @@
 namespace App\Traits;
 
 use App\Job;
+use App\User;
 use App\Student;
 use App\Delivery;
+use Carbon\Carbon;
 use App\Enrollment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 trait StudentsTrait
 {
@@ -69,6 +72,9 @@ trait StudentsTrait
         $path = null;
 
         $data = $request->validated();
+
+        $fecha = new Carbon($data['fnac']);
+        $data['fnac'] = $fecha->format('d/m/Y');
 
         if($request->hasFile('file')){
             $path =  FilesTrait::store($request, 'img/avatar', $request->dni);

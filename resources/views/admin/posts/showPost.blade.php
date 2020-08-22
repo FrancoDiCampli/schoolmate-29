@@ -24,11 +24,11 @@
         <div class=" w-full flex relative items-center border-b">
             <div class="p-2">
                 @if($post->user->teacher->photo)
-                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
                         src="{{asset($post->user->teacher->photo)}}"
                             alt="avatar">
                 @else
-                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
                 src="{{asset('img/avatar/user.png')}}"
                     alt="avatar">
                 @endif
@@ -80,7 +80,15 @@
         @foreach ($post->annotations as $annotation)
             <div class=" w-full flex relative items-center mt-3">
                 <div class="p-2">
-                    <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
+                    @if ($annotation->user->photo)
+                    <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
+                        src="{{asset($annotation->user->photo)}}"
+                        alt="avatar">
+                    @else
+                    <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
+                        src="{{asset('img/avatar/user.png')}}"
+                        alt="avatar">
+                    @endif
                 </div>
 
                 <div class="w-full">

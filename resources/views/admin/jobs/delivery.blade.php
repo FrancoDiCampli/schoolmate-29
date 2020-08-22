@@ -71,13 +71,21 @@
             Fecha de Entrega: {{$delivery->job->end->format('d-m-Y')}}
         </div>
 
-        <div class=" w-full flex relative items-center border-b mb-2 py-3">
+        <div class=" w-full flex relative items-center border-b mb-2 py-3 mt-4">
             <div class="">
-                <img class="w-8 h-8 rounded-full object-cover mr-4 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
+                @if ($delivery->student->photo)
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
+                    src="{{asset($delivery->student->photo)}}"
+                    alt="avatar">
+                @else
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
+                    src="{{asset('img/avatar/user.png')}}"
+                    alt="avatar">
+                @endif
             </div>
             <div class="flex w-full pt-1">
                 <div class="w-full">
-                    <div class="w-9/12">
+                    <div class="w-12/12">
                         <h2 class="text-sm font-medium text-gray-900 -mt-1">{{$delivery->student->name}} </h2>
                         <p class="text-gray-700 font-light text-xs">Entregada el {{$delivery->created_at->format('d-m-Y')}}</p>
                     </div>
@@ -241,7 +249,15 @@
                 @foreach ($delivery->comments as $item)
                 <div class=" w-full flex relative items-center mt-3">
                     <div class="p-2">
-                        <img class="w-8 h-8 rounded-full object-cover mr-1 shadow" src="{{asset('img/avatar/user.png')}}" alt="avatar">
+                        @if ($item->user->photo)
+                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
+                            src="{{asset($item->user->photo)}}"
+                            alt="avatar">
+                        @else
+                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
+                            src="{{asset('img/avatar/user.png')}}"
+                            alt="avatar">
+                        @endif
                     </div>
 
                     <div class="w-full">

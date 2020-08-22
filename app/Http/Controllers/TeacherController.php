@@ -84,6 +84,7 @@ class TeacherController extends Controller
 
         $teacher = Teacher::find($id);
         $user = User::find($teacher->user_id);
+
         return view('admin.users.teacherprofile',compact('user'));
     }
 

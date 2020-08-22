@@ -29,7 +29,7 @@ class UpdateTeacher extends FormRequest
         return [
             'name' => ['required','max:50',Rule::unique('teachers')->ignore($teacher)],
             'dni' => ['required',Rule::unique('teachers')->ignore($teacher)],
-
+            'cuil' => 'nullable|max:11|min:11',
             'address'=>'required',
             'fnac'=>'string',
             'phone'=>'required',
