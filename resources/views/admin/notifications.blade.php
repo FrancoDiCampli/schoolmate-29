@@ -6,6 +6,7 @@
     <div>
         <p class="text-md text-primary-500 font-semibold">Notificaciones</p>
         <p class="text-sm text-primary-400">{{$cant}} </p>
+        {{-- <a onclick="return confirm('¿Desea eliminar todas las notificaciones?')" href="{{route('deleteNotif')}}" class="flex mx-auto btn btn-primary">Eliminar todas</a> --}}
     </div>
     <div>
           <a href="{{URL::previous()}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">

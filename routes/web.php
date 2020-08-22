@@ -2,6 +2,7 @@
 
 use App\Subject;
 use App\Enrollment;
+use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -132,4 +133,14 @@ Route::group(['middleware' => 'auth'], function () {
     // Ruta de  pruebas del log de actividades de una tarea/entrega
     Route::get('test', 'JobController@test')->name('test');
 
+    // Rutas de busqueda
+    Route::post('searchJobs', 'SearchController@searchJobs')->name('searchJobs');
+    Route::post('searchPosts', 'SearchController@searchPosts')->name('searchPosts');
+    Route::post('searchDeliveries', 'SearchController@searchDeliveries')->name('searchDeliveries');
+
+    // Eliminar notificaciones
+    Route::get('deleteNotif', function(){
+        auth()->user()->notifications()->delete();
+        return back();
+    })->name('deleteNotif');
 });
