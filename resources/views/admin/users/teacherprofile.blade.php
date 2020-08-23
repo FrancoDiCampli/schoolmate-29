@@ -107,7 +107,7 @@
                       Fecha de Nacimiento
                     </label>
 
-                    <input type="date" id="start" name="fnac"
+                    <input type="date" max="{{now()->subYear(17)->format('Y-m-d')}}" id="start" name="fnac"
                         class="form-input w-full block" id="grid-last-name" type="text"
                     value="{{ $user->teacher->fnac}}">
 

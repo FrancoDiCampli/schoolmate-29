@@ -116,13 +116,13 @@ class UserController extends Controller
         $user = User::find($id);
         $rol = $user->roles()->first()->name;
 
-        if ($rol == 'teacher') {
-            $fechaNac = Carbon::createFromFormat('d/m/Y',$user->teacher->fnac);
-            $user->teacher->fnac = $fechaNac->format('Y-m-d');
-        } else{
-            $fechaNac = Carbon::createFromFormat('d/m/Y',$user->student->fnac);
-            $user->student->fnac = $fechaNac->format('Y-m-d');
-        }
+        // if ($rol == 'teacher') {
+        //     $fechaNac = Carbon::createFromFormat('d/m/Y',$user->teacher->fnac);
+        //     $user->teacher->fnac = $fechaNac->format('Y-m-d');
+        // } else{
+        //     $fechaNac = Carbon::createFromFormat('d/m/Y',$user->student->fnac);
+        //     $user->student->fnac = $fechaNac->format('Y-m-d');
+        // }
 
 
         if($rol == 'teacher'){

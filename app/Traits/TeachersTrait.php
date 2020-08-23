@@ -33,8 +33,8 @@ trait TeachersTrait
 
         $data = $request->validated();
 
-        $fecha = new Carbon($data['fnac']);
-        $data['fnac'] = $fecha->format('d/m/Y');
+        // $fecha = new Carbon($data['fnac']);
+        // $data['fnac'] = $fecha->format('d/m/Y');
 
         if($request->hasFile('file')){
             $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
