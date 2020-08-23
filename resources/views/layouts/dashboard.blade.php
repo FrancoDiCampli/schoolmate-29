@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/main.css?v='.filemtime(public_path('css/main.css'))) }}"/>
     <script src="https://cdn.tiny.cloud/1/vinu6fycgkkxj45zegjm1xtojyx5ttlt8c5mgbghx4knbh2a/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
-    tinymce.init({selector:'textarea', languaje: 'es'});
+    tinymce.init({selector:'textarea', language: 'es'});
     </script>
 </head>
 
