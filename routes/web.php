@@ -141,7 +141,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Eliminar notificaciones
     Route::get('deleteNotif', function(){
-        auth()->user()->notifications()->delete();
+        $data = auth()->user()->roles()->first();
+        switch ($data->name) {
+            case 'student':
+                auth()->user()->student->notifications()->delete();
+                break;
+            case 'teacher':
+                auth()->user()->teacher->notifications()->delete();
+                break;
+            case 'adviser':
+                auth()->user()->notifications()->delete();
+                break;
+        }
         return back();
     })->name('deleteNotif');
 });
