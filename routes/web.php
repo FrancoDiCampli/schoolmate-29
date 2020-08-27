@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('job/deliveries/{job}', 'JobController@show')->name('job.deliveries');
         Route::get('entrega/{delivery}', 'JobController@delivery')->name('job.delivery');
         Route::put('updateTeacher/{teacher}','TeacherController@updateTeacher')->name('update.teacher');
+        // PDF
+        Route::get('entregasPDF/{id}', 'JobController@entregasPDF')->name('entregasPDF');
     });
 
     // Alumnos
@@ -141,7 +143,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Eliminar notificaciones
     Route::get('deleteNotif', function(){
-        auth()->user()->notifications()->delete();
+        $data = auth()->user()->roles()->first();
+        switch ($data->name) {
+            case 'student':
+                auth()->user()->student->notifications()->delete();
+                break;
+            case 'teacher':
+                auth()->user()->teacher->notifications()->delete();
+                break;
+            case 'adviser':
+                auth()->user()->notifications()->delete();
+                break;
+        }
         return back();
     })->name('deleteNotif');
 });
