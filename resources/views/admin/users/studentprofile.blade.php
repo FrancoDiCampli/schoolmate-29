@@ -157,6 +157,21 @@
                 </div>
             </div>
 
+            @role('admin')
+            <div class="flex flex-wrap my-5">
+                <div class="w-full md:w-2/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                    Legajo
+                    </label>
+                    <input type="text" id="name" name="docket" class="form-input w-full block"
+                    placeholder="Legajo" value="{{$user->student->docket}}">
+                    <span class="flex italic text-red-600  text-sm" role="alert">
+                        {{$errors->first('docket')}}
+                    </span>
+                </div>
+            </div>
+            @endrole
+
 
             <div class="flex flex-wrap my-5">
                 <div class="w-full md:w-full px-3 md:mb-0 mb-1">
