@@ -101,6 +101,9 @@ class JobController extends Controller
         $alumnos = $faltan->map(function ($item) {
             return $item->student;
         });
+        $aux = $alumnos->sortBy('name');
+
+        $alumnos = $aux->values();
 
         return view('admin.jobs.deliveries', compact('job', 'entregas', 'alumnos'));
     }
@@ -238,5 +241,29 @@ class JobController extends Controller
     public function test()
     {
         return $activity = Activity::where('log_name', 'deliveries')->where('subject_id', 3)->get();
+    }
+
+    public function entregasPDF($id)
+    {
+        $job = Job::find($id);
+
+        $matriculas = $job->subject->course->enrollments;
+
+        $aux = $job->deliveries->keyBy('student_id');
+
+        $faltan = $matriculas->whereNotIn('student_id', $aux->keys());
+
+        $entregas = $job->deliveries()->get();
+
+        $alumnos = $faltan->map(function ($item) {
+            return $item->student;
+        });
+
+        $aux = $alumnos->sortBy('name');
+
+        $alumnos = $aux->values();
+
+        $pdf = app('dompdf.wrapper')->loadView('entregasPDF', compact('entregas', 'job', 'alumnos'))->setPaper('A4');
+        return $pdf->stream(now()->format('d-m-Y').'_Entregas'.time().'.pdf');
     }
 }
