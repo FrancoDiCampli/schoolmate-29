@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('job/deliveries/{job}', 'JobController@show')->name('job.deliveries');
         Route::get('entrega/{delivery}', 'JobController@delivery')->name('job.delivery');
         Route::put('updateTeacher/{teacher}','TeacherController@updateTeacher')->name('update.teacher');
+        // PDF
+        Route::get('entregasPDF/{id}', 'JobController@entregasPDF')->name('entregasPDF');
     });
 
     // Alumnos
