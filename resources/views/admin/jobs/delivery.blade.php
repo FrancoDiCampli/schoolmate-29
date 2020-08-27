@@ -41,10 +41,7 @@
                 @if ($delivery->state($delivery->state) === "En corrección")
                 <span class="bg-gray-200 text-gray-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
                 @endif
-                @if ($delivery->state($delivery->state) === "Por Corregir")
-                <span class="bg-orange-200 text-orange-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
-                @endif
-                @if ($delivery->state($delivery->state) === "Desaprobado")
+                @if ($delivery->state($delivery->state) === "Rehacer")
                 <span class="bg-red-200 text-red-800 float-right rounded-full px-2 py-1 text-xs font-medium hidden md:block">{{$delivery->state($delivery->state)}}</span>
                 @endif
             </div>
@@ -60,10 +57,7 @@
             @if ($delivery->state($delivery->state) === "En corrección")
             <span class="rounded-full text-gray-800 bg-gray-200 px-2 py-1 text-xs font-medium md:hidden">{{$delivery->state($delivery->state)}}</span>
             @endif
-            @if ($delivery->state($delivery->state) === "Por Corregir")
-            <span class="rounded-full text-orange-800 bg-orange-200 px-2 py-1 text-xs font-medium md:hidden">{{$delivery->state($delivery->state)}}</span>
-            @endif
-            @if ($delivery->state($delivery->state) === "Desaprobado")
+            @if ($delivery->state($delivery->state) === "Rehacer")
             <span class="rounded-full text-red-800 bg-red-200 px-2 py-1 text-xs font-medium md:hidden">{{$delivery->state($delivery->state)}}</span>
             @endif
         </div>

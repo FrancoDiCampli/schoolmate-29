@@ -391,7 +391,7 @@
                 </div>
 
                 <div class="text-sm text-gray-700 w-full px-2">
-                    <p class="text-sm font-medium text-gray-900 ml-10">{{$item->comment}}</p>
+                    <p class="text-sm font-medium text-gray-900 ml-10">{!!$item->comment!!}</p>
                 </div>
                 @endforeach
             </div>

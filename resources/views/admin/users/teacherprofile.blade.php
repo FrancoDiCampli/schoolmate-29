@@ -11,7 +11,12 @@
                 <p class="sm:text-lg md:text-xl lg:text-2xl xl:text-2xl font-semibold placeholder-gray-700">Mi Perfil</p>
             </div>
             <div>
-            @role('teacher')
+            @role('admin')
+            <a href="{{URL::previous()}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
+              </a>
+            </div>
+            @elserole('teacher')
             <a href="{{route('teacher')}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
                   </a>
@@ -27,9 +32,9 @@
 
         <div class="md:flex w-full mt-4">
             <div class="z-50">
-                @if (Auth::user()->photo)
+                @if ($user->teacher->photo)
                 <img class="w-24 h-24 rounded-full object-cover border-4 border-gray-200 mx-auto md:mr-4"
-                    src="{{asset(Auth::user()->photo)}}"
+                    src="{{asset($user->teacher->photo)}}"
                     alt="avatar">
                 @else
                 <img class="w-24 h-24 rounded-full object-cover mr-4 shadow hidden md:block"
@@ -61,9 +66,9 @@
                     </label>
 
                     <input type="text" id="name" name="name" class="form-input w-full block"
-                         placeholder="Nombre" value="{{$user->name}}" readonly>
+                         placeholder="Nombre" value="{{$user->name}}" @role('teacher|student') readonly @endrole>
                     <span class="flex italic text-gray-600  text-xs" role="alert">
-                        Solicitar a la institución el cambio de nombre.
+                        @role('teacher|student')Solicitar a la institución el cambio de nombre. @endrole
                     </span>
                 </div>
                 <div class="w-full md:w-1/2 px-3">
@@ -71,15 +76,16 @@
                       DNI
                     </label>
                     <input id="dni" type="text"  name="dni" class="form-input w-full block"
-                        type="text" placeholder="Ej: 22212222" value="{{$user->teacher->dni}}" readonly>
+                        type="text" placeholder="Ej: 22212222" value="{{$user->teacher->dni}}" @role('teacher|student') readonly @endrole>
                     <span class="flex italic text-gray-600  text-xs" role="alert">
-                        Solicitar a la institución el cambio de DNI.
+                        @role('teacher|student') Solicitar a la institución el cambio de DNI. @endrole
                     </span>
                 </div>
+
                 @role('admin')
-                <div class="w-full md:w-1/3 px-3">
+                <div class="w-full md:w-2/2 px-3 mt-5">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                      Password
+                      Contraseña
                     </label>
                     <input id="dni" type="text"  name="password" class="form-input w-full block"
                          value="">
