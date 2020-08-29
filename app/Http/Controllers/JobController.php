@@ -146,6 +146,9 @@ class JobController extends Controller
         $subject = Subject::find($request->subject);
 
         if (Auth::user()->roles()->first()->name == 'adviser') {
+            $request->validate([
+                'state' => 'required'
+            ]);
             $job->update(['state' => $request->state]);
 
             session()->flash('messages', 'Tarea actualizada');

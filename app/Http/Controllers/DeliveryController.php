@@ -124,6 +124,9 @@ class DeliveryController extends Controller
     {
         $delivery = Delivery::find($id);
         if (Auth::user()->roles()->first()->name == 'teacher') {
+            $request->validate([
+                'state' => 'required'
+            ]);
             $delivery->update([
                 'state' => $request->state
             ]);
