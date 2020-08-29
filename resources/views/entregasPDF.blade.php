@@ -31,6 +31,7 @@
     nav {
         text-align: center;
     }
+
 </style>
 
 <body>
@@ -41,9 +42,9 @@
 
         <div>
             <hr>
-            <pre><b>Tarea: </b>{{$job->title}}</pre>
-            <pre><b>Inicio:</b> {{$job->start->format('d-m-Y')}}   <b>Fin:</b> {{$job->end->format('d-m-Y')}}</pre>
-            <pre><b>Materia: </b>{{$job->subject->name}}   <b>Profesor: </b>{{$job->subject->teacher->name}}</pre>
+            <b>Tarea: </b>{{$job->title}} <br><br>
+            <b>Inicio:</b> {{$job->start->format('d-m-Y')}}   <b> / Fin:</b> {{$job->end->format('d-m-Y')}} <br><br>
+            <b>Materia: </b>{{$job->subject->name}}   <b> / Profesor: </b>{{$job->subject->teacher->name}} <br><br>
             <hr>
         </div>
         <br>
@@ -79,8 +80,8 @@
         <br>
         <footer style="bottom: 0; position: absolute;">
             <hr>
-            <pre style="text-align: right"><b>Creado:</b> {{now()->format('d-m-Y H:i')}}</pre>
-            <hr>
+            <p style="text-align: right"><b>Creado:</b> {{now()->format('d-m-Y H:i')}}</p>
+
         </footer>
     </div>
 </body>
