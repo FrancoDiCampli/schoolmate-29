@@ -192,6 +192,10 @@ class JobController extends Controller
                 return redirect()->route('jobs.index', $subjectId);
             }
 
+            if ($job->file_path) {
+                unlink($job->file_path);
+            }
+
             $job->delete();
 
             session()->flash('messages', 'Tarea eliminada');
@@ -267,6 +271,6 @@ class JobController extends Controller
         $alumnos = $aux->values();
 
         $pdf = app('dompdf.wrapper')->loadView('entregasPDF', compact('entregas', 'job', 'alumnos'))->setPaper('A4');
-        return $pdf->stream(now()->format('d-m-Y').'_Entregas'.time().'.pdf');
+        return $pdf->stream(now()->format('d-m-Y') . '_Entregas' . time() . '.pdf');
     }
 }

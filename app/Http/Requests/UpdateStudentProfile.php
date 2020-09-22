@@ -26,16 +26,17 @@ class UpdateStudentProfile extends FormRequest
     {
         $student = $this->student;
         return [
-            'name' => ['required','max:50',Rule::unique('students')->ignore($student)],
-            'dni' => ['required',Rule::unique('students')->ignore($student)],
+            'name' => ['required', 'max:50', Rule::unique('students')->ignore($student)],
+            'dni' => ['required', Rule::unique('students')->ignore($student)],
             'cuil' => 'nullable|max:11|min:11',
-            'address'=>'required',
-            'fnac'=>'string',
-            'phone'=>'required',
-            'email'=>'required',
-            'user_id'=>'required',
-            'docket'=>['nullable',Rule::unique('students')->ignore($student)],
-            'photo' => 'nullable|file|mimes:jpg,jpeg,png'
+            'address' => 'required',
+            'fnac' => 'string',
+            'phone' => 'required',
+            'email' => 'required',
+            'user_id' => 'required',
+            'docket' => ['nullable', Rule::unique('students')->ignore($student)],
+            'photo' => 'nullable|file|mimes:jpg,jpeg,png',
+            'file' => 'nullable|file|mimes:jpg,jpeg,png',
         ];
     }
 }
