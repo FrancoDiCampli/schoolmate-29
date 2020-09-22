@@ -27,16 +27,17 @@ class UpdateTeacher extends FormRequest
         $teacher = $this->teacher;
 
         return [
-            'name' => ['required','max:50',Rule::unique('teachers')->ignore($teacher)],
-            'dni' => ['required',Rule::unique('teachers')->ignore($teacher)],
+            'name' => ['required', 'max:50', Rule::unique('teachers')->ignore($teacher)],
+            'dni' => ['required', Rule::unique('teachers')->ignore($teacher)],
             'cuil' => 'nullable|max:11|min:11',
-            'address'=>'required',
-            'fnac'=>'string',
-            'phone'=>'required',
-            'email'=>'required',
-            'user_id'=>'required',
-            'docket'=>['nullable',Rule::unique('teachers')->ignore($teacher)],
-            'photo' => 'nullable|file|mimes:jpg,jpeg,png'
+            'address' => 'required',
+            'fnac' => 'string',
+            'phone' => 'required',
+            'email' => 'required',
+            'user_id' => 'required',
+            'docket' => ['nullable', Rule::unique('teachers')->ignore($teacher)],
+            'photo' => 'nullable|file|mimes:jpg,jpeg,png',
+            'file' => 'nullable|file|mimes:jpg,jpeg,png',
         ];
     }
 }

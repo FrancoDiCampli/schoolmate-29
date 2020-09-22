@@ -17,9 +17,9 @@ trait TeachersTrait
     public static function subjects($year)
     {
         return Teacher::subjects()->whereYear('created_at', $year)->get()->each(function ($sub) {
-                $sub->course;
-                $sub->jobs->each->deliveries;
-            });
+            $sub->course;
+            $sub->jobs->each->deliveries;
+        });
 
         // return auth()->user()->teacher()->subjects()->whereYear('created_at', $year)->get()->each(function ($sub) {
         //     $sub->course;
@@ -27,7 +27,8 @@ trait TeachersTrait
         // });
     }
 
-    public static function teacherUpdate($request,$teacher){
+    public static function teacherUpdate($request, $teacher)
+    {
 
         $path = null;
 
@@ -36,33 +37,35 @@ trait TeachersTrait
         // $fecha = new Carbon($data['fnac']);
         // $data['fnac'] = $fecha->format('d/m/Y');
 
-        if($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $path =  FilesTrait::store($request, 'img/avatar', $request->dni);
             $data['photo'] = $path;
-
         }
-        Teacher::where('id',$teacher->id)->update($data);
+        unset($data['file']);
+        Teacher::where('id', $teacher->id)->update($data);
         $usuario =  User::find($data['user_id']);
 
         $pw = $request->password;
 
-        if(strlen($pw)>7){
-           $pw =  Hash::make($pw);
-           $usuario->update([
-               'password'=>$pw
-           ]);
+        if (strlen($pw) > 7) {
+            $pw =  Hash::make($pw);
+            $usuario->update([
+                'password' => $pw
+            ]);
         }
 
         $usuario->update([
-            'name'=>$data['name'],
-            'dni'=>$data['dni']
-            ]);
+            'name' => $data['name'],
+            'dni' => $data['dni']
+        ]);
 
 
 
-        if(!is_null($path)){
-           $usuario->update(['photo'=>$data['photo']]);
+        if (!is_null($path)) {
+            if ($usuario->photo) {
+                unlink($usuario->photo);
+            }
+            $usuario->update(['photo' => $data['photo']]);
         }
-
     }
 }
