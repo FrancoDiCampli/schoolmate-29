@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Job;
 use Youtube;
 use App\User;
+use ZipArchive;
 use App\Subject;
 use App\Delivery;
 use App\Traits\JobsTrait;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
+use RecursiveIteratorIterator;
 use App\Http\Requests\StoreJob;
+use RecursiveDirectoryIterator;
 use App\Http\Requests\UpdateJob;
 use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\Auth;
@@ -272,5 +275,32 @@ class JobController extends Controller
 
         $pdf = app('dompdf.wrapper')->loadView('entregasPDF', compact('entregas', 'job', 'alumnos'))->setPaper('A4');
         return $pdf->stream(now()->format('d-m-Y') . '_Entregas' . time() . '.pdf');
+    }
+
+    public function descargarEntregas($id)
+    {
+        $job = Job::find($id);
+        $zip_file = $job->title . '.zip';
+        $zip = new ZipArchive();
+        $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        $pdf = app('dompdf.wrapper')->loadView('tareaPDF', compact('job'))->setPaper('A4');
+        $name = $job->title . '.pdf';
+        file_put_contents($name, $pdf->output());
+        $zip->addFile($name);
+
+        if ($job->file_path) {
+            $zip->addFile($job->file_path);
+        }
+
+        foreach ($job->deliveries as $delivery) {
+            if ($delivery->file_path) {
+                $zip->addFile($delivery->file_path);
+            }
+        }
+
+        $zip->close();
+        unlink($name);
+        return response()->download($zip_file)->deleteFileAfterSend(true);
     }
 }

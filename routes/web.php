@@ -55,9 +55,12 @@ Route::group(['middleware' => 'auth'], function () {
         // Muestra las entregas de la tarea
         Route::get('job/deliveries/{job}', 'JobController@show')->name('job.deliveries');
         Route::get('entrega/{delivery}', 'JobController@delivery')->name('job.delivery');
-        Route::put('updateTeacher/{teacher}','TeacherController@updateTeacher')->name('update.teacher');
+        Route::put('updateTeacher/{teacher}', 'TeacherController@updateTeacher')->name('update.teacher');
         // PDF
         Route::get('entregasPDF/{id}', 'JobController@entregasPDF')->name('entregasPDF');
+
+        // Descargar Entregas
+        Route::get('descargarEntregas/{id}', 'JobController@descargarEntregas')->name('descargarEntregas');
     });
 
     // Alumnos
@@ -69,7 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('deliveries', 'DeliveryController')->except('create', 'index', 'update');
         Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver');
         Route::get('entregas/{subject}', 'DeliveryController@index')->name('deliveries.subject');
-        Route::put('updateStudent/{student}','StudentController@updateStudent')->name('update.student');
+        Route::put('updateStudent/{student}', 'StudentController@updateStudent')->name('update.student');
     });
 
     // Asesores y Profesores
@@ -124,14 +127,14 @@ Route::group(['middleware' => 'auth'], function () {
                         break;
                 }
                 $cant = count($todas);
-                return view('admin.notifications', compact('todas','cant'));
+                return view('admin.notifications', compact('todas', 'cant'));
             }
         })->name('notifications');
     });
 
     Route::resource('user', 'UserController');
-    Route::get('reset/{user}','UserController@resetPass')->name('user.reset');
-    Route::put('reset','UserController@reset')->name('reset');
+    Route::get('reset/{user}', 'UserController@resetPass')->name('user.reset');
+    Route::put('reset', 'UserController@reset')->name('reset');
 
     // Ruta de  pruebas del log de actividades de una tarea/entrega
     Route::get('test', 'JobController@test')->name('test');
@@ -142,7 +145,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('searchDeliveries', 'SearchController@searchDeliveries')->name('searchDeliveries');
 
     // Eliminar notificaciones
-    Route::get('deleteNotif', function(){
+    Route::get('deleteNotif', function () {
         $data = auth()->user()->roles()->first();
         switch ($data->name) {
             case 'student':
