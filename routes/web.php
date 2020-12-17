@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Descargar Entregas
         Route::get('descargarEntregas/{id}', 'JobController@descargarEntregas')->name('descargarEntregas');
+        // Eliminar Entregas
+        Route::post('deleteAll', 'JobController@deleteAll')->name('eliminarEntregas');
     });
 
     // Alumnos

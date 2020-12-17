@@ -59,8 +59,18 @@
 
             {{-- Descargar y eliminar --}}
             @if ($job->state($job->state) === "Activa")
-            <a class="bg-blue-500" href="{{route('descargarEntregas', $job->id)}}">Descargar Entregas</a>
-            <a class="bg-red-500" href="">Eliminar Todo</a>
+            <a class="flex justify-center text-white rounded p-1 m-1 bg-blue-500"
+                href="{{route('descargarEntregas', $job->id)}}">Descargar
+                Entregas</a>
+            <form action="{{route('eliminarEntregas')}}" method="POST"
+                onsubmit="return confirm('¿Desea continuar? Se eliminará la tarea y sus correspondientes entregas.')">
+                @csrf
+                <input type="hidden" name="id" id="" value="{{$job->id}}">
+                <button class="flex justify-center text-white rounded p-1 m-1 bg-red-500" type="submit">Eliminar
+                    todo</button>
+            </form>
+            {{-- <a class="flex justify-center text-white rounded p-1 m-1 bg-red-500"
+                href="{{route('eliminarEntregas', $job->id)}}">Eliminar Todo</a> --}}
             @endif
 
             @if ($job->file_path)

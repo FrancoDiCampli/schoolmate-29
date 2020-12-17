@@ -208,6 +208,30 @@ class JobController extends Controller
         }
     }
 
+    public function deleteAll(Request $request)
+    {
+        $job = Job::find($request->id);
+        $subjectId =  $job->subject->id;
+
+        if (count($job->deliveries) > 0) {
+            foreach ($job->deliveries as $entrega) {
+                if ($entrega->file_path) {
+                    unlink($entrega->file_path);
+                }
+                $entrega->delete();
+            }
+        }
+
+        if ($job->file_path) {
+            unlink($job->file_path);
+        }
+
+        $job->delete();
+
+        session()->flash('messages', 'Tarea y Entregas eliminadas');
+        return redirect()->route('jobs.index', $subjectId);
+    }
+
     public function descargarJob($job)
     {
         $aux = Job::find($job);
