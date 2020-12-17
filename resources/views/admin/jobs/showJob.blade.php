@@ -12,16 +12,22 @@
 
     @role('teacher')
     <div>
-          <a href="{{route('jobs.index', $job->subject->id)}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
-          </a>
+        <a href="{{route('jobs.index', $job->subject->id)}}"
+            class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306">
+                <path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0"
+                    d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z" /></svg>
+        </a>
     </div>
     @endrole
 
     @role('adviser')
     <div>
-        <a href="{{url()->previous()}}" class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306"><path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0" d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z"/></svg>
+        <a href="{{url()->previous()}}"
+            class="flex text-teal-600 font-semibold p-3 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" viewBox="0 0 306 306">
+                <path data-original="#000000" class="active-path" data-old_color="#000000" fill="#A0AEC0"
+                    d="M247.35 35.7L211.65 0l-153 153 153 153 35.7-35.7L130.05 153z" /></svg>
         </a>
     </div>
     @endrole
@@ -32,7 +38,13 @@
     <div class="card bg-white rounded-sm w-full md:w-10/12 p-4 shadow-lg">
         <div class=" w-full flex relative items-center border-b mb-2 pb-3">
             <div class="p-2 w-10 h-10 rounded-full object-cover mr-4 shadow bg-primary-400 items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path d="M4 6.75A4.756 4.756 0 018.75 2h9.133a2.745 2.745 0 00-2.633-2H3.75A2.752 2.752 0 001 2.75v15.5A2.752 2.752 0 003.75 21H4z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF"/><path d="M20.25 4H8.75A2.752 2.752 0 006 6.75v14.5A2.752 2.752 0 008.75 24h11.5A2.752 2.752 0 0023 21.25V6.75A2.752 2.752 0 0020.25 4zm-2 17h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-4h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-3.5h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-4h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
+                    <path
+                        d="M4 6.75A4.756 4.756 0 018.75 2h9.133a2.745 2.745 0 00-2.633-2H3.75A2.752 2.752 0 001 2.75v15.5A2.752 2.752 0 003.75 21H4z"
+                        data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF" />
+                    <path
+                        d="M20.25 4H8.75A2.752 2.752 0 006 6.75v14.5A2.752 2.752 0 008.75 24h11.5A2.752 2.752 0 0023 21.25V6.75A2.752 2.752 0 0020.25 4zm-2 17h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-4h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-3.5h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5zm0-4h-7.5a.75.75 0 010-1.5h7.5a.75.75 0 010 1.5z"
+                        data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF" /></svg>
             </div>
             <div class="flex w-full">
                 <div class="w-2/3">
@@ -45,40 +57,70 @@
                 </div>
             </div>
 
+            {{-- Descargar y eliminar --}}
+            @if ($job->state($job->state) === "Activa")
+            <a class="flex justify-center text-white rounded p-1 m-1 bg-blue-500"
+                href="{{route('descargarEntregas', $job->id)}}">Descargar
+                Entregas</a>
+            <form action="{{route('eliminarEntregas')}}" method="POST"
+                onsubmit="return confirm('¿Desea continuar? Se eliminará la tarea y sus correspondientes entregas.')">
+                @csrf
+                <input type="hidden" name="id" id="" value="{{$job->id}}">
+                <button class="flex justify-center text-white rounded p-1 m-1 bg-red-500" type="submit">Eliminar
+                    todo</button>
+            </form>
+            {{-- <a class="flex justify-center text-white rounded p-1 m-1 bg-red-500"
+                href="{{route('eliminarEntregas', $job->id)}}">Eliminar Todo</a> --}}
+            @endif
+
             @if ($job->file_path)
-                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default mr-5 py-1 px-2 rounded-md hidden md:flex">
-                    <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
-                </a>
+            <a id="descargarFile" href="{{route('descargarJob', $job)}}"
+                class="btn btn-default mr-5 py-1 px-2 rounded-md hidden md:flex">
+                <svg aria-hidden="true" data-prefix="fas" data-icon="download"
+                    class="svg-inline--fa fa-download fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                        d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z" />
+                </svg>
+            </a>
             @endif
 
             @if ($job->state($job->state) === "Borrador")
-            <span class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
+            <span
+                class="float-right rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
             @endif
             @if ($job->state($job->state) === "Revisar")
-                <span class="float-right rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
+            <span
+                class="float-right rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
             @endif
             @if ($job->state($job->state) === "Activa")
-                <span class="float-right rounded-full text-green-100 bg-green-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
+            <span
+                class="float-right rounded-full text-green-100 bg-green-600 px-2 py-1 text-xs font-medium hidden md:block">{{$job->state($job->state)}}</span>
             @endif
 
 
             @role('teacher')
             @if ($job->state != 1)
             <div class="w-auto text-right ml-2">
-                <button onclick="toogleFm()" class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
+                <button onclick="toogleFm()"
+                    class="focus:outline-none text-gray-600 hover:bg-gray-300 rounded-full p-2">
                     <svg aria-hidden="true" data-prefix="fas" data-icon="ellipsis-v"
-                    class=" h-4 w-4  svg-inline--fa fa-ellipsis-v fa-w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/></svg>
+                        class=" h-4 w-4  svg-inline--fa fa-ellipsis-v fa-w-6" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 192 512">
+                        <path fill="currentColor"
+                            d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z" />
+                    </svg>
 
                 </button>
                 <div id="float-menu" class="hidden border bg-white absolute p-2 mt-8 text-sm w-auto top-10 right-0 shadow-lg
                 rounded-sm text-left">
                     <a href="{{route('jobs.edit',$job->id)}}" class="block py-2">Editar</a>
 
-                <form action="{{route('jobs.destroy', $job->id)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button href="" class="" class="">Eliminar</button>
-                </form>
+                    <form action="{{route('jobs.destroy', $job->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button href="" class="" class="">Eliminar</button>
+                    </form>
 
                 </div>
             </div>
@@ -90,13 +132,16 @@
 
         <div class="text-right">
             @if ($job->state($job->state) === "Borrador")
-            <span class="rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
+            <span
+                class="rounded-full text-gray-100 bg-gray-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
             @endif
             @if ($job->state($job->state) === "Revisar")
-                <span class="rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
+            <span
+                class="rounded-full text-red-100 bg-red-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
             @endif
             @if ($job->state($job->state) === "Activa")
-                <span class="rounded-full text-green-100 bg-green-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
+            <span
+                class="rounded-full text-green-100 bg-green-600 px-2 py-1 text-xs font-medium md:hidden">{{$job->state($job->state)}}</span>
             @endif
         </div>
         <div class="text-sm text-gray-700 text-right">
@@ -108,18 +153,17 @@
             <div class="">
                 @if ($job->subject->teacher->photo)
                 <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
-                    src="{{asset($job->subject->teacher->photo)}}"
-                    alt="avatar">
+                    src="{{asset($job->subject->teacher->photo)}}" alt="avatar">
                 @else
-                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
-                    src="{{asset('img/avatar/user.png')}}"
+                <img class="w-10 h-10 rounded-full object-cover mr-4 shadow" src="{{asset('img/avatar/user.png')}}"
                     alt="avatar">
                 @endif
             </div>
             <div class="flex w-full pt-1">
                 <div class="w-full">
                     <div class="w-12/12">
-                        <h2 class="text-sm font-medium text-gray-900 -mt-1">Prof.: {{$job->subject->teacher->name}} </h2>
+                        <h2 class="text-sm font-medium text-gray-900 -mt-1">Prof.: {{$job->subject->teacher->name}}
+                        </h2>
                         <p class="text-gray-700 font-light text-xs">Creada: {{$job->created_at->format('d-m-Y')}}</p>
                     </div>
                 </div>
@@ -133,57 +177,66 @@
         </div>
 
         <div class="flex justify-center p-2">
-             {{-- Youtube --}}
-             @if ($job->link)
-             <iframe id="player" type="text/html" width="800" height="400"
-                 src="http://www.youtube.com/embed/{{$vid}}" frameborder="0"
-                 allowfullscreen></iframe>
-             @endif
+            {{-- Youtube --}}
+            @if ($job->link)
+            <iframe id="player" type="text/html" width="800" height="400" src="http://www.youtube.com/embed/{{$vid}}"
+                frameborder="0" allowfullscreen></iframe>
+            @endif
         </div>
 
         @if ($job->file_path)
-            <div class="flex justify-center p-2 mt-2 md:hidden">
-                <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default flex">Descargar Tarea
-                    <svg aria-hidden="true" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download ml-2 fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
-                </a>
-            </div>
+        <div class="flex justify-center p-2 mt-2 md:hidden">
+            <a id="descargarFile" href="{{route('descargarJob', $job)}}" class="btn btn-default flex">Descargar Tarea
+                <svg aria-hidden="true" data-prefix="fas" data-icon="download"
+                    class="svg-inline--fa fa-download ml-2 fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                        d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z" />
+                </svg>
+            </a>
+        </div>
 
-            <div class="flex justify-center p-2 mt-2">
-                <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
-            </div>
+        <div class="flex justify-center p-2 mt-2">
+            <iframe id="viewer" height="600" width="800" frameborder="0"></iframe>
+        </div>
         @endif
 
 
         {{-- Select del asesor  --}}
         @role('adviser')
-            <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return disableButton();">
-                @method('PUT')
-                @csrf
+        <form action="{{route('jobs.update', $job->id)}}" method="POST" onsubmit="return disableButton();">
+            @method('PUT')
+            @csrf
 
-                <div class="border-t mt-3 flex py-6 text-gray-700 text-sm">
-                    {{-- estados --}}
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+            <div class="border-t mt-3 flex py-6 text-gray-700 text-sm">
+                {{-- estados --}}
+                <div class="w-full px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                         Actualizar Estado
-                        </label>
-                        <div class="relative">
-                            <select  id="state" name="state"  class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2" id="grid-state">
-                                <option disabled selected value> {{$job->state($job->state)}} </option>
-                                <option value="1">Activa</option>
-                                <option value="2">Revisar</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                            </div>
-                            <span class="flex italic text-red-600  text-sm" role="alert" id="endError">
-                                {{$errors->first('state')}}
-                            </span>
+                    </label>
+                    <div class="relative">
+                        <select id="state" name="state"
+                            class="block hover:bg-gray-300 appearance-none w-full bg-gray-200 border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2"
+                            id="grid-state">
+                            <option disabled selected value> {{$job->state($job->state)}} </option>
+                            <option value="1">Activa</option>
+                            <option value="2">Revisar</option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                        </div>
                     </div>
+                    <span class="flex italic text-red-600  text-sm" role="alert" id="endError">
+                        {{$errors->first('state')}}
+                    </span>
                 </div>
+            </div>
 
-                <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Actualizar</button>
-            </form>
+            <button type="submit" class="flex mx-auto btn btn-primary" id="entregaDisabled">Actualizar</button>
+        </form>
         @endrole
 
 
@@ -191,44 +244,43 @@
         <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
             <div class="border-b">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                Movimientos de la Tarea
+                    Movimientos de la Tarea
                 </label>
             </div>
 
             <div>
-            @if ($activities)
-            <div class="card-body py-2 my-2">
-                <div class="overflow-x-auto">
-                    <table class="table-auto border-collapse w-full">
-                        <thead>
-                            <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
-                                <th class="px-1 py-2">Fecha</th>
-                                <th class="px-1 py-2">Actividad</th>
-                                <th class="px-1 py-2" >Usuario</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm font-normal text-gray-700">
-                            @foreach ($activities as $activity)
+                @if ($activities)
+                <div class="card-body py-2 my-2">
+                    <div class="overflow-x-auto">
+                        <table class="table-auto border-collapse w-full">
+                            <thead>
+                                <tr class="px-5 py-3 border-b border-primary-400 text-left font-semibold text-gray-800">
+                                    <th class="px-1 py-2">Fecha</th>
+                                    <th class="px-1 py-2">Actividad</th>
+                                    <th class="px-1 py-2">Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm font-normal text-gray-700">
+                                @foreach ($activities as $activity)
                                 <tr class="hover:bg-gray-100 border-b border-gray-200 bg-white text-sm">
                                     <td class="px-1 py-2">{{$activity->created_at->format('d-m-Y')}}</td>
                                     <td class="px-1 py-2">{{$activity->description}}</td>
                                     <td class="px-1 py-2 mt-1">{{$activity->causer->name}}</td>
                                 </tr>
-                            @endforeach
+                                @endforeach
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
                 @else
                 <div class="card w-full rounded-sm bg-gray-100 mx-auto mt-6 mb-4">
                     <div class="alert flex flex-row items-center bg-blue-100 p-5 rounded border-b-2 border-blue-300">
-                        <div class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                        <div
+                            class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
                             <span class="text-blue-500">
-                                <svg fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    class="h-6 w-6">
+                                <svg fill="currentColor" viewBox="0 0 20 20" class="h-6 w-6">
                                     <path fill-rule="evenodd"
                                         d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                                         clip-rule="evenodd"></path>
@@ -245,7 +297,7 @@
                         </div>
                     </div>
                 </div>
-            @endif
+                @endif
             </div>
         </div>
 
@@ -254,7 +306,8 @@
         {{-- Comentarios --}}
         <div class="border-t mt-6 flex pt-3 text-gray-700 text-sm">
             <svg fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-1" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
             </svg>
             <span>{{count($job->comments)}} Comentarios de la tarea</span>
         </div>
@@ -265,13 +318,11 @@
                 <div class=" w-full flex relative items-center mt-3">
                     <div class="p-2">
                         @if ($item->user->photo)
-                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
-                            src="{{asset($item->user->photo)}}"
+                        <img class="w-10 h-10 rounded-full object-cover mr-4 shadow" src="{{asset($item->user->photo)}}"
                             alt="avatar">
                         @else
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow"
-                            src="{{asset('img/avatar/user.png')}}"
-                            alt="avatar">
+                            src="{{asset('img/avatar/user.png')}}" alt="avatar">
                         @endif
                     </div>
 
@@ -290,26 +341,37 @@
         </div>
 
         <div class="border-t mt-3 mb-6 pt-6 text-gray-700 text-sm w-full">
-            <form action="{{route('JobComment.store')}}" method="POST" id="formComment" onsubmit="return disableButtonComment();">
+            <form action="{{route('JobComment.store')}}" method="POST" id="formComment"
+                onsubmit="return disableButtonComment();">
                 @csrf
                 <input type="text" name="job" value="{{$job->id}}" hidden>
                 {{-- <div
                     class="border border-gray-400 bg-white h-10 rounded-sm py-1 content-center flex items-center">
-                    <input name="comment" onkeyup="setCommentJob()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" value="{{ old('comment') }}" id="commentJob">
-                    <button type="submit" class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"  class="h-5 w-5 svg-inline--fa fa-info fa-w-6"><path d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z" data-original="#000000" class="hovered-path active-path" data-old_color="#000000" fill="#374957"/></svg>
-                    </button>
-                </div> --}}
+                    <input name="comment" onkeyup="setCommentJob()" type="text" class="bg-transparent focus:outline-none w-full text-sm p-2 text-gray-800" placeholder="Agregar un comentario" value="{{ old('comment') }}"
+                id="commentJob">
+                <button type="submit"
+                    class="text-teal-600 font-semibold p-2 rounded-full hover:bg-gray-200 mx-1 focus:shadow-sm focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.725 485.725"
+                        class="h-5 w-5 svg-inline--fa fa-info fa-w-6">
+                        <path
+                            d="M459.835 196.758L73.531 9.826C48.085-2.507 17.46 8.123 5.126 33.569a51.198 51.198 0 00-1.449 41.384l60.348 150.818h421.7a50.787 50.787 0 00-25.89-29.013zM64.025 259.904L3.677 410.756c-10.472 26.337 2.389 56.177 28.726 66.65a51.318 51.318 0 0018.736 3.631c7.754 0 15.408-1.75 22.391-5.12l386.304-187a50.79 50.79 0 0025.89-29.013H64.025z"
+                            data-original="#000000" class="hovered-path active-path" data-old_color="#000000"
+                            fill="#374957" /></svg>
+                </button>
+        </div> --}}
 
-            <textarea name="comment" id="commentJob" cols="30" rows="5" class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800" id="grid-last-name" type="text" placeholder="Contenido de la publicación" maxlength="3001">{{old('comment')}}</textarea>
-                <span class="flex italic text-red-600  text-sm" role="alert" id="commentError">
-                    {{$errors->first('comment')}}
-                </span>
+        <textarea name="comment" id="commentJob" cols="30" rows="5"
+            class="border border-gray-400 bg-white focus:outline-none w-full text-sm p-2 text-gray-800"
+            id="grid-last-name" type="text" placeholder="Contenido de la publicación"
+            maxlength="3001">{{old('comment')}}</textarea>
+        <span class="flex italic text-red-600  text-sm" role="alert" id="commentError">
+            {{$errors->first('comment')}}
+        </span>
 
-                <button type="submit" class="flex mx-auto btn btn-primary mt-5" id="entregaDisabledComments">Comentar</button>
-            </form>
-        </div>
+        <button type="submit" class="flex mx-auto btn btn-primary mt-5" id="entregaDisabledComments">Comentar</button>
+        </form>
     </div>
+</div>
 </div>
 
 
@@ -355,7 +417,7 @@
 </script>
 
 <script>
-        let fm = document.getElementById('float-menu')
+    let fm = document.getElementById('float-menu')
         let oo = document.getElementById('orderOption')
 
         let bt = document.getElementsByClassName('btn')
@@ -391,5 +453,3 @@
 </script>
 
 @endpush
-
-
