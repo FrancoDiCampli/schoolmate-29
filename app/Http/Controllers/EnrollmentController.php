@@ -17,9 +17,9 @@ class EnrollmentController extends Controller
      */
     public function index()
     {
-        $enrollments = Enrollment::where('cicle',2020)->with('student')->get();
+        $enrollments = Enrollment::where('cicle', 2020)->with('student')->get();
 
-        return view('admin.enrollments.index',compact('enrollments'));
+        return view('admin.enrollments.index', compact('enrollments'));
     }
 
     /**
@@ -29,13 +29,12 @@ class EnrollmentController extends Controller
      */
     public function create()
     {
-        $enrolled =  Enrollment::where('cicle',2020)->select(['student_id'])->get();
+        $enrolled =  Enrollment::where('cicle', 2020)->select(['student_id'])->get();
 
         $ex = [];
 
-        foreach($enrolled as $matricula){
-            array_push($ex,$matricula['student_id']);
-
+        foreach ($enrolled as $matricula) {
+            array_push($ex, $matricula['student_id']);
         }
 
         $courses = Course::all();
@@ -46,7 +45,7 @@ class EnrollmentController extends Controller
 
         $students = $students->except($ex);
 
-        return view('admin.enrollments.create',compact('students','courses'));
+        return view('admin.enrollments.create', compact('students', 'courses'));
     }
 
     /**
@@ -58,8 +57,8 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $enrollment = $request->validate([
-            'student_id'=>'required',
-            'course_id'=>'required',
+            'student_id' => 'required',
+            'course_id' => 'required',
         ]);
 
         $enrollment['cicle'] =  2020;
@@ -67,7 +66,6 @@ class EnrollmentController extends Controller
         Enrollment::create($enrollment);
 
         return redirect()->route('enrollments.index')->with('messages', 'Alumno matriculado correctamente.');
-
     }
 
     /**

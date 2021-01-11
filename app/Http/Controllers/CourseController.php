@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use Carbon\Carbon;
+use App\Exports\CourseSheet;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CourseController extends Controller
 {
@@ -15,8 +18,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses =  Course::all();
-        return view('admin.courses.index',compact('courses'));
-
+        return view('admin.courses.index', compact('courses'));
     }
 
     /**
@@ -38,13 +40,13 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $course = $request->validate([
-            'name'=>'required|max:20',
-            'code'=>'required|max:20|unique:courses',
-            'shift'=>'required'
+            'name' => 'required|max:20',
+            'code' => 'required|max:20|unique:courses',
+            'shift' => 'required'
         ]);
 
-       Course::create($course);
-       return redirect()->route('courses.index')->with('messages', 'Course creado correctamente.');
+        Course::create($course);
+        return redirect()->route('courses.index')->with('messages', 'Course creado correctamente.');
     }
 
     /**
@@ -90,5 +92,12 @@ class CourseController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function enrollmentsExcel($id)
+    {
+        $curso = Course::find($id);
+        $export = new CourseSheet($curso);
+        return Excel::download($export, $curso->name . '-matriculas.xlsx');
     }
 }

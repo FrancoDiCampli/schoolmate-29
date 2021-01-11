@@ -34,6 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
         // Backup Tareas
         Route::get('tareasZip', 'AdminController@tareasZip');
         Route::get('entregasZip', 'AdminController@entregasZip');
+
+        // Exportar Excel
+        Route::get('exportar/{id}', 'CourseController@enrollmentsExcel')->name('exportar');
     });
 
     //Asesores
