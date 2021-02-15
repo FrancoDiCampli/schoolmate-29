@@ -11,6 +11,7 @@ use App\Delivery;
 use App\Traits\JobsTrait;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
+use App\Traits\PaginarTrait;
 use Illuminate\Http\Request;
 use RecursiveIteratorIterator;
 use App\Http\Requests\StoreJob;
@@ -33,6 +34,7 @@ class JobController extends Controller
             $subject->jobs;
         }
 
+        $subject->jobs = PaginarTrait::paginate($subject->jobs, 5);
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
 
         return view('admin.jobs.index', compact('subject'));

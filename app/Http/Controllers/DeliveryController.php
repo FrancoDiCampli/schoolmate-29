@@ -7,16 +7,17 @@ use Youtube;
 use App\Comment;
 use App\Subject;
 use App\Delivery;
-use App\Http\Requests\StoreDelivery;
-use App\Http\Requests\UpdateDelivery;
 use Carbon\Carbon;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
+use App\Traits\PaginarTrait;
 use Illuminate\Http\Request;
 use App\Traits\StudentsTrait;
 use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreDelivery;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdateDelivery;
 use Spatie\Activitylog\Models\Activity;
 
 class DeliveryController extends Controller
@@ -30,7 +31,7 @@ class DeliveryController extends Controller
 
         $now = Carbon::now();
 
-
+        $jobs->pendientes = PaginarTrait::paginate($jobs->pendientes(), 5);
 
         return view('admin.deliveries.pendings', compact('jobs', 'now'));
     }
@@ -45,6 +46,8 @@ class DeliveryController extends Controller
         $deliveries =  Delivery::whereIn('job_id', $jobs->modelkeys())->get();
 
         $deliveries = $deliveries->where('student_id', $user);
+
+        $deliveries = PaginarTrait::paginate($deliveries, 5);
 
         return view('admin.deliveries.index', compact('deliveries', 'subject'));
     }
@@ -70,17 +73,17 @@ class DeliveryController extends Controller
 
         $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
 
-        if($delivery){
+        if ($delivery) {
             $comments = $delivery->comments;
-            $activities = Activity::where('log_name','deliveries')->where('subject_id',$delivery->id)->get();
+            $activities = Activity::where('log_name', 'deliveries')->where('subject_id', $delivery->id)->get();
             $delivery->file_path ? $fileDelivery = url($delivery->file_path) : $fileDelivery = '';
-        } else { 
+        } else {
             $fileDelivery = '';
             $comments = [];
             $activities = null;
         }
 
-        return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments','activities', 'fileDelivery'));
+        return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments', 'activities', 'fileDelivery'));
     }
 
     public function store(StoreDelivery $request)
@@ -106,7 +109,7 @@ class DeliveryController extends Controller
 
         $delivery = Delivery::create($data);
 
-        LogsTrait::logDelivery($delivery,0);
+        LogsTrait::logDelivery($delivery, 0);
         // Si tiene comentarios los crea
         if ($request->comment) {
             Comment::create([
@@ -130,7 +133,7 @@ class DeliveryController extends Controller
             $delivery->update([
                 'state' => $request->state
             ]);
-            LogsTrait::logDelivery($delivery,$request->state);
+            LogsTrait::logDelivery($delivery, $request->state);
             session()->flash('messages', 'Entrega actualizada');
             return redirect()->route('job.deliveries', $request->id_job);
         } else {
@@ -149,7 +152,7 @@ class DeliveryController extends Controller
                 'file_path' => $nameFile,
                 'link' => $link
             ]);
-            LogsTrait::logDelivery($delivery,0);
+            LogsTrait::logDelivery($delivery, 0);
             session()->flash('messages', 'Entrega actualizada');
             return redirect()->route('deliveries.subject', $delivery->job->subject->id);
         }
