@@ -7,19 +7,20 @@ use Illuminate\Http\Request;
 
 class AdviserController extends Controller
 {
-    public function stateJobs($id){
+    public function stateJobs($id)
+    {
         switch ($id) {
             case '0':
-                $jobs = Job::where('state', 0)->get();
+                $jobs = Job::where('state', 0)->paginate(5);
                 $title = "Borrador";
                 break;
 
             case '1':
-                $jobs = Job::where('state', 1)->get();
+                $jobs = Job::where('state', 1)->paginate(5);
                 $title = "Activas";
                 break;
             case '2':
-                $jobs = Job::where('state', 2)->get();
+                $jobs = Job::where('state', 2)->paginate(5);
                 $title = "Rechazadas";
                 break;
 
