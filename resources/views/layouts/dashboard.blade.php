@@ -8,9 +8,12 @@
     <title>Schoolmate</title>
     <link rel="icon" type="image/png" href="{{asset('img/sm-sidebar-png.png')}}" />
     {{-- <link rel="stylesheet" href="{{asset('css/main.css')}}"> --}}
-    <link rel="stylesheet" href="{{ asset('css/main.css?v='.filemtime(public_path('css/main.css'))) }}"/>
-    <script src="https://cdn.tiny.cloud/1/vinu6fycgkkxj45zegjm1xtojyx5ttlt8c5mgbghx4knbh2a/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>tinymce.init({selector:'textarea', language:'es'});</script>
+    <link rel="stylesheet" href="{{ asset('css/main.css?v='.filemtime(public_path('css/main.css'))) }}" />
+    <script src="https://cdn.tiny.cloud/1/vinu6fycgkkxj45zegjm1xtojyx5ttlt8c5mgbghx4knbh2a/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({selector:'textarea', language:'es'});
+    </script>
 </head>
 
 <body class="bg-gray-100 font-montserrat" id="all">
@@ -20,7 +23,8 @@
     </div>
 
     <main id="app" class="">
-        <div class="top-navbar w-full mx-auto flex items-center  bg-gray-200 p-3 border-b border-gray-400"> {{-- agregar fixed --}}
+        <div class="top-navbar w-full mx-auto flex items-center  bg-gray-200 p-3 border-b border-gray-400">
+            {{-- agregar fixed --}}
             @php
             // Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol
             $user = auth()->user()->roles()->first()->name;
@@ -43,6 +47,25 @@
                     <div class="pt-2 mr-5">
                         @role('admin')
                         <span class="text-r text-gray-700">Administrador</span>
+
+                        @php
+                        $anio = session('anio');
+                        $aux = now()->format('Y');
+                        @endphp
+
+                        <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data">
+                            @csrf
+                            <select name="anio" id="anio">
+                                <option disabled selected value="{{$anio}}">{{$anio}}
+                                </option>
+                                @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
+                                    </option>
+                                    @endif
+                                    @endfor
+                            </select>
+                            <button class="bg-blue-500" type="submit">Seleccionar</button>
+                        </form>
+
                         @endrole
                         @role('adviser')
                         <span class="text-r text-gray-700">Asesor</span>
@@ -57,23 +80,29 @@
                             <path
                                 d="M51.376 45.291C46.716 40.66 44.354 35.179 44.354 29v-8.994c.043-6.857-4.568-11.405-8.53-13.216-1.117-.51-2.294-.888-3.494-1.178V5c0-2.757-2.243-5-5-5s-5 2.243-5 5v.706c-1.079.283-2.139.629-3.146 1.093-4.379 2.018-8.815 6.882-8.855 13.201v9c0 6.388-2.256 11.869-6.705 16.291a1.002 1.002 0 00.535 1.695l9.491 1.639c1.79.309 3.415.556 4.944.758C20.339 52.804 23.766 55 27.512 55c3.747 0 7.175-2.198 8.919-5.621 1.522-.201 3.139-.447 4.919-.755l9.49-1.639a1 1 0 00.536-1.694zM24.329 5c0-1.654 1.346-3 3-3s3 1.346 3 3v.193a20.176 20.176 0 00-6 .05V5zm-8 16h-.006a1.001 1.001 0 01-.994-1.006c.03-4.682 3.752-7.643 5.948-8.654 3.849-1.775 8.594-1.772 12.469-.002a1 1 0 11-.832 1.818c-3.353-1.533-7.469-1.537-10.799 0-1.767.814-4.762 3.173-4.785 6.85a1 1 0 01-1.001.994zm17.606 28.678C32.416 51.739 30.047 53 27.512 53c-2.534 0-4.902-1.26-6.421-3.32h.001c.396.041.78.073 1.164.106.183.016.371.035.552.05.14.011.275.018.414.028 2.906.212 5.582.212 8.486.005.167-.012.33-.021.499-.034.218-.017.444-.04.665-.059.339-.03.676-.058 1.025-.094l.038-.004z"
                                 data-original="#000000" class="active-path" data-old_color="#000000" fill="#0E2A3F" />
-                            </svg>
+                        </svg>
                         @if ($cant > 0)
                         <p class="absolute bg-red-600 justify-center rounded-full px-1 mr-4 text-white text-xs">
                             {{$cant}}</p>
                         @endif
                     </button>
                     @else
-                    <div class="mx-4 mr-4 items-center pt-1 rounded-full text-bluedark-500 hover:text-gray-600 focus:shadow-md focus:outline-none hidden md:flex">
-                    <svg aria-hidden="true" data-prefix="far" data-icon="bell-slash" class="w-8 h-8 svg-inline--fa fa-bell-slash fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M633.99 471.02L36 3.51C29.1-2.01 19.03-.9 13.51 6l-10 12.49C-2.02 25.39-.9 35.46 6 40.98l598 467.51c6.9 5.52 16.96 4.4 22.49-2.49l10-12.49c5.52-6.9 4.41-16.97-2.5-22.49zM163.53 368c16.71-22.03 34.48-55.8 41.4-110.58l-45.47-35.55c-3.27 90.73-36.47 120.68-54.84 140.42-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h279.66l-61.4-48H163.53zM320 96c61.86 0 112 50.14 112 112 0 .2-.06.38-.06.58.02 16.84 1.16 31.77 2.79 45.73l59.53 46.54c-8.31-22.13-14.34-51.49-14.34-92.85 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84c-26.02 5.41-49.45 16.94-69.13 32.72l38.17 29.84C275 103.18 296.65 96 320 96zm0 416c35.32 0 63.97-28.65 63.97-64H256.03c0 35.35 28.65 64 63.97 64z"/></svg>
-                    @if ($cant > 0)
-                    <p class="absolute bg-red-600 justify-center rounded-full px-1 mr-4 text-white text-xs">
-                        {{$cant}}</p>
-                    @endif
+                    <div
+                        class="mx-4 mr-4 items-center pt-1 rounded-full text-bluedark-500 hover:text-gray-600 focus:shadow-md focus:outline-none hidden md:flex">
+                        <svg aria-hidden="true" data-prefix="far" data-icon="bell-slash"
+                            class="w-8 h-8 svg-inline--fa fa-bell-slash fa-w-20" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 512">
+                            <path fill="currentColor"
+                                d="M633.99 471.02L36 3.51C29.1-2.01 19.03-.9 13.51 6l-10 12.49C-2.02 25.39-.9 35.46 6 40.98l598 467.51c6.9 5.52 16.96 4.4 22.49-2.49l10-12.49c5.52-6.9 4.41-16.97-2.5-22.49zM163.53 368c16.71-22.03 34.48-55.8 41.4-110.58l-45.47-35.55c-3.27 90.73-36.47 120.68-54.84 140.42-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h279.66l-61.4-48H163.53zM320 96c61.86 0 112 50.14 112 112 0 .2-.06.38-.06.58.02 16.84 1.16 31.77 2.79 45.73l59.53 46.54c-8.31-22.13-14.34-51.49-14.34-92.85 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84c-26.02 5.41-49.45 16.94-69.13 32.72l38.17 29.84C275 103.18 296.65 96 320 96zm0 416c35.32 0 63.97-28.65 63.97-64H256.03c0 35.35 28.65 64 63.97 64z" />
+                        </svg>
+                        @if ($cant > 0)
+                        <p class="absolute bg-red-600 justify-center rounded-full px-1 mr-4 text-white text-xs">
+                            {{$cant}}</p>
+                        @endif
                     </div>
                     @endif
 
-                      {{-- notificaciones --}}
+                    {{-- notificaciones --}}
                     <div id="capa" style="display:none;" class="hidden overflow-auto h-48 border bg-white absolute p-2 mt-12 text-sm md:w-auto w-56 mx-auto right-0 shadow-lg z-50
                     rounded-sm text-left md:mr-24 mr-6">
                         @foreach ($noLeidas ?? [] as $item)
@@ -81,55 +110,59 @@
                             role="alert">
 
                             @hasanyrole('teacher|adviser')
-                                @if ($item->type == 'App\Notifications\JobCreated' || $item->type == 'App\Notifications\JobUpdated' )
-                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                    href="{{route('jobs.showJob', $item->data['job_id'])}}">
-                                    <pre
+                            @if ($item->type == 'App\Notifications\JobCreated' || $item->type ==
+                            'App\Notifications\JobUpdated' )
+                            <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                href="{{route('jobs.showJob', $item->data['job_id'])}}">
+                                <pre
                                     class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
-                                    </a>
-                                @endif
+                            </a>
+                            @endif
                             @endhasanyrole
 
                             @role('student')
-                                @if ($item->type == 'App\Notifications\JobCreated')
-                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                        href="{{route('deliver', $item->data['job_id'])}}">
-                                        <pre
-                                         class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
-                                    </a>
-                                @elseif($item->type == 'App\Notifications\PostCreated')
-                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                    href="{{route('posts.show', $item->data['post_id'])}}">
-                                    <pre
+                            @if ($item->type == 'App\Notifications\JobCreated')
+                            <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                href="{{route('deliver', $item->data['job_id'])}}">
+                                <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['teacher']}}</pre>
+                            </a>
+                            @elseif($item->type == 'App\Notifications\PostCreated')
+                            <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                href="{{route('posts.show', $item->data['post_id'])}}">
+                                <pre
                                     class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['post']}}</pre>
-                                </a>
-                                @else
-                                <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                    href="{{route('deliver', $item->data['job_id'])}}">
-                                    <pre
+                            </a>
+                            @else
+                            <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                href="{{route('deliver', $item->data['job_id'])}}">
+                                <pre
                                     class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
-                                </a>
-                                @endif
+                            </a>
+                            @endif
                             @endrole
 
                             @role('teacher')
-                                @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type == 'App\Notifications\DeliveryUpdated')
-                                    <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
-                                    href="{{route('job.delivery', $item->data['delivery_id'])}}">
-                                    <pre
-                                        class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
-                                    </a>
-                                @endif
+                            @if ($item->type == 'App\Notifications\DeliveryCreated' || $item->type ==
+                            'App\Notifications\DeliveryUpdated')
+                            <a class="rounded text-gray-600 hover:text-bluedark-500 font-bold p-1"
+                                href="{{route('job.delivery', $item->data['delivery_id'])}}">
+                                <pre
+                                    class="font-semibold antialiased mr-2 text-left flex-auto">{{$item->data['message']}} - {{$item->data['student']}}</pre>
+                            </a>
+                            @endif
                             @endrole
 
                         </div>
                         @endforeach
 
                         {{-- <a href="{{route('notifications')}}"
-                            class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a> --}}
-                            <div class="p-2 justify-center w-full items-center text-blue-700 leading-none flex lg:inline-flex">
-                                <a href="{{route('notifications')}}" class="text-sm text-gray-700 hover:bg-bluedark-500 hover:text-white p-2">Ver más </a>
-                            </div>
+                        class="bg-teal-600 text-white text-sm p-2 shadow-lg hover:text-gray-700">Ver más</a> --}}
+                        <div
+                            class="p-2 justify-center w-full items-center text-blue-700 leading-none flex lg:inline-flex">
+                            <a href="{{route('notifications')}}"
+                                class="text-sm text-gray-700 hover:bg-bluedark-500 hover:text-white p-2">Ver más </a>
+                        </div>
                     </div>
 
 
@@ -137,12 +170,10 @@
                     <p class="tooltip z-50">
                         @if (Auth::user()->photo)
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
-                            src="{{asset(Auth::user()->photo)}}"
-                            alt="avatar">
+                            src="{{asset(Auth::user()->photo)}}" alt="avatar">
                         @else
                         <img class="w-10 h-10 rounded-full object-cover mr-4 shadow hidden md:block"
-                            src="{{asset('img/avatar/user.png')}}"
-                            alt="avatar">
+                            src="{{asset('img/avatar/user.png')}}" alt="avatar">
                         @endif
                         <span
                             class="tooltip-text hidden md:block bg-gray-600 m-2 -mx-24 absolute text-center text-xs p-1 text-white rounded-md shadow-md">{{Auth::user()->name}}</span>

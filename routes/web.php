@@ -37,6 +37,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Exportar Excel
         Route::get('exportar/{id}', 'CourseController@enrollmentsExcel')->name('exportar');
+
+        Route::post('setAnio', function () {
+            session()->put('anio', request()->anio);
+            return redirect()->back();
+        })->name('setAnio');
     });
 
     //Asesores
@@ -115,16 +120,16 @@ Route::group(['middleware' => 'auth'], function () {
                 $rol = auth()->user()->roles->first()->name;
                 switch ($rol) {
                     case 'teacher':
-                        $todas = auth()->user()->teacher->notifications()->get();
+                        $todas = auth()->user()->teacher->notifications()->paginate(5);
                         break;
 
                     case 'adviser':
-                        $todas = auth()->user()->notifications()->get();
+                        $todas = auth()->user()->notifications()->paginate(5);
                         break;
 
                     case 'student':
                         $noLeidas = auth()->user()->student->notifications()->take(3)->get();
-                        $todas = auth()->user()->student->notifications()->get();
+                        $todas = auth()->user()->student->notifications()->paginate(5);
                         break;
 
                     default:

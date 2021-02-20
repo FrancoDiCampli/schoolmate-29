@@ -31,7 +31,6 @@
     nav {
         text-align: center;
     }
-
 </style>
 
 <body>
@@ -43,8 +42,8 @@
         <div>
             <hr>
             <b>Tarea: </b>{{$job->title}} <br><br>
-            <b>Inicio:</b> {{$job->start->format('d-m-Y')}}   <b> / Fin:</b> {{$job->end->format('d-m-Y')}} <br><br>
-            <b>Materia: </b>{{$job->subject->name}}   <b> / Profesor: </b>{{$job->subject->teacher->name}} <br><br>
+            <b>Inicio:</b> {{$job->start->format('d-m-Y')}} <b> / Fin:</b> {{$job->end->format('d-m-Y')}} <br><br>
+            <b>Materia: </b>{{$job->subject->name}} <b> / Profesor: </b>{{$job->subject->teacher->name}} <br><br>
             <hr>
         </div>
         <br>
@@ -61,7 +60,7 @@
                 <tbody>
                     <tr>
                         <td>{{$entrega->student->name}}</td>
-                        <td style="text-align: center">{{$entrega->created_at->format('d-m-Y')}}</td>
+                        <td style="text-align: center">{{$entrega->updated_at->format('d-m-Y H:i')}}</td>
                         <td style="text-align: center">{{$entrega->state($entrega->state)}}</td>
                     </tr>
                 </tbody>

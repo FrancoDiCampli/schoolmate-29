@@ -7,6 +7,7 @@ use App\Course;
 use App\Student;
 use App\Enrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class EnrollmentController extends Controller
 {
@@ -17,7 +18,8 @@ class EnrollmentController extends Controller
      */
     public function index()
     {
-        $enrollments = Enrollment::where('cicle', 2020)->with('student')->get();
+        // $enrollments = Enrollment::where('cicle', 2020)->with('student')->get();
+        $enrollments = Enrollment::where('cicle', session('anio'))->with('student')->get();
 
         return view('admin.enrollments.index', compact('enrollments'));
     }
