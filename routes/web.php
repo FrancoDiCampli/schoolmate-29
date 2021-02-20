@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('subjects', 'SubjectController');
         // Matriculas
         Route::resource('enrollments', 'EnrollmentController');
-        Route::post('updateAll','EnrollmentController@updateAll')->name('updateAll');
+        Route::post('updateAll', 'EnrollmentController@updateAll')->name('updateAll');
         // Students
         Route::resource('students', 'StudentController');
         Route::get('import', 'StudentController@importar')->name('import.students');
@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('exportar/{id}', 'CourseController@enrollmentsExcel')->name('exportar');
 
         Route::post('setAnio', function () {
-            session()->put('anio', request()->anio);
+            session()->put('selectedAnio', request()->selectAnio);
             return redirect()->back();
         })->name('setAnio');
     });

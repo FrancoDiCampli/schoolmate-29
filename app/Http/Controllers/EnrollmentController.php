@@ -19,7 +19,7 @@ class EnrollmentController extends Controller
     public function index()
     {
         // $enrollments = Enrollment::where('cicle', 2020)->with('student')->get();
-        $enrollments = Enrollment::where('cicle', session('anio'))->with('student')->get();
+        $enrollments = Enrollment::where('cicle', session('selectedAnio'))->with('student')->get();
 
         return view('admin.enrollments.index', compact('enrollments'));
     }
@@ -116,28 +116,28 @@ class EnrollmentController extends Controller
     }
 
     //Actualizar la matricula de los alumnos promovidos al nuevo ciclo
-    public function updateAll(Request $request){
+    public function updateAll(Request $request)
+    {
         $matriculados = [];
 
         // Cargo todos los alumnos seleccionados a un array
-        foreach($request->matriculados as $key=>$val){
-            array_push($matriculados,$key);
+        foreach ($request->matriculados as $key => $val) {
+            array_push($matriculados, $key);
         }
 
         // Elimino la matricula existente
-        foreach($matriculados as $matricula){
-            Enrollment::where('student_id',$matricula)->delete();
+        foreach ($matriculados as $matricula) {
+            Enrollment::where('student_id', $matricula)->delete();
         }
 
-        foreach($matriculados as $matricula){
+        foreach ($matriculados as $matricula) {
             Enrollment::create([
-                'student_id'=>$matricula,
-                'course_id'=>$request->curso,
-                'cicle'=>2021
+                'student_id' => $matricula,
+                'course_id' => $request->curso,
+                'cicle' => 2021
             ]);
         }
 
         return redirect()->route('courses.index')->with('messages', 'Alumnos matriculados correctamente.');
     }
-    
 }

@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Config::set('anio', now()->format('Y'));
 
-        session()->put('anio', now()->format('Y'));
+        session()->put('selectedAnio', now()->format('Y'));
 
         Delivery::observe(DeliveryObserver::class);
         Job::observe(JobObserver::class);

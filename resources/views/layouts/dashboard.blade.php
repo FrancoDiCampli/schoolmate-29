@@ -49,13 +49,13 @@
                         <span class="text-r text-gray-700">Administrador</span>
 
                         @php
-                        $anio = session('anio');
+                        $anio = session('selectedAnio');
                         $aux = now()->format('Y');
                         @endphp
 
                         <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data">
                             @csrf
-                            <select name="anio" id="anio">
+                            <select name="selectAnio" id="selectAnio">
                                 <option disabled selected value="{{$anio}}">{{$anio}}
                                 </option>
                                 @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
