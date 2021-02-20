@@ -13,6 +13,7 @@ use App\Observers\DeliveryObserver;
 use App\Observers\PostObserver;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Config::set('anio', now()->format('Y'));
+
+        session()->put('selectedAnio', now()->format('Y'));
+
         Delivery::observe(DeliveryObserver::class);
         Job::observe(JobObserver::class);
         Teacher::observe(TeacherObserver::class);
@@ -61,7 +66,7 @@ class AppServiceProvider extends ServiceProvider
                         $todas = auth()->user()->student->unreadNotifications()->get();
                         break;
 
-                        default:
+                    default:
                         $noLeidas = [];
                         $todas = [];
                         break;

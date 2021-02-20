@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('subjects', 'SubjectController');
         // Matriculas
         Route::resource('enrollments', 'EnrollmentController');
-        Route::post('updateAll','EnrollmentController@updateAll')->name('updateAll');
+        Route::post('updateAll', 'EnrollmentController@updateAll')->name('updateAll');
         // Students
         Route::resource('students', 'StudentController');
         Route::get('import', 'StudentController@importar')->name('import.students');
@@ -38,6 +38,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Exportar Excel
         Route::get('exportar/{id}', 'CourseController@enrollmentsExcel')->name('exportar');
+
+        Route::post('setAnio', function () {
+            session()->put('selectedAnio', request()->selectAnio);
+            return redirect()->back();
+        })->name('setAnio');
     });
 
     //Asesores
@@ -116,16 +121,16 @@ Route::group(['middleware' => 'auth'], function () {
                 $rol = auth()->user()->roles->first()->name;
                 switch ($rol) {
                     case 'teacher':
-                        $todas = auth()->user()->teacher->notifications()->get();
+                        $todas = auth()->user()->teacher->notifications()->paginate(5);
                         break;
 
                     case 'adviser':
-                        $todas = auth()->user()->notifications()->get();
+                        $todas = auth()->user()->notifications()->paginate(5);
                         break;
 
                     case 'student':
                         $noLeidas = auth()->user()->student->notifications()->take(3)->get();
-                        $todas = auth()->user()->student->notifications()->get();
+                        $todas = auth()->user()->student->notifications()->paginate(5);
                         break;
 
                     default:

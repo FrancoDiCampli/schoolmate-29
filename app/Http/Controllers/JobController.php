@@ -77,6 +77,7 @@ class JobController extends Controller
         $data['file_path'] = $nameFile;
         unset($data['file']);
         $data['link'] = $link;
+        $data['download'] = false;
 
         $job = Job::create($data);
 
@@ -220,6 +221,12 @@ class JobController extends Controller
                 if ($entrega->file_path) {
                     unlink($entrega->file_path);
                 }
+                auth()->user()->teacher->notifications()
+                    ->where('data->delivery_id', $entrega->id)
+                    ->delete();
+                auth()->user()->teacher->notifications()
+                    ->where('data->delivery_id', $entrega->id)
+                    ->delete();
                 $entrega->delete();
             }
         }
@@ -254,8 +261,8 @@ class JobController extends Controller
     public function delivery($delivery)
     {
         $user = Auth::user();
-        $delivery =  Delivery::find($delivery);
-        $delivery->comments;
+        $delivery =  Delivery::with('comments')->find($delivery);
+        // $delivery->comments;
         $vid = substr($delivery->link, -11);
         if ($delivery->file_path) {
             $file = url($delivery->file_path);
@@ -281,7 +288,7 @@ class JobController extends Controller
 
     public function entregasPDF($id)
     {
-        $job = Job::find($id);
+        $job = Job::with('deliveries')->find($id);
 
         $matriculas = $job->subject->course->enrollments;
 
@@ -324,6 +331,10 @@ class JobController extends Controller
                 $zip->addFile($delivery->file_path);
             }
         }
+
+        $job->update([
+            'download' => true
+        ]);
 
         $zip->close();
         unlink($name);

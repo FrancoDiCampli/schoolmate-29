@@ -62,6 +62,8 @@
             <a class="flex justify-center text-white rounded p-1 m-1 bg-blue-500"
                 href="{{route('descargarEntregas', $job->id)}}">Descargar
                 Entregas</a>
+
+            @if ($job->download)
             <form action="{{route('eliminarEntregas')}}" method="POST"
                 onsubmit="return confirm('¿Desea continuar? Se eliminará la tarea y sus correspondientes entregas.')">
                 @csrf
@@ -69,8 +71,8 @@
                 <button class="flex justify-center text-white rounded p-1 m-1 bg-red-500" type="submit">Eliminar
                     todo</button>
             </form>
-            {{-- <a class="flex justify-center text-white rounded p-1 m-1 bg-red-500"
-                href="{{route('eliminarEntregas', $job->id)}}">Eliminar Todo</a> --}}
+            @endif
+
             @endif
 
             @if ($job->file_path)
