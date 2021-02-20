@@ -90,6 +90,19 @@
                     </div>
                 </div>
 
+                {{-- Agregando ciclo  --}}
+
+                <div class="flex flex-wrap my-5">
+                    <div class="w-full md:w-1/2 px-3 md:mb-0 mb-6 ">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                          Ciclo
+                        </label>
+                        <input type="text" id="cicle" name="cicle" class="form-input w-full block" id="grid-last-name" type="text" placeholder="2021" value="{{old('cicle')}}">
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('cicle')}}
+                        </span>
+                    </div>
+
                 <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
 
             </form>
