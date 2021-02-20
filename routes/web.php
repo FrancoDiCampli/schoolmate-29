@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('subjects', 'SubjectController');
         // Matriculas
         Route::resource('enrollments', 'EnrollmentController');
+        Route::post('updateAll','EnrollmentController@updateAll')->name('updateAll');
         // Students
         Route::resource('students', 'StudentController');
         Route::get('import', 'StudentController@importar')->name('import.students');

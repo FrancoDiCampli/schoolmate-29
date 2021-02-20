@@ -42,7 +42,8 @@ class CourseController extends Controller
         $course = $request->validate([
             'name' => 'required|max:20',
             'code' => 'required|max:20|unique:courses',
-            'shift' => 'required'
+            'shift' => 'required',
+            'cicle'=>'max:4'
         ]);
 
         Course::create($course);
@@ -68,7 +69,13 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $curso = Course::find($id);
+
+        $students = $curso->getStudents();
+
+        $cursos = Course::where('cicle',2021)->get();
+        
+        return view('admin.courses.edit',compact('students','cursos'));
     }
 
     /**
