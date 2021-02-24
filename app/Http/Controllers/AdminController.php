@@ -53,23 +53,36 @@ class AdminController extends Controller
 
         $user = Auth::user()->student;
 
-        $subjects = $user->subjects();
+        if ($user->subjects()) {
+            $subjects = $user->subjects();
 
-        $ids = $subjects->modelkeys();
-        $subjects = Subject::whereIn('id', $ids)->with('posts')->get();
+            $ids = $subjects->modelkeys();
+            $subjects = Subject::whereIn('id', $ids)->with('posts')->get();
 
-        $deliveries = Delivery::where('student_id', $user->id)->get();
+            $deliveries = Delivery::where('student_id', $user->id)->get();
 
-        $jobs = StudentsTrait::pendings();
+            $jobs = StudentsTrait::pendings();
+        } else {
+            $subjects = [];
 
+            $deliveries = [];
+
+            $jobs = [];
+        }
 
         return view('admin.students.home', compact('user', 'jobs', 'deliveries', 'subjects'));
     }
 
     public function teacher()
     {
-        $id =  auth()->user()->teacher->id;
-        $subjects = Subject::where('teacher_id', $id)->get();
+        $aux = auth()->user()->teacher->subjects->each->course;
+        $subjects = collect();
+
+        foreach ($aux as $item) {
+            if ($item->course->cicle == session('selectedAnio')) {
+                $subjects->push($item);
+            }
+        }
 
         return view('admin.teacher.home', compact('subjects'));
     }
@@ -101,7 +114,7 @@ class AdminController extends Controller
         foreach ($files as $name => $file) {
             if (!$file->isDir()) {
                 $filePath = $file->getRealPath();
-                $relarivePath = 'tareas/'.substr($filePath, strlen($path) + 1);
+                $relarivePath = 'tareas/' . substr($filePath, strlen($path) + 1);
 
                 $zip->addFile($filePath, $relarivePath);
             }
@@ -121,7 +134,7 @@ class AdminController extends Controller
         foreach ($files as $name => $file) {
             if (!$file->isDir()) {
                 $filePath = $file->getRealPath();
-                $relarivePath = 'entregas/'.substr($filePath, strlen($path) + 1);
+                $relarivePath = 'entregas/' . substr($filePath, strlen($path) + 1);
 
                 $zip->addFile($filePath, $relarivePath);
             }
