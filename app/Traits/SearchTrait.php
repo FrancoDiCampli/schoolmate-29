@@ -6,6 +6,7 @@ use App\Job;
 use App\Post;
 use App\Subject;
 use App\Delivery;
+use App\Traits\PaginarTrait;
 use Illuminate\Support\Facades\Auth;
 
 trait SearchTrait
@@ -33,6 +34,8 @@ trait SearchTrait
             }
         }
 
+        $subject->jobs = PaginarTrait::paginate($jobs, 5);
+
         return view('admin.jobs.index', compact('subject'));
     }
 
@@ -59,7 +62,6 @@ trait SearchTrait
 
     public static function searchDeliveries($request)
     {
-
         $user = Auth::user()->student->id;
         $jobs = Job::where('subject_id', $request->subjectID)
             ->where('title', 'LIKE', "%$request->search%")
@@ -74,6 +76,8 @@ trait SearchTrait
         $deliveries =  Delivery::whereIn('job_id', $jobs->modelkeys())->get();
 
         $deliveries = $deliveries->where('student_id', $user);
+
+        $deliveries = PaginarTrait::paginate($deliveries, 5);
 
         return view('admin.deliveries.index', compact('deliveries', 'subject'));
     }
