@@ -17,7 +17,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses =  Course::all();
+        $courses =  Course::where('cicle', session('selectedAnio'))->get();
         return view('admin.courses.index', compact('courses'));
     }
 
@@ -43,7 +43,7 @@ class CourseController extends Controller
             'name' => 'required|max:20',
             'code' => 'required|max:20|unique:courses',
             'shift' => 'required',
-            'cicle'=>'max:4'
+            'cicle' => 'max:4'
         ]);
 
         Course::create($course);
@@ -73,9 +73,9 @@ class CourseController extends Controller
 
         $students = $curso->getStudents();
 
-        $cursos = Course::where('cicle',2021)->get();
-        
-        return view('admin.courses.edit',compact('students','cursos'));
+        $cursos = Course::where('cicle', 2021)->get();
+
+        return view('admin.courses.edit', compact('students', 'cursos'));
     }
 
     /**

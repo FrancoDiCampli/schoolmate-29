@@ -77,7 +77,7 @@ class JobController extends Controller
         $data['file_path'] = $nameFile;
         unset($data['file']);
         $data['link'] = $link;
-        $data['download'] = false;
+        // $data['download'] = false;
 
         $job = Job::create($data);
 

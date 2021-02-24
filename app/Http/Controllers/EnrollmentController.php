@@ -18,7 +18,6 @@ class EnrollmentController extends Controller
      */
     public function index()
     {
-        // $enrollments = Enrollment::where('cicle', 2020)->with('student')->get();
         $enrollments = Enrollment::where('cicle', session('selectedAnio'))->with('student')->get();
 
         return view('admin.enrollments.index', compact('enrollments'));

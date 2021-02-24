@@ -17,8 +17,17 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects =  Subject::all();
-        return view('admin.subjects.index',compact('subjects'));
+        $aux =  Subject::all();
+
+        $subjects = collect();
+
+        foreach ($aux as $item) {
+            if ($item->course->cicle == session('selectedAnio')) {
+                $subjects->push($item);
+            }
+        }
+
+        return view('admin.subjects.index', compact('subjects'));
     }
 
     /**
@@ -31,7 +40,7 @@ class SubjectController extends Controller
         // $teachers = User::role('teacher')->get();
         $teachers = Teacher::all();
         $courses = Course::all();
-        return view('admin.subjects.create',compact('teachers','courses'));
+        return view('admin.subjects.create', compact('teachers', 'courses'));
     }
 
     /**
@@ -43,12 +52,12 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
 
-        $course_id = Course::where('code',$request->course_id)->first();
+        $course_id = Course::where('code', $request->course_id)->first();
 
         $subject = $request->validate([
-            'name'=>'required|max:20',
-            'code'=>'required|max:20|unique:subjects',
-            'teacher_id'=>'required'
+            'name' => 'required|max:20',
+            'code' => 'required|max:20|unique:subjects',
+            'teacher_id' => 'required'
         ]);
 
         $subject['course_id'] =  $course_id->id;

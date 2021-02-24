@@ -45,9 +45,15 @@
             <div class=" w-full flex relative items-center text-right float-right justify-end ">
                 <div class="p-2 flex absolute">
                     <div class="pt-2 mr-5">
-                        @role('admin|teacher|student')
+                        @role('admin')
                         <span class="text-r text-gray-700">Administrador</span>
+                        @endrole
 
+                        @role('teacher|student')
+                        <strong>Ciclo {{session('selectedAnio')}}</strong>
+                        @endrole
+
+                        @role('admin|adviser')
                         @php
                         $anio = session('selectedAnio');
                         $aux = now()->format('Y');
@@ -65,8 +71,8 @@
                             </select>
                             <button class="bg-blue-500" type="submit">Seleccionar</button>
                         </form>
-
                         @endrole
+
                         @role('adviser')
                         <span class="text-r text-gray-700">Asesor</span>
                         @endrole

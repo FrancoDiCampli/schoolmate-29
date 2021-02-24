@@ -94,12 +94,32 @@ class AdminController extends Controller
     public function adviser()
     {
         $jobs = Job::where('state', 0)->get();
-        $activas = Job::where('state', 1)->get();
-        $rechazadas = Job::where('state', 2)->get();
+        $auxJobs = collect();
+        foreach ($jobs as $item) {
+            if ($item->subject->course->cicle == session('selectedAnio')) {
+                $auxJobs->push($item);
+            }
+        }
 
-        $jobs = count($jobs);
-        $activas = count($activas);
-        $rechazadas = count($rechazadas);
+        $activas = Job::where('state', 1)->get();
+        $auxActivas = collect();
+        foreach ($activas as $item) {
+            if ($item->subject->course->cicle == session('selectedAnio')) {
+                $auxActivas->push($item);
+            }
+        }
+
+        $rechazadas = Job::where('state', 2)->get();
+        $auxRechazadas = collect();
+        foreach ($rechazadas as $item) {
+            if ($item->subject->course->cicle == session('selectedAnio')) {
+                $auxRechazadas->push($item);
+            }
+        }
+
+        $jobs = count($auxJobs);
+        $activas = count($auxActivas);
+        $rechazadas = count($auxRechazadas);
         return view('admin.advisers.home', compact('jobs', 'activas', 'rechazadas'));
     }
 
