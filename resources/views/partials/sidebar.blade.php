@@ -1,26 +1,32 @@
-<div id="sidebar" class="md:block bg-gray-200 shadow-lg w-0 md:w-3/12 transition-all delay-75  m-0 p-0 mx-auto text-left">
+<div id="sidebar"
+    class="md:block bg-gray-200 shadow-lg w-0 md:w-3/12 transition-all delay-75  m-0 p-0 mx-auto text-left">
     <button onclick="setRes()" class="md:hidden text-gray-700 mt-5 ml-5">
 
 
     </button>
     <div class="md:pt-10 pb-10 px-6 pl-8 "> {{-- agregar md:fixed mt-20 --}}
-        <span class="text-white md:text-bluedark-400 font-semibold text-lg w-auto hidden md:block text-center mb-6 border border-gray-400 border-sm ">{{ config('app.level') }}</span>
+        <span
+            class="text-white md:text-bluedark-400 font-semibold text-lg w-auto hidden md:block text-center mb-6 border border-gray-400 border-sm ">{{ config('app.level') }}</span>
 
-        <a href='{{route("$user")}}' class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
+        <a href='{{route("$user")}}'
+            class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
             @if(Auth::user()->photo)
-            <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="{{asset(Auth::user()->photo)}}" alt="">
+            <img class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="{{asset(Auth::user()->photo)}}"
+                alt="">
             @else
-            <img  class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden" src="{{asset('img/avatar/user.png')}}" alt="">
+            <img class="w-8 h-8 rounded-full object-cover mr-2 shadow-md md:hidden"
+                src="{{asset('img/avatar/user.png')}}" alt="">
             @endif
             <span class="mx-2 hidden md:block pt-2">{{Auth::user()->name}}</span>
         </a>
 
         @php
         // Esta variable es para crear la ruta de inicio, que es distinta dependiendo del rol
-         $user = auth()->user()->roles()->first()->name;
+        $user = auth()->user()->roles()->first()->name;
 
         @endphp
-        <a href='{{route("$user")}}' class="flex justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+        <a href='{{route("$user")}}'
+            class="flex justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
             <svg aria-hidden="true" data-prefix="fas" data-icon="tachometer-alt"
                 class="h-5 w-5  svg-inline--fa fa-tachometer-alt fa-w-18" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512">
@@ -31,14 +37,26 @@
         </a>
 
 
-        <a href='{{route('notifications')}}' class="flex justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2 md:hidden">
+        <a href='{{route('notifications')}}'
+            class="flex justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2 md:hidden">
             @if ($cant > 0)
-            <svg aria-hidden="true" data-prefix="fas" data-icon="bell" class="w-5 h-5 svg-inline--fa fa-bell fa-w-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"/></svg>
+            <svg aria-hidden="true" data-prefix="fas" data-icon="bell" class="w-5 h-5 svg-inline--fa fa-bell fa-w-14"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path fill="currentColor"
+                    d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z" />
+                </svg>
             <span class="mx-2 hidden md:block">Notificaciones</span>
-            <span class="text-gray-800 bg-white hover:bg-gray-900 hover:text-white justify-center rounded-full px-2 mr-4e text-sm font-semibold items-center hidden"> {{$cant}}</span>
+            <span
+                class="text-gray-800 bg-white hover:bg-gray-900 hover:text-white justify-center rounded-full px-2 mr-4e text-sm font-semibold items-center hidden">
+                {{$cant}}</span>
 
             @else
-            <svg aria-hidden="true" data-prefix="far" data-icon="bell-slash" class="w-5 h-5 svg-inline--fa fa-bell-slash fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M633.99 471.02L36 3.51C29.1-2.01 19.03-.9 13.51 6l-10 12.49C-2.02 25.39-.9 35.46 6 40.98l598 467.51c6.9 5.52 16.96 4.4 22.49-2.49l10-12.49c5.52-6.9 4.41-16.97-2.5-22.49zM163.53 368c16.71-22.03 34.48-55.8 41.4-110.58l-45.47-35.55c-3.27 90.73-36.47 120.68-54.84 140.42-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h279.66l-61.4-48H163.53zM320 96c61.86 0 112 50.14 112 112 0 .2-.06.38-.06.58.02 16.84 1.16 31.77 2.79 45.73l59.53 46.54c-8.31-22.13-14.34-51.49-14.34-92.85 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84c-26.02 5.41-49.45 16.94-69.13 32.72l38.17 29.84C275 103.18 296.65 96 320 96zm0 416c35.32 0 63.97-28.65 63.97-64H256.03c0 35.35 28.65 64 63.97 64z"/></svg>
+            <svg aria-hidden="true" data-prefix="far" data-icon="bell-slash"
+                class="w-5 h-5 svg-inline--fa fa-bell-slash fa-w-20" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512">
+                <path fill="currentColor"
+                    d="M633.99 471.02L36 3.51C29.1-2.01 19.03-.9 13.51 6l-10 12.49C-2.02 25.39-.9 35.46 6 40.98l598 467.51c6.9 5.52 16.96 4.4 22.49-2.49l10-12.49c5.52-6.9 4.41-16.97-2.5-22.49zM163.53 368c16.71-22.03 34.48-55.8 41.4-110.58l-45.47-35.55c-3.27 90.73-36.47 120.68-54.84 140.42-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h279.66l-61.4-48H163.53zM320 96c61.86 0 112 50.14 112 112 0 .2-.06.38-.06.58.02 16.84 1.16 31.77 2.79 45.73l59.53 46.54c-8.31-22.13-14.34-51.49-14.34-92.85 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84c-26.02 5.41-49.45 16.94-69.13 32.72l38.17 29.84C275 103.18 296.65 96 320 96zm0 416c35.32 0 63.97-28.65 63.97-64H256.03c0 35.35 28.65 64 63.97 64z" />
+                </svg>
             <span class="mx-2 hidden md:block">Notificaciones</span>
             @endif
         </a>
@@ -57,14 +75,13 @@
 
 
         <a href="{{route('subjects.index')}}"
-                class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-                <svg aria-hidden="true" data-prefix="fas" data-icon="tags"
-                    class="h-5 w-5  svg-inline--fa fa-tags fa-w-20" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 512">
-                    <path fill="currentColor"
-                        d="M497.941 225.941L286.059 14.059A48 48 0 00252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z" />
-                </svg>
-                <span class="mx-2 hidden md:block">Materias</span>
+            class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="tags" class="h-5 w-5  svg-inline--fa fa-tags fa-w-20"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                <path fill="currentColor"
+                    d="M497.941 225.941L286.059 14.059A48 48 0 00252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z" />
+            </svg>
+            <span class="mx-2 hidden md:block">Materias</span>
         </a>
 
         <a href="{{route('enrollments.index')}}"
@@ -78,61 +95,49 @@
             <span class="mx-2 hidden md:block">Matriculas</span>
         </a>
 
-        <a href="" class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-            <svg aria-hidden="true" data-prefix="fas" data-icon="tasks"
-                class="h-5 w-5 svg-inline--fa fa-tasks fa-w-16" xmlns="http://www.w3.org/2000/svg"
+        <a onclick="showMenu()" href="#"
+            class="focus:outline-none flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="user-graduate"
+                class="h-5 w-5 svg-inline--fa fa-user-graduate fa-w-14" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512">
+                <path fill="currentColor"
+                    d="M319.4 320.6L224 416l-95.4-95.4C57.1 323.7 0 382.2 0 454.4v9.6c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-9.6c0-72.2-57.1-130.7-128.6-133.8zM13.6 79.8l6.4 1.5v58.4c-7 4.2-12 11.5-12 20.3 0 8.4 4.6 15.4 11.1 19.7L3.5 242c-1.7 6.9 2.1 14 7.6 14h41.8c5.5 0 9.3-7.1 7.6-14l-15.6-62.3C51.4 175.4 56 168.4 56 160c0-8.8-5-16.1-12-20.3V87.1l66 15.9c-8.6 17.2-14 36.4-14 57 0 70.7 57.3 128 128 128s128-57.3 128-128c0-20.6-5.3-39.8-14-57l96.3-23.2c18.2-4.4 18.2-27.1 0-31.5l-190.4-46c-13-3.1-26.7-3.1-39.7 0L13.6 48.2c-18.1 4.4-18.1 27.2 0 31.6z" />
+            </svg>
+            <span class="mx-2 hidden md:block">Usuarios</span>
+        </a>
+
+        <div class="hidden text-left md:ml-0 ml-20 pl-6 md:pl-8 text-gray-600" id="users-admin">
+
+            <div class="py-1 hover:text-gray-700 ">
+                <a href="{{route('teachers.index')}}">Profesores</a>
+            </div>
+            <div class="py-1 hover:text-gray-700 ">
+                <a href="{{route('students.index')}}">Alumnos</a>
+            </div>
+        </div>
+        @endrole
+
+        @role('teacher|student')
+        <a href="{{route('user.edit',auth()->user()->id)}}"
+            class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="user" class="h-5 w-5 svg-inline--fa fa-user fa-w-14"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path fill="currentColor"
+                    d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z" />
+                </svg>
+            <span class="mx-2 hidden md:block">Mi Perfil</span>
+        </a>
+        @endrole
+
+        <a class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2"
+            href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="sign-out-alt"
+                class="svg-inline--fa fa-sign-out-alt fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512">
                 <path fill="currentColor"
-                    d="M139.61 35.5a12 12 0 00-17 0L58.93 98.81l-22.7-22.12a12 12 0 00-17 0L3.53 92.41a12 12 0 000 17l47.59 47.4a12.78 12.78 0 0017.61 0l15.59-15.62L156.52 69a12.09 12.09 0 00.09-17zm0 159.19a12 12 0 00-17 0l-63.68 63.72-22.7-22.1a12 12 0 00-17 0L3.53 252a12 12 0 000 17L51 316.5a12.77 12.77 0 0017.6 0l15.7-15.69 72.2-72.22a12 12 0 00.09-16.9zM64 368c-26.49 0-48.59 21.5-48.59 48S37.53 464 64 464a48 48 0 000-96zm432 16H208a16 16 0 00-16 16v32a16 16 0 0016 16h288a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-320H208a16 16 0 00-16 16v32a16 16 0 0016 16h288a16 16 0 0016-16V80a16 16 0 00-16-16zm0 160H208a16 16 0 00-16 16v32a16 16 0 0016 16h288a16 16 0 0016-16v-32a16 16 0 00-16-16z" />
+                    d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z" />
             </svg>
-            <span class="mx-2 hidden md:block">Deliveries</span>
-        </a>
-        <a href="" class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-            <svg aria-hidden="true" data-prefix="fas" data-icon="clipboard-list"
-                class="h-5 w-5 svg-inline--fa fa-clipboard-list fa-w-12" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 384 512">
-                <path fill="currentColor"
-                    d="M336 64h-80c0-35.3-28.7-64-64-64s-64 28.7-64 64H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM96 424c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm0-96c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm0-96c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24zm96-192c13.3 0 24 10.7 24 24s-10.7 24-24 24-24-10.7-24-24 10.7-24 24-24zm128 368c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16zm0-96c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16zm0-96c0 4.4-3.6 8-8 8H168c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16z" />
-            </svg>
-            <span class="mx-2 hidden md:block">Tareas</span>
-
-
-
-            <a onclick="showMenu()" href="#"
-                class="focus:outline-none flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-                <svg aria-hidden="true" data-prefix="fas" data-icon="user-graduate"
-                    class="h-5 w-5 svg-inline--fa fa-user-graduate fa-w-14"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                    <path fill="currentColor"
-                        d="M319.4 320.6L224 416l-95.4-95.4C57.1 323.7 0 382.2 0 454.4v9.6c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-9.6c0-72.2-57.1-130.7-128.6-133.8zM13.6 79.8l6.4 1.5v58.4c-7 4.2-12 11.5-12 20.3 0 8.4 4.6 15.4 11.1 19.7L3.5 242c-1.7 6.9 2.1 14 7.6 14h41.8c5.5 0 9.3-7.1 7.6-14l-15.6-62.3C51.4 175.4 56 168.4 56 160c0-8.8-5-16.1-12-20.3V87.1l66 15.9c-8.6 17.2-14 36.4-14 57 0 70.7 57.3 128 128 128s128-57.3 128-128c0-20.6-5.3-39.8-14-57l96.3-23.2c18.2-4.4 18.2-27.1 0-31.5l-190.4-46c-13-3.1-26.7-3.1-39.7 0L13.6 48.2c-18.1 4.4-18.1 27.2 0 31.6z" />
-                </svg>
-                <span class="mx-2 hidden md:block">Usuarios</span>
-            </a>
-
-            <div class="hidden text-left md:ml-0 ml-20 pl-6 md:pl-8 text-gray-600" id="users-admin">
-
-                <div class="py-1 hover:text-gray-700 ">
-                <a href="{{route('teachers.index')}}">Profesores</a>
-                </div>
-                <div class="py-1 hover:text-gray-700 ">
-                    <a href="{{route('students.index')}}">Alumnos</a>
-                    </div>
-            </div>
-            @endrole
-
-            @role('teacher|student')
-            <a href="{{route('user.edit',auth()->user()->id)}}"
-                class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2">
-                <svg aria-hidden="true" data-prefix="fas" data-icon="user" class="h-5 w-5 svg-inline--fa fa-user fa-w-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>
-                <span class="mx-2 hidden md:block">Mi Perfil</span>
-            </a>
-            @endrole
-
-            <a class="flex md:justify-start justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md p-2" href="{{ route('logout') }}" onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();">
-            <svg aria-hidden="true" data-prefix="fas" data-icon="sign-out-alt" class="svg-inline--fa fa-sign-out-alt fa-w-16 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path fill="currentColor" d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"/>
-              </svg>
             <span class="mx-2 hidden md:block">Cerrar Sesión</span>
         </a>
 
