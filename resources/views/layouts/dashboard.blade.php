@@ -45,7 +45,7 @@
             <div class=" w-full flex relative items-center text-right float-right justify-end ">
                 <div class="p-2 flex absolute">
                     <div class="pt-2 mr-5">
-                        @role('admin')
+                        @role('admin|teacher|student')
                         <span class="text-r text-gray-700">Administrador</span>
 
                         @php
@@ -56,7 +56,7 @@
                         <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data">
                             @csrf
                             <select name="selectAnio" id="selectAnio">
-                                <option disabled selected value="{{$anio}}">{{$anio}}
+                                <option selected value="{{$anio}}">{{$anio}}
                                 </option>
                                 @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
                                     </option>

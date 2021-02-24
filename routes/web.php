@@ -38,11 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Exportar Excel
         Route::get('exportar/{id}', 'CourseController@enrollmentsExcel')->name('exportar');
-
-        Route::post('setAnio', function () {
-            session()->put('selectedAnio', request()->selectAnio);
-            return redirect()->back();
-        })->name('setAnio');
     });
 
     //Asesores
@@ -113,6 +108,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Alumnos, Asesores y Profesores
     Route::group(['middleware' => ['role:student|teacher|adviser|admin']], function () {
+
+        Route::post('setAnio', function () {
+            session()->put('selectedAnio', request()->selectAnio);
+            return redirect()->back();
+        })->name('setAnio');
 
         Route::get('descargarJob/{job}', 'JobController@descargarJob')->name('descargarJob');
         // Notificaciones
