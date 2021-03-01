@@ -152,7 +152,7 @@ class DeliveryController extends Controller
                 $link = "http://www.youtube.com/watch?v=" . $video->getVideoId();
             }
 
-            $nameFile = null;
+            $nameFile = $delivery->file_path;
             if ($request->hasFile('file')) {
                 $nameFile = FilesTrait::update($request, 'entregas', auth()->user()->student->name, $delivery);
             } elseif ($request->allFiles('fotos')) {
