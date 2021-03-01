@@ -88,7 +88,6 @@ class DeliveryController extends Controller
 
     public function store(StoreDelivery $request)
     {
-
         $link = $request->link;
         if ($request->hasFile('video')) {
             $video = Youtube::upload($request->file('video')->getPathName(), [
@@ -98,7 +97,13 @@ class DeliveryController extends Controller
 
             $link = "http://www.youtube.com/watch?v=" . $video->getVideoId();
         }
-        $nameFile = FilesTrait::store($request, 'entregas', auth()->user()->student->name);
+
+        $nameFile = null;
+        if ($request->hasFile('file')) {
+            $nameFile = FilesTrait::store($request, 'entregas', auth()->user()->student->name);
+        } elseif ($request->allFiles('fotos')) {
+            $nameFile = FilesTrait::storeFotos($request, 'entregas', auth()->user()->student->name);
+        }
 
         $data = $request->validated();
         $data['job_id'] = $request->job;
@@ -146,7 +151,14 @@ class DeliveryController extends Controller
 
                 $link = "http://www.youtube.com/watch?v=" . $video->getVideoId();
             }
-            $nameFile = FilesTrait::update($request, 'entregas', auth()->user()->student->name, $delivery);
+
+            $nameFile = null;
+            if ($request->hasFile('file')) {
+                $nameFile = FilesTrait::update($request, 'entregas', auth()->user()->student->name, $delivery);
+            } elseif ($request->allFiles('fotos')) {
+                $nameFile = FilesTrait::updateFotos($request, 'entregas', auth()->user()->student->name, $delivery);
+            }
+
             $delivery->update([
                 'state' => 0,
                 'file_path' => $nameFile,
