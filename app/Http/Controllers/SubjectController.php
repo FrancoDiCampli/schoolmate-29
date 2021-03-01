@@ -85,7 +85,9 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $subject = Subject::find($id);
+        $teachers = Teacher::where('id', '<>', $subject->teacher_id)->get();
+        return view('admin.subjects.edit', compact('teachers', 'subject'));
     }
 
     /**
@@ -97,7 +99,13 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->get('teacher_id')) {
+            $subject = Subject::find($id);
+            $subject->update([
+                'teacher_id' => $request->get('teacher_id')
+            ]);
+        }
+        return redirect()->route('subjects.index')->with('messages', 'Profesor asignado correctamente.');
     }
 
     /**
