@@ -14,9 +14,11 @@ trait FilesTrait
             'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U'
         ]);
         $path = public_path($ubicacion);
-        $nameFile = time() . '_' . $aux . '.' . $request->file->getClientOriginalExtension();
-        $request->file->move($path, $nameFile);
-        return $ubicacion . '/' . $nameFile;
+        if ($request->hasFile('file')) {
+            $nameFile = time() . '_' . $aux . '.' . $request->file->getClientOriginalExtension();
+            $request->file->move($path, $nameFile);
+            return $ubicacion . '/' . $nameFile;
+        } else return null;
     }
 
     public static function storeFotos($request, $ubicacion, $nombre)

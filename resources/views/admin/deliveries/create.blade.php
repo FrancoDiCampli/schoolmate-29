@@ -405,12 +405,28 @@
                         <path
                             d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
-                    <span class="mt-2 text-sm leading-normal">Seleccione las fotos</span>
-                    <input type="file" name="fotos[]" accept="image/*" multiple id="fotos">
+                    <span class="mt-2 text-sm leading-normal" id="selecteds">Seleccione Fotos</span>
+                    <input type="file" name="fotos[]" accept="image/*" multiple id="fileGallery" hidden>
                 </label>
             </div>
         </div>
     </div>
+
+    <div class="flex justify-center items-center m-2 p-2">
+        <div id="cargando" class="hidden">
+            <svg aria-hidden="true" data-prefix="fas" data-icon="spinner" class="text-primary-400 w-8 animate-spin"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                    d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z" />
+            </svg>
+        </div>
+    </div>
+
+    <div id="viewerGallery" class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-4'>
+        <div id="auxGallery"></div>
+    </div>
+
+    {{-- @livewire('test-component') --}}
 </div>
 </div>
 
@@ -533,10 +549,52 @@
 </div>
 {{-- end modal --}}
 
-
-
-
 @push('js')
+
+{{-- Fotos --}}
+<script>
+    let archivos = document.getElementById("fileGallery");
+let viewerGallery = document.getElementById("viewerGallery");
+let selecteds = document.getElementById("selecteds");
+let cargando = document.getElementById("cargando");
+
+if (archivos != null) {
+    archivos.addEventListener("change", () => {
+        cargando.classList.toggle("hidden");
+        for (let i = 0; i < archivos.files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var name = archivos.files[i].name;
+                var div = document.createElement("div");
+                div.innerHTML = `
+                    <div id='${name}' class='relative p-2'>
+                        <img class='min-w-full' src='${e.target.result}' >
+                    </div>
+                `;
+                viewerGallery.appendChild(div, null);
+            };
+            reader.readAsDataURL(archivos.files[i]);
+        }
+        selecteds.innerHTML =
+            "<button id='boton' type='button' onclick='limpiarGaleria()' class='btn-delete'>Quitar Fotos</button>";
+        setTimeout(() => {
+            cargando.classList.toggle("hidden");
+        }, 3000);
+    });
+}
+
+function limpiarGaleria() {
+    selecteds.innerHTML = "Seleccione Fotos";
+    for (let index = 0; index < archivos.files.length; index++) {
+        const element = archivos.files[index];
+        let aux = document.getElementById(element.name);
+        aux.parentNode.removeChild(aux);
+    }
+    archivos.value = "";
+    viewerGallery.innerHTML = "";
+}
+</script>
+
 {{-- script archivos --}}
 <script>
     function deshabilitar(){

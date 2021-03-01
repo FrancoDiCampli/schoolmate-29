@@ -125,9 +125,9 @@ class EnrollmentController extends Controller
         }
 
         // Elimino la matricula existente
-        foreach ($matriculados as $matricula) {
-            Enrollment::where('student_id', $matricula)->delete();
-        }
+        // foreach ($matriculados as $matricula) {
+        //     Enrollment::where('student_id', $matricula)->delete();
+        // }
 
         foreach ($matriculados as $matricula) {
             Enrollment::create([
