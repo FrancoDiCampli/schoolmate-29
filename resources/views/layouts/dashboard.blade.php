@@ -14,6 +14,8 @@
     <script>
         tinymce.init({selector:'textarea', language:'es'});
     </script>
+
+    @livewireStyles
 </head>
 
 <body class="bg-gray-100 font-montserrat" id="all">
@@ -271,6 +273,8 @@
     </main>
 
     {{-- <script src="{{asset('js/app.js')}}"></script> --}}
+    {{-- @push('js') --}}
+
     @stack('js')
     {{-- script loading submit --}}
     <script>
@@ -346,6 +350,9 @@
         }
 
     </script>
+    {{-- @endpush --}}
+
+    @livewireScripts
 </body>
 
 </html>

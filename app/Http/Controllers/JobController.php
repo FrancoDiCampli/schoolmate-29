@@ -220,6 +220,8 @@ class JobController extends Controller
             foreach ($job->deliveries as $entrega) {
                 if ($entrega->file_path) {
                     unlink($entrega->file_path);
+                    $entrega->file_path = null;
+                    $entrega->touch();
                 }
                 auth()->user()->teacher->notifications()
                     ->where('data->delivery_id', $entrega->id)
@@ -227,15 +229,17 @@ class JobController extends Controller
                 auth()->user()->teacher->notifications()
                     ->where('data->delivery_id', $entrega->id)
                     ->delete();
-                $entrega->delete();
+                // $entrega->delete();
             }
         }
 
         if ($job->file_path) {
             unlink($job->file_path);
+            $job->file_path = null;
+            $job->touch();
         }
 
-        $job->delete();
+        // $job->delete();
 
         session()->flash('messages', 'Tarea y Entregas eliminadas');
         return redirect()->route('jobs.index', $subjectId);
@@ -332,9 +336,9 @@ class JobController extends Controller
             }
         }
 
-        $job->update([
-            'download' => true
-        ]);
+        // $job->update([
+        //     'download' => true
+        // ]);
 
         $zip->close();
         unlink($name);

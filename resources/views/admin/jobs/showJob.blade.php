@@ -63,15 +63,15 @@
                 href="{{route('descargarEntregas', $job->id)}}">Descargar
                 Entregas</a>
 
-            @if ($job->download)
+            {{-- @if ($job->download) --}}
             <form action="{{route('eliminarEntregas')}}" method="POST"
-                onsubmit="return confirm('¿Desea continuar? Se eliminará la tarea y sus correspondientes entregas.')">
+                onsubmit="return confirm('¿Desea continuar? Se eliminarán los archivos de la tarea y sus correspondientes entregas.')">
                 @csrf
                 <input type="hidden" name="id" id="" value="{{$job->id}}">
                 <button class="flex justify-center text-white rounded p-1 m-1 bg-red-500" type="submit">Eliminar
-                    todo</button>
+                    archivos</button>
             </form>
-            @endif
+            {{-- @endif --}}
 
             @endif
 
