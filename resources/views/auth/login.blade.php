@@ -22,7 +22,7 @@
 
                 </div>
                 <h3 class="pt-2 lg:pt-10  text-2xl text-center text-bluedark-400 font-montserrat font-bold">
-                    {{config('app.establishment')}}</h3>
+                    {{config('app.school')}}</h3>
                 <h3 class="pt-2 text-center text-bluedark-300 font-montserrat font-bold">{{config('app.name')}} -
                     {{ config('app.level') }}</h3>
                 <h3 class="pt-12 lg:pt-24 text-2xl text-center text-primary-400 font-montserrat font-bold">Bienvenido a
