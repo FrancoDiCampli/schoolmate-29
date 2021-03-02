@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'user.active']], function () {
 
     Route::get('/', 'AdminController@home')->name('home');
 

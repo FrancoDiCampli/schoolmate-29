@@ -62,7 +62,7 @@ class EnrollmentController extends Controller
             'course_id' => 'required',
         ]);
 
-        $enrollment['cicle'] =  2020;
+        $enrollment['cicle'] =  now()->format('Y');
 
         Enrollment::create($enrollment);
 
@@ -130,11 +130,23 @@ class EnrollmentController extends Controller
         // }
 
         foreach ($matriculados as $matricula) {
-            Enrollment::create([
-                'student_id' => $matricula,
-                'course_id' => $request->curso,
-                'cicle' => 2021
-            ]);
+
+            $aux = Enrollment::where('student_id', $matricula)
+                // ->where('course_id', $request->curso)
+                ->where('cicle', now()->format('Y'))
+                ->first();
+
+            if ($aux) {
+                $aux->update([
+                    'course_id' => $request->curso,
+                ]);
+            } else {
+                Enrollment::create([
+                    'student_id' => $matricula,
+                    'course_id' => $request->curso,
+                    'cicle' => now()->format('Y')
+                ]);
+            }
         }
 
         return redirect()->route('courses.index')->with('messages', 'Alumnos matriculados correctamente.');

@@ -145,7 +145,7 @@ class UserController extends Controller
         $user->update([
             'active' => $active
         ]);
-        // DB::table('users')->where('id', $id)->update(['remember_token' => null]);
+
         if ($user->hasRole('teacher')) {
             return redirect()->route('teachers.index')->with('messages', 'Usuario actualizado correctamente.');
         }
