@@ -88,6 +88,7 @@
                             class="px-5 py-3 border-b-2 border-gray-300 bg-gray-200 text-left uppercase font-semibold text-gray-700 tracking-wider">
                             <th class="px-4 py-2">Nombre</th>
                             <th class="px-4 py-2">Código</th>
+                            <th class="px-4 py-2">Activo</th>
                             <th class="px-4 py-2">Acciones</th>
                         </tr>
                     </thead>
@@ -96,6 +97,16 @@
                         <tr class="hover:bg-gray-100 px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <td class="px-4 py-3">{{$course->name}}</td>
                             <td class="px-4 py-3">{{$course->code}}</td>
+                            <td>
+                                <form method="POST" action="{{route('courses.update', $course->id)}}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="checkbox" name="active" id=""
+                                        {{$course->active ? 'checked' : 'false'}}>
+                                    <button class="btn btn-primary md:m-0 m-3">update</button>
+                                </form>
+                            </td>
                             <td class="px-4 py-3">
                                 <div class="flex">
                                     <a href="{{route('courses.edit', $course->id)}} " class="mx-1 text-primary-400">
