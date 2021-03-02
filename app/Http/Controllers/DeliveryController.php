@@ -25,13 +25,15 @@ class DeliveryController extends Controller
     public function pendings($subject)
     {
 
-        $jobs =  Subject::find($subject);
+        // $jobs =  Subject::find($subject);
+        $jobs =  Subject::where('id', $subject)->where('active', true)->first();
 
         // $jobs = StudentsTrait::pendings();
 
         $now = Carbon::now();
-
-        $jobs->pendientes = PaginarTrait::paginate($jobs->pendientes(), 5);
+        if ($jobs) {
+            $jobs->pendientes = PaginarTrait::paginate($jobs->pendientes(), 5);
+        } else $jobs = null;
 
         return view('admin.deliveries.pendings', compact('jobs', 'now'));
     }
@@ -39,11 +41,23 @@ class DeliveryController extends Controller
     public function index($id)
     {
         $user = Auth::user()->student->id;
-        $jobs = Job::where('subject_id', $id)->get();
+        $auxJobs = Job::where('subject_id', $id)->get();
+        $jobs = collect();
 
-        $subject = Subject::find($id);
+        foreach ($auxJobs as $item) {
+            if ($item->subject->active == true) {
+                $jobs->push($item);
+            }
+        }
 
-        $deliveries =  Delivery::whereIn('job_id', $jobs->modelkeys())->get();
+        if (count($jobs) > 0) {
+            $auxKeys = $jobs->keyBy('id');
+            $modelKeys = $auxKeys->keys();
+        } else $modelKeys = [];
+
+        $subject = Subject::where('id', $id)->where('active', true)->first();
+
+        $deliveries =  Delivery::whereIn('job_id', $modelKeys)->get();
 
         $deliveries = $deliveries->where('student_id', $user);
 
@@ -64,26 +78,29 @@ class DeliveryController extends Controller
 
         $user = Auth::user();
         $job = Job::find($job);
-        $vid = substr($job->link, -11);
-        if ($job->file_path) {
-            $file = url($job->file_path);
-        } else $file = '';
+        if ($job->subject->active == true) {
+            # code...
+            $vid = substr($job->link, -11);
+            if ($job->file_path) {
+                $file = url($job->file_path);
+            } else $file = '';
 
-        NotificationsTrait::studentMarkAsRead('job_id', $job->id);
+            NotificationsTrait::studentMarkAsRead('job_id', $job->id);
 
-        $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
+            $delivery = $job->deliveries->where('student_id', $user->student->id)->first();
 
-        if ($delivery) {
-            $comments = $delivery->comments;
-            $activities = Activity::where('log_name', 'deliveries')->where('subject_id', $delivery->id)->get();
-            $delivery->file_path ? $fileDelivery = url($delivery->file_path) : $fileDelivery = '';
-        } else {
-            $fileDelivery = '';
-            $comments = [];
-            $activities = null;
-        }
+            if ($delivery) {
+                $comments = $delivery->comments;
+                $activities = Activity::where('log_name', 'deliveries')->where('subject_id', $delivery->id)->get();
+                $delivery->file_path ? $fileDelivery = url($delivery->file_path) : $fileDelivery = '';
+            } else {
+                $fileDelivery = '';
+                $comments = [];
+                $activities = null;
+            }
 
-        return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments', 'activities', 'fileDelivery'));
+            return view('admin.deliveries.create', compact('job', 'file', 'vid', 'delivery', 'comments', 'activities', 'fileDelivery'));
+        } else return redirect()->route('student');
     }
 
     public function store(StoreDelivery $request)
