@@ -37,10 +37,10 @@
             </a>
 
             <div class="">
-                <h1 class="text-bluedark-400 font-rubik text-2xl ml-12 mr-10 w-auto hidden md:block">Félix<span
-                        class="font-semibold">Frías</span></h1>
-                <span class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">UEP N°
-                    28</span>
+                <h1 class="text-bluedark-400 font-rubik text-2xl ml-12 mr-10 w-auto hidden md:block"><span
+                        class="font-semibold">{{config('app.name')}}</span></h1>
+                <span
+                    class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">{{config('app.establishment')}}</span>
             </div>
 
 
