@@ -14,7 +14,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Schoolmate'),
-    'level' => env('APP_LEVEL', 'Test'),
+    'level' => env('APP_LEVEL', 'Nivel'),
+    'school' => env('APP_SCHOOL', 'Escuela Nº 99999'),
 
     /*
     |--------------------------------------------------------------------------
