@@ -1,34 +1,55 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
 
-    @role('teacher')
-    @php
-    $anio = session('selectedAnio');
-    $aux = now()->format('Y');
-    @endphp
+{{-- card header ciclo --}}
+<div class="card md:w-auto rounded-sm bg-gray-100 mt-6 md:m-4 my-4 shadow-md">
+    <div class="card-title bg-white w-full p-4 border-b md:flex items-center justify-between">
+        <div class="flex items-center">           
+            <div class="p-2">
+                @php
+                $anio = session('selectedAnio');
+                $aux = now()->format('Y');
+                @endphp
 
-    <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data">
-        @csrf
-        <select name="selectAnio" id="selectAnio">
-            <option selected value="{{$anio}}">{{$anio}}
-            </option>
-            @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
-                </option>
-                @endif
-                @endfor
-        </select>
-        <button class="bg-blue-500" type="submit">Seleccionar</button>
-    </form>
-    @endrole
+                <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data" class="flex items-center" onsubmit="btnSpinCicle.disabled = true;">
+                    @csrf
+                    <div class="sm:text-lg md:text-md lg:text-md xl:text-md font-semibold flex items-center">
+                        <p>Actualizar Ciclo a
+                        <select name="selectAnio" id="selectAnio" class="sm:text-lg md:text-md lg:text-md xl:text-md font-semibold focus:border-primary-400 border-b-2 appearance-none focus:outline-none">
+                            <option selected value="{{$anio}}">{{$anio}}
+                            </option>
+                            @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
+                                </option>
+                                @endif
+                                @endfor
+                        </select>
+                        </p>
+                    </div>
+
+                    <button class="btn btn-default rounded hover:bg-gray-200 hover:text-gray-700 mx-1 py-1 px-2 shadow-none border-none" id="btnSpinCicle" onclick="spinCicle()" type="submit">
+                        <span>
+                            <svg class="h-5 w-6" id="spinCicle" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </span>
+                    </button>
+                </form>                        
+            </div>                      
+        </div>
+    </div>  
+</div>
+
+
+{{-- section materias cards --}}
+<div class="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3">
 
     @if(count($subjects)>0)
     @foreach ($subjects ??[] as $subject)
 
     {{-- nuevo card --}}
     <div
-        class="w-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl bg-white m-4 font-montserrat border-b-4 border-bluedark-300">
+        class="w-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl bg-white md:m-4 my-3 font-montserrat border-b-4 border-bluedark-300">
         <div class="flex flex-col min-h-full">
             <div class="px-6 py-4 border-b flex justify-between items-center">
                 <div class="pb-2 pt-2">
@@ -120,4 +141,5 @@
     </div>
     @endif
 </div>
+
 @endsection

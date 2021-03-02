@@ -41,29 +41,40 @@
                         class="font-semibold">{{config('app.name')}}</span></h1>
                 <span
                     class="text-bluedark-400 font-rubik text-md ml-12 mr-10 w-auto hidden md:block text-center">{{config('app.school')}}</span>
-            </div>
+                    
+            </div>           
 
 
-            <div class=" w-full flex relative items-center text-right float-right justify-end ">
+            <div class="w-full flex relative items-center text-right float-right justify-end ">
                 <div class="p-2 flex absolute">
-                    <div class="pt-2 mr-5">
+                    <div class="mr-5 hidden md:block">
                         @role('admin')
-                        <span class="text-r text-gray-700">Administrador</span>
-                        @endrole
+                        <span class="text-r text-gray-700 text-md">Administrador</span>
+                        <p class="text-gray-700 text-sm font-semibold">Ciclo Lectivo {{session('selectedAnio')}}</p>
+                        @endrole                       
 
+                        @role('adviser')
+                        <span class="text-r text-gray-700">Asesor</span>
+                        <p class="text-gray-700 text-sm font-semibold">Ciclo Lectivo {{session('selectedAnio')}}</p>
+                        @endrole
+                    </div>
+
+                    <div class="flex items-center">
                         @role('teacher|student')
-                        <strong>Ciclo {{session('selectedAnio')}}</strong>
+                            <p class="text-bluedark-500 text-md font-semibold">Ciclo Lectivo {{session('selectedAnio')}}</p>
                         @endrole
+                    </div>
 
-                        @role('admin|adviser')
+                    @role('admin|adviser')
+                    <div class="border border-gray-400 rounded p-2">
                         @php
                         $anio = session('selectedAnio');
                         $aux = now()->format('Y');
                         @endphp
 
-                        <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data">
+                        <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data" class="flex items-center mx-auto" onsubmit="btnSpinCicle.disabled = true;">
                             @csrf
-                            <select name="selectAnio" id="selectAnio">
+                            <select name="selectAnio" id="selectAnio" class="hover:bg-gray-400 appearance-none bg-gray-300 border-gray-200 text-gray-700 py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2">
                                 <option selected value="{{$anio}}">{{$anio}}
                                 </option>
                                 @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
@@ -71,14 +82,17 @@
                                     @endif
                                     @endfor
                             </select>
-                            <button class="bg-blue-500" type="submit">Seleccionar</button>
-                        </form>
-                        @endrole
 
-                        @role('adviser')
-                        <span class="text-r text-gray-700">Asesor</span>
-                        @endrole
+                            <button class="btn btn-default hover:bg-gray-300 hover:text-gray-700 mx-1 py-1 px-2 shadow-none border-none" id="btnSpinCicle" onclick="spinCicle()" type="submit">
+                                <span>
+                                    <svg class="h-5 w-6" id="spinCicle" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                </span>
+                            </button>
+                        </form>                        
                     </div>
+                    @endrole
 
                     @if ($cant)
 
@@ -96,7 +110,7 @@
                     </button>
                     @else
                     <div
-                        class="mx-4 mr-4 items-center pt-1 rounded-full text-bluedark-500 hover:text-gray-600 focus:shadow-md focus:outline-none hidden md:flex">
+                        class="mx-4 mr-4 items-center rounded-full text-bluedark-500 hover:text-gray-600 focus:shadow-md focus:outline-none hidden md:flex">
                         <svg aria-hidden="true" data-prefix="far" data-icon="bell-slash"
                             class="w-8 h-8 svg-inline--fa fa-bell-slash fa-w-20" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 640 512">
@@ -348,6 +362,16 @@
         window.onunload=function(){
         window.name=self.pageYOffset || (document.documentElement.scrollTop+document.body.scrollTop);
         }
+
+        //funcion spiner actualizar ciclo
+        function spinCicle(){
+            const spinCicle = document.querySelector('#spinCicle');                       
+            
+            spinCicle.classList.add('animate-spin');
+            
+        }
+
+        
 
     </script>
     {{-- @endpush --}}

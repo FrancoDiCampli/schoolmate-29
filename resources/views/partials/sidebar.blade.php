@@ -7,6 +7,9 @@
     <div class="md:pt-10 pb-10 px-6 pl-8 "> {{-- agregar md:fixed mt-20 --}}
         <span
             class="text-white md:text-bluedark-400 font-semibold text-lg w-auto hidden md:block text-center mb-6 border border-gray-400 border-sm ">{{ config('app.level') }}</span>
+            @role('admin|adviser')
+            <p class="text-white text-sm font-semibold font-montserrat block md:hidden">Ciclo Lectivo {{session('selectedAnio')}}</p>
+            @endrole
 
         <a href='{{route("$user")}}'
             class="flex md:hidden justify-start md:justify-start text-gray-600 mt-1 hover:text-gray-700 focus:bg-gray-300 rounded-md py-2 border-b md:border-none mb-6">
