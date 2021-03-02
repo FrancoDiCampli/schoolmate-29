@@ -99,13 +99,19 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $subject = Subject::findOrFail($id);
         if ($request->get('teacher_id')) {
-            $subject = Subject::find($id);
             $subject->update([
                 'teacher_id' => $request->get('teacher_id')
             ]);
+            return redirect()->route('subjects.index')->with('messages', 'Profesor asignado correctamente.');
         }
-        return redirect()->route('subjects.index')->with('messages', 'Profesor asignado correctamente.');
+        $active = $request->filled('active') ? true : false;
+        $subject->update([
+            'active' => $active
+        ]);
+        return redirect()->route('subjects.index')->with('messages', 'Materia actualizada correctamente.');
     }
 
     /**

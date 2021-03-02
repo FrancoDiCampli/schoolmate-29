@@ -87,7 +87,17 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $course = Course::find($id);
+        $active = $request->filled('active') ? true : false;
+        $course->update([
+            'active' => $active
+        ]);
+        foreach ($course->subjects as $item) {
+            $item->update([
+                'active' => $active
+            ]);
+        }
+        return redirect()->route('courses.index')->with('messages', 'Curso actualizado correctamente.');
     }
 
     /**

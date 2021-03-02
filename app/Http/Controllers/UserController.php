@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Imports\StudentsImport;
 use App\Observers\StudentObserver;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +30,7 @@ class UserController extends Controller
         //  $users = User::all()->first();
         // return $users->roles[0]->name;
         $users = User::all();
-        return view('admin.users.index',compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -41,16 +42,15 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        if($user->hasRole('teacher')){
-            $data = Teacher::where('user_id',$user->id)->get();
-
-        }elseif($user->hasRole('student')){
-            $data = Student::where('user_id',$user->id)->get();
-        }else{
-            $data=[];
+        if ($user->hasRole('teacher')) {
+            $data = Teacher::where('user_id', $user->id)->get();
+        } elseif ($user->hasRole('student')) {
+            $data = Student::where('user_id', $user->id)->get();
+        } else {
+            $data = [];
         }
 
-        return view('admin.users.create',compact('user','data'));
+        return view('admin.users.create', compact('user', 'data'));
     }
 
     /**
@@ -66,12 +66,11 @@ class UserController extends Controller
 
 
 
-       if($user->hasRole('teacher')){
-        Teacher::create($request->all());
-
-       }elseif($user->hasRole('student')){
-        Student::create($request);
-       }
+        if ($user->hasRole('teacher')) {
+            Teacher::create($request->all());
+        } elseif ($user->hasRole('student')) {
+            Student::create($request);
+        }
 
         return redirect()->back();
     }
@@ -101,7 +100,7 @@ class UserController extends Controller
                 break;
         }
 
-        return view('admin.users.profile',compact('data'));
+        return view('admin.users.profile', compact('data'));
     }
 
     /**
@@ -125,15 +124,11 @@ class UserController extends Controller
         // }
 
 
-        if($rol == 'teacher'){
-            return view('admin.users.teacherprofile',compact('user'));
-        }elseif($rol == 'student'){
-            return view('admin.users.studentprofile',compact('user'));
+        if ($rol == 'teacher') {
+            return view('admin.users.teacherprofile', compact('user'));
+        } elseif ($rol == 'student') {
+            return view('admin.users.studentprofile', compact('user'));
         }
-
-
-
-
     }
 
     /**
@@ -145,7 +140,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $id;
+        $user = User::find($id);
+        $active = $request->filled('active') ? true : false;
+        $user->update([
+            'active' => $active
+        ]);
+        // DB::table('users')->where('id', $id)->update(['remember_token' => null]);
+        if ($user->hasRole('teacher')) {
+            return redirect()->route('teachers.index')->with('messages', 'Usuario actualizado correctamente.');
+        }
+
+        return redirect()->route('students.index')->with('messages', 'Usuario actualizado correctamente.');
     }
 
     /**
@@ -159,26 +164,30 @@ class UserController extends Controller
         //
     }
 
-    public function import(){
+    public function import()
+    {
         $courses = Course::all();
-        return view('admin.users.import',compact('courses'));
+        return view('admin.users.import', compact('courses'));
     }
-    public function importUsers(Request $request){
+    public function importUsers(Request $request)
+    {
         StudentObserver::$course = $request->course_id;
         Excel::import(new StudentsImport, request()->file('file'));
 
         // Excel::import(new StudentsImport, asset('files/students.xlsx'));
     }
 
-    public function resetPass(User $user){
-        return view('admin.users.resetpassword',compact('user'));
+    public function resetPass(User $user)
+    {
+        return view('admin.users.resetpassword', compact('user'));
     }
 
-    public function reset(UpdateProfile $request, User $user){
-       $data = $request->all();
+    public function reset(UpdateProfile $request, User $user)
+    {
+        $data = $request->all();
         // $user->update($data);
-        User::where('id',$request->id)->update([
-            'password'=>Hash::make($request->password)
+        User::where('id', $request->id)->update([
+            'password' => Hash::make($request->password)
         ]);
         session()->flash('messages', 'La contrasenia se cambio con exito');
 

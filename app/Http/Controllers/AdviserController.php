@@ -15,7 +15,7 @@ class AdviserController extends Controller
                 $jobs = Job::where('state', 0)->get();
                 $auxJobs = collect();
                 foreach ($jobs as $item) {
-                    if ($item->subject->course->cicle == session('selectedAnio')) {
+                    if ($item->subject->course->cicle == session('selectedAnio') && $item->subject->active == true) {
                         $auxJobs->push($item);
                     }
                 }
@@ -27,7 +27,7 @@ class AdviserController extends Controller
                 $jobs = Job::where('state', 1)->get();
                 $auxJobs = collect();
                 foreach ($jobs as $item) {
-                    if ($item->subject->course->cicle == session('selectedAnio')) {
+                    if ($item->subject->course->cicle == session('selectedAnio') && $item->subject->active == true) {
                         $auxJobs->push($item);
                     }
                 }
@@ -38,7 +38,7 @@ class AdviserController extends Controller
                 $jobs = Job::where('state', 2)->get();
                 $auxJobs = collect();
                 foreach ($jobs as $item) {
-                    if ($item->subject->course->cicle == session('selectedAnio')) {
+                    if ($item->subject->course->cicle == session('selectedAnio') && $item->subject->active == true) {
                         $auxJobs->push($item);
                     }
                 }

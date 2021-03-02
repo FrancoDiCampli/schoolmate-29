@@ -19,6 +19,7 @@ class CreateSubjectsTable extends Migration
             $table->string('code')->unique();
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

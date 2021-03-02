@@ -11,11 +11,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    protected $fillable = ['name', 'code', 'course_id', 'teacher_id'];
+    protected $fillable = ['name', 'code', 'course_id', 'teacher_id', 'active'];
+
+    protected $casts = [
+        'active' => 'boolean'
+    ];
 
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class,'teacher_id');
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
     public function course()
@@ -34,23 +38,21 @@ class Subject extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function students(){
-        $curso = Course::where('id',$this->course_id)->get();
-        $matriculas = Enrollment::where('course_id',$this->course_id)->get();
+    public function students()
+    {
+        $curso = Course::where('id', $this->course_id)->get();
+        $matriculas = Enrollment::where('course_id', $this->course_id)->get();
         return $matriculas;
-
     }
 
-    public function pendientes(){
+    public function pendientes()
+    {
         $id = Auth::user()->student->id;
-        $jobs = StudentsTrait::pending($this->id,$id);
+        $jobs = StudentsTrait::pending($this->id, $id);
         return $jobs;
     }
 
-    public function entregas(){
-
-
-
+    public function entregas()
+    {
     }
-
 }

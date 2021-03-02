@@ -57,7 +57,7 @@ class AdminController extends Controller
             $subjects = $user->subjects();
 
             $ids = $subjects->modelkeys();
-            $subjects = Subject::whereIn('id', $ids)->with('posts')->get();
+            $subjects = Subject::whereIn('id', $ids)->where('active', true)->with('posts')->get();
 
             $deliveries = Delivery::where('student_id', $user->id)->get();
 
@@ -75,7 +75,7 @@ class AdminController extends Controller
 
     public function teacher()
     {
-        $aux = auth()->user()->teacher->subjects->each->course;
+        $aux = auth()->user()->teacher->subjects->where('active', true)->each->course;
         $subjects = collect();
 
         foreach ($aux as $item) {
@@ -96,7 +96,7 @@ class AdminController extends Controller
         $jobs = Job::where('state', 0)->get();
         $auxJobs = collect();
         foreach ($jobs as $item) {
-            if ($item->subject->course->cicle == session('selectedAnio')) {
+            if ($item->subject->course->cicle == session('selectedAnio') && $item->subject->active == true) {
                 $auxJobs->push($item);
             }
         }
@@ -104,7 +104,7 @@ class AdminController extends Controller
         $activas = Job::where('state', 1)->get();
         $auxActivas = collect();
         foreach ($activas as $item) {
-            if ($item->subject->course->cicle == session('selectedAnio')) {
+            if ($item->subject->course->cicle == session('selectedAnio') && $item->subject->active == true) {
                 $auxActivas->push($item);
             }
         }
@@ -112,7 +112,7 @@ class AdminController extends Controller
         $rechazadas = Job::where('state', 2)->get();
         $auxRechazadas = collect();
         foreach ($rechazadas as $item) {
-            if ($item->subject->course->cicle == session('selectedAnio')) {
+            if ($item->subject->course->cicle == session('selectedAnio') && $item->subject->active == true) {
                 $auxRechazadas->push($item);
             }
         }

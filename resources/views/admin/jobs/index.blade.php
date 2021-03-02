@@ -2,6 +2,9 @@
 
 @section('content')
 
+@if ($subject)
+
+
 <div class="card md:w-10/12 rounded-sm bg-gray-100 mx-auto mt-6 mb-4 shadow-lg">
     <div class="card-title bg-white w-full p-5 border-b flex items-center justify-between">
         <div>
@@ -210,7 +213,7 @@
     {{$subject->jobs->links()}}
 
 </div>
-
+@endif
 
 
 

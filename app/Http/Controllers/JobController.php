@@ -26,15 +26,17 @@ class JobController extends Controller
     public function index($id)
     {
         if (Auth::user()->hasRole('student')) {
-            $subject = Subject::find($id);
+            $subject = Subject::where('id', $id)->where('active', true)->first();
             // $subject = Job::where('state',1)->get();
             $subject->jobs = $subject->jobs->where('state', 1);
-        } else {
-            $subject = Subject::find($id);
-            $subject->jobs;
-        }
+            $subject->jobs = PaginarTrait::paginate($subject->jobs, 5);
+        } elseif (Auth::user()->hasRole('teacher')) {
+            $subject = Subject::where('id', $id)->where('active', true)->first();
+            if ($subject) {
+                $subject->jobs = PaginarTrait::paginate($subject->jobs, 5);
+            }
+        } else $subject = null;
 
-        $subject->jobs = PaginarTrait::paginate($subject->jobs, 5);
         // $posts = Post::where('user_id',Auth::user()->id)->where('subject_id',$id)->with('annotations')->orderBy('created_at', 'DESC')->paginate(2);
 
         return view('admin.jobs.index', compact('subject'));
@@ -95,23 +97,24 @@ class JobController extends Controller
     public function show($id)
     {
         $job = Job::find($id);
+        if ($job->subject->active == true) {
+            $matriculas = $job->subject->course->enrollments;
 
-        $matriculas = $job->subject->course->enrollments;
+            $aux = $job->deliveries->keyBy('student_id');
 
-        $aux = $job->deliveries->keyBy('student_id');
+            $faltan = $matriculas->whereNotIn('student_id', $aux->keys());
 
-        $faltan = $matriculas->whereNotIn('student_id', $aux->keys());
+            $entregas = $job->deliveries()->get();
 
-        $entregas = $job->deliveries()->get();
+            $alumnos = $faltan->map(function ($item) {
+                return $item->student;
+            });
+            $aux = $alumnos->sortBy('name');
 
-        $alumnos = $faltan->map(function ($item) {
-            return $item->student;
-        });
-        $aux = $alumnos->sortBy('name');
+            $alumnos = $aux->values();
 
-        $alumnos = $aux->values();
-
-        return view('admin.jobs.deliveries', compact('job', 'entregas', 'alumnos'));
+            return view('admin.jobs.deliveries', compact('job', 'entregas', 'alumnos'));
+        } else return redirect()->route('teacher');
     }
 
     public function showJob($id)
@@ -119,26 +122,31 @@ class JobController extends Controller
         $activities = Activity::where('log_name', 'jobs')->where('subject_id', $id)->get();
 
         $job = Job::find($id);
-        $job->comments;
-        $vid = substr($job->link, -11);
-        if ($job->file_path) {
-            $file = url($job->file_path);
-        } else $file = '';
+        if ($job->subject->active == true) {
+            $job->comments;
+            $vid = substr($job->link, -11);
+            if ($job->file_path) {
+                $file = url($job->file_path);
+            } else $file = '';
 
-        if (Auth::user()->roles()->first()->name == 'adviser') {
-            NotificationsTrait::adviserMarkAsRead($id);
-        } else {
-            NotificationsTrait::teacherMarkAsRead('job_id', $id);
-        }
+            if (Auth::user()->roles()->first()->name == 'adviser') {
+                NotificationsTrait::adviserMarkAsRead($id);
+            } else {
+                NotificationsTrait::teacherMarkAsRead('job_id', $id);
+            }
 
-
-        return view('admin.jobs.showJob', compact('job', 'file', 'vid', 'activities'));
+            return view('admin.jobs.showJob', compact('job', 'file', 'vid', 'activities'));
+        } elseif (Auth::user()->roles()->first()->name == 'adviser') {
+            return redirect()->route('adviser');
+        } else return redirect()->route('teacher');
     }
 
     public function edit($id)
     {
         $job = Job::find($id);
-        return view('admin.jobs.edit', compact('job'));
+        if ($job->subject->active == true) {
+            return view('admin.jobs.edit', compact('job'));
+        } else return redirect()->route('teacher');
     }
 
     public function update(UpdateJob $request, $id)

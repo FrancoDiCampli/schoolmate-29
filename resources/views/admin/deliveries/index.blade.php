@@ -4,6 +4,8 @@
 
 
 <div class="card md:w-10/12 rounded-sm bg-gray-100 mx-auto mt-6 mb-4 shadow-lg">
+    @if ($subject)
+
     <div class="card-title bg-white w-full p-5 border-b flex items-center justify-between">
         <div>
             <p class="sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold placeholder-gray-700">Tareas de la
@@ -60,6 +62,9 @@
         </a>
         @endrole
     </div>
+
+    @endif
+
 </div>
 
 

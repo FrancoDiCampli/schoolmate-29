@@ -72,8 +72,8 @@
                         </label>
                         <input type="text"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-last-name" type="text" placeholder="Escriba el nombre de la materia"
-                            value="{{$subject->name}}" readonly>
+                            id="grid-last-name" placeholder="Escriba el nombre de la materia" value="{{$subject->name}}"
+                            readonly>
                     </div>
 
                     <div class="w-full md:w-1/2 px-3">
@@ -83,12 +83,17 @@
                         </label>
                         <input id="code" type="text"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-last-name" type="text" placeholder="ex: M1A2020" value="{{$subject->code}}"
-                            readonly>
+                            id="grid-last-name" placeholder="ex: M1A2020" value="{{$subject->code}}" readonly>
                         <small class="text-xs italic text-gray-500">Se genera cod. sugerido automaticamente </small>
                     </div>
 
-
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            for="grid-last-name">
+                            Activa
+                        </label>
+                        <input type="checkbox" name="active" id="" {{$subject->active ? 'checked' : 'false'}}>
+                    </div>
                 </div>
 
 

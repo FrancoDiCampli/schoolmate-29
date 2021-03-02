@@ -19,7 +19,7 @@ class CreateCoursesTable extends Migration
             $table->string('code')->unique();
             $table->string('shift');
             $table->string('cicle')->nullable();
-
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
