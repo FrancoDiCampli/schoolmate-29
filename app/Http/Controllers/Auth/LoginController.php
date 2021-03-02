@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -43,5 +44,17 @@ class LoginController extends Controller
     public function username()
     {
         return 'dni';
+    }
+
+    /**
+     * Custom credentials to validate the status of user.
+     */
+    public function credentials(Request $request)
+    {
+        return [
+            'dni'     => $request->dni,
+            'password'  => $request->password,
+            'active' => true
+        ];
     }
 }
