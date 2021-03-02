@@ -75,4 +75,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subject::class);
     }
+
+    public function isActive()
+    {
+        if ($this->active) {
+            return true;
+        }
+
+        return false;
+    }
 }
