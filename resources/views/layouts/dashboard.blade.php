@@ -61,12 +61,12 @@
 
                     <div class="flex items-center">
                         @role('teacher|student')
-                            <p class="text-bluedark-500 text-md font-semibold">Ciclo Lectivo {{session('selectedAnio')}}</p>
+                            <p class="text-bluedark-500 text-md font-semibold mr-3">Ciclo Lectivo {{session('selectedAnio')}}</p>
                         @endrole
                     </div>
 
                     @role('admin|adviser')
-                    <div class="border border-gray-400 rounded p-2">
+                    <div class="border border-gray-400 rounded p-2 mr-3">
                         @php
                         $anio = session('selectedAnio');
                         $aux = now()->format('Y');
@@ -74,7 +74,7 @@
 
                         <form method="POST" action="{{route('setAnio')}}" enctype="multipart/form-data" class="flex items-center mx-auto" onsubmit="btnSpinCicle.disabled = true;">
                             @csrf
-                            <select name="selectAnio" id="selectAnio" class="hover:bg-gray-400 appearance-none bg-gray-300 border-gray-200 text-gray-700 py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2">
+                            <select name="selectAnio" id="selectAnio" class="hover:bg-gray-300 appearance-none bg-gray-200 border-gray-400 text-gray-700 py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-primary-400 border-b-2">
                                 <option selected value="{{$anio}}">{{$anio}}
                                 </option>
                                 @for ($aux; 2020 <= $aux; $aux--) @if ($aux!=$anio) <option value="{{$aux}}">{{$aux}}
@@ -83,7 +83,7 @@
                                     @endfor
                             </select>
 
-                            <button class="btn btn-default hover:bg-gray-300 hover:text-gray-700 mx-1 py-1 px-2 shadow-none border-none" id="btnSpinCicle" onclick="spinCicle()" type="submit">
+                            <button class="btn btn-default rounded hover:bg-gray-300 hover:text-gray-700 mx-1 py-1 px-2 shadow-none border-none" id="btnSpinCicle" onclick="spinCicle()" type="submit">
                                 <span>
                                     <svg class="h-5 w-6" id="spinCicle" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />

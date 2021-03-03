@@ -228,7 +228,7 @@
     {{-- Movimientos de la tarea --}}
     <div class="border rounded-sm mt-6 py-4 text-gray-700 text-sm w-full px-3 mb-6 md:mb-0">
         <div class="border-b">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+            <label class="block uppercase tracking-wide text-gray-700 text-md font-bold mb-2" for="grid-state">
                 Historial de Entregas
             </label>
         </div>
@@ -290,10 +290,36 @@
 
     {{-- file entrega --}}
     <div class="flex flex-wrap my-5 border">
-        <div class="w-full md:w-full px-6 md:mb-0 mb-1 py-4">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                Subir Archivo Adjunto
+        <div class="w-full md:w-full  py-4 text-gray-700 text-sm px-3 mb-6 md:mb-0">
+            <div class="border-b">
+                <label class="block uppercase tracking-wide text-gray-700 text-md font-bold mb-2" for="grid-state">
+                    Mi Entrega
+                </label>
+            </div>
+
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-5 mb-2" for="grid-last-name">
+                Seleccionar tipo de Entrega
             </label>
+
+            <div class="md:flex items-center mt-3">
+                <button id="btnFile" onclick="btnFileRender(id)" class="btn btn-secondary flex mx-auto md:mr-2 my-3 md:my-0 w-full">
+                    <span class="w-5 h-5 text-white mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </span>
+                    Subir archivo
+                </button>
+
+                <button id="btnImage"  onclick="btnFileRender(id)" class="btn btn-secondary flex mx-auto w-full">
+                    <span class="w-5 h-5 text-white mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </span>
+                    Subir imágenes
+                </button>
+            </div>
 
             {{-- inicio formulario enviar tarea y/o comentario --}}
             @if ($delivery)
@@ -313,7 +339,7 @@
                     {{-- link de youtube --}}
                     <div class="flex flex-wrap my-5">
                         <div class="w-full md:w-full md:mb-0 mb-6">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-3"
                                 for="grid-last-name">
                                 Link de Youtube (Opcional)
                             </label>
@@ -338,80 +364,54 @@
                         </div>
                     </div>
 
-                    {{-- Agregando Video a Youtube  --}}
-                    {{-- <div class="flex flex-wrap my-5">
-                    <div class="w-full md:w-full md:mb-0 mb-1">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                          Video
-                        </label>
-                        <div class="relative">
-                            <div class="overflow-hidden relative w-auto mt-4 mb-4">
-                                <div class="flex items-center justify-center bg-grey-lighter">
-                                    <label
-                                        class="w-full flex flex-col items-center px-4 py-4 bg-gray-200 text-gray-700 border-b-2 border-gray-400 tracking-wide uppercase cursor-pointer hover:text-primary-300 hover:bg-gray-300">
-                                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20">
-                                            <path
-                                                d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                                        </svg>
-                                        <span class="mt-2 text-sm leading-normal" id="selectedVideo">Seleccione un video</span>
-                                        <input type='file' class="hidden" name="video" id="fileVideoName"
-                                            onchange="setNameVideo()" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="flex italic text-red-600  text-sm" role="alert">
-                            {{$errors->first('video')}}
-                    </span>
-        </div>
-    </div> --}}
-    {{-- End video upload  --}}
 
 
-
-    <div class="relative">
-        <div class="overflow-hidden relative w-auto mt-4 mb-4">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                Documento
-            </label>
-            <div class="flex items-center justify-center bg-grey-lighter">
-                <label
-                    class="w-full flex flex-col items-center px-4 py-4 bg-gray-200 text-gray-700 border-b-2 border-gray-400 tracking-wide uppercase cursor-pointer hover:text-primary-300 hover:bg-gray-300">
-                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path
-                            d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                    </svg>
-                    <span class="mt-2 text-sm leading-normal" id="selected">Seleccione un documento</span>
-                    <input type='file' accept=".pdf; .xlsx; .docx; .pptx;" class="hidden" name="file" id="fileName"
-                        onchange="setName()" />
+    <div class="border-dashed border-2 border-gray-400 md:mt-8 p-5 hidden" id="boxFile">
+        <div class="relative">
+            <div class="overflow-hidden relative w-auto mt-4 mb-4">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                    Documento
                 </label>
+                <div class="flex items-center justify-center bg-grey-lighter">
+                    <label
+                        class="w-full flex flex-col items-center text-center px-4 py-4 bg-gray-200 text-gray-700 border-b-2 border-gray-400 tracking-wide uppercase cursor-pointer hover:text-primary-300 hover:bg-gray-300">
+                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path
+                                d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                        </svg>
+                        <span class="mt-2 text-sm leading-normal" id="selected">Adjuntar Archivo</span>
+                        <input type='file' accept=".pdf; .xlsx; .docx; .pptx;" class="hidden" name="file" id="fileName"
+                            onchange="setName()" />
+                    </label>
+                </div>
             </div>
         </div>
+        <span class="flex italic text-red-600  text-sm" role="alert">
+            {{$errors->first('file')}}
+        </span>
     </div>
-    <span class="flex italic text-red-600  text-sm" role="alert">
-        {{$errors->first('file')}}
-    </span>
 
+    <div class="border-dashed border-2 border-gray-400 p-5 md:mt-8 hidden" id="boxImage">
     <div class="relative">
         <div class="overflow-hidden relative w-auto mt-4 mb-4">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                Fotos
+                Imágenes
             </label>
             <div class="flex items-center justify-center bg-grey-lighter">
                 <label
-                    class="w-full flex flex-col items-center px-4 py-4 bg-gray-200 text-gray-700 border-b-2 border-gray-400 tracking-wide uppercase cursor-pointer hover:text-primary-300 hover:bg-gray-300">
+                    class="w-full flex flex-col items-center text-center px-4 py-4 bg-gray-200 text-gray-700 border-b-2 border-gray-400 tracking-wide uppercase cursor-pointer hover:text-primary-300 hover:bg-gray-300">
                     <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path
                             d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
-                    <span class="mt-2 text-sm leading-normal" id="selecteds">Seleccione Fotos</span>
+                    <span class="mt-2 text-sm leading-normal" id="selecteds">Adjuntar Imágenes</span>
                     <input type="file" name="fotos[]" accept="image/*" multiple id="fileGallery" hidden>
                 </label>
             </div>
         </div>
     </div>
 
+    {{-- loading --}}
     <div class="flex justify-center items-center m-2 p-2">
         <div id="cargando" class="hidden">
             <svg aria-hidden="true" data-prefix="fas" data-icon="spinner" class="text-primary-400 w-8 animate-spin"
@@ -422,8 +422,14 @@
         </div>
     </div>
 
-    <div id="viewerGallery" class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-4'>
-        <div id="auxGallery"></div>
+    {{-- preview images --}}
+    <div id="empty" class="h-full w-full text-center flex flex-col items-center justify-center">
+        <img class="mx-auto w-20" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data">
+        <span class="text-small text-gray-500">No hay imágenes seleccionados</span>
+    </div> 
+
+    <div id="viewerGallery" class='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mx-4'>        
+    </div>
     </div>
 
     {{-- @livewire('test-component') --}}
@@ -447,8 +453,15 @@
 </div>
 @endif
 
-<button type="submit" class="flex mx-auto btn btn-primary mb-10" id="entregaDisabled"
-    onclick="return confirm('¿Desea confirmar la entrega?')">Entregar Tarea</button>
+<button type="submit" class="flex items-center mx-auto btn btn-primary mb-10" id="entregaDisabled"
+    onclick="return confirm('¿Desea confirmar la entrega?')">
+    <span class="w-5 h-5 mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </span>
+    Entregar Tarea
+</button>
 </form>
 
 {{-- Comentarios --}}
@@ -553,10 +566,13 @@
 
 {{-- Fotos --}}
 <script>
-    let archivos = document.getElementById("fileGallery");
+let archivos = document.getElementById("fileGallery");
 let viewerGallery = document.getElementById("viewerGallery");
 let selecteds = document.getElementById("selecteds");
 let cargando = document.getElementById("cargando");
+const empty = document.getElementById("empty");
+const boxFile = document.getElementById("boxFile");
+const boxImage = document.getElementById("boxImage");
 
 if (archivos != null) {
     archivos.addEventListener("change", () => {
@@ -568,15 +584,17 @@ if (archivos != null) {
                 var div = document.createElement("div");
                 div.innerHTML = `
                     <div id='${name}' class='relative p-2'>
-                        <img class='min-w-full' src='${e.target.result}' >
+                        <img class='w-full h-32 bg-cover bg-center rounded-md' src='${e.target.result}' >
                     </div>
                 `;
                 viewerGallery.appendChild(div, null);
             };
+            empty.classList.add('hidden');
             reader.readAsDataURL(archivos.files[i]);
+            
         }
         selecteds.innerHTML =
-            "<button id='boton' type='button' onclick='limpiarGaleria()' class='btn-delete'>Quitar Fotos</button>";
+            "<button id='boton' type='button' onclick='limpiarGaleria()' class='border border-gray-400 rounded-sm px-3 py-1 hover:bg-gray-400 focus:shadow-outline focus:outline-none'>Cancelar</button>";
         setTimeout(() => {
             cargando.classList.toggle("hidden");
         }, 3000);
@@ -584,7 +602,8 @@ if (archivos != null) {
 }
 
 function limpiarGaleria() {
-    selecteds.innerHTML = "Seleccione Fotos";
+    selecteds.innerHTML = "Adjuntar Imágenes";
+    empty.classList.remove('hidden');
     for (let index = 0; index < archivos.files.length; index++) {
         const element = archivos.files[index];
         let aux = document.getElementById(element.name);
@@ -593,6 +612,21 @@ function limpiarGaleria() {
     archivos.value = "";
     viewerGallery.innerHTML = "";
 }
+
+function btnFileRender(id){
+    if(id == "btnFile"){
+        boxFile.classList.remove('hidden');
+        boxImage.classList.add('hidden');
+        limpiarGaleria()
+    }else {
+        boxImage.classList.remove('hidden');
+        boxFile.classList.add('hidden');
+        limpiarFile()
+    }
+    
+}
+
+
 </script>
 
 {{-- script archivos --}}
@@ -678,7 +712,7 @@ function limpiarGaleria() {
         let video = document.getElementById('fileName');
         video.value = '';
         let selectedVideo = document.getElementById('selected');
-        selectedVideo.innerHTML = 'Seleccione un archivo';
+        selectedVideo.innerHTML = 'Adjuntar Archivo';
     }
 </script>
 
@@ -691,7 +725,7 @@ function limpiarGaleria() {
         let extension = cad[2].split('.');
         let selected = document.getElementById('selected');
 
-        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='btn-delete'>X</button>";
+        selected.innerHTML = cad[2] + ' ' +"<button id='boton' type='button' onclick='limpiarFile()' class='border border-gray-400 rounded-sm px-3 py-1 hover:bg-gray-400 focus:shadow-outline focus:outline-none'>x</button>";
         let botoncito = document.getElementById('boton');
 
         fileDocument = document.getElementById("fileName").files[0];
