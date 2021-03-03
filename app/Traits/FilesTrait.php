@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Job;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -50,7 +51,8 @@ trait FilesTrait
             $auxFotos[] = $ubicacion . '/' . $nameFile;
             unset($nameFile);
         }
-        $pdf = app('dompdf.wrapper')->loadView('createEntregaPDF', compact('auxFotos', 'auxNombre'))->setPaper('A4');
+        $job = Job::find($request->job);
+        $pdf = app('dompdf.wrapper')->loadView('createEntregaPDF', compact('auxFotos', 'auxNombre', 'job'))->setPaper('A4');
         $archivo = time() . '_' . $auxNombre . '.pdf';
         $pdf->save($ubicacion . '/' . $archivo);
         foreach ($auxFotos as $item) {
