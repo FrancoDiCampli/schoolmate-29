@@ -428,7 +428,7 @@
         <span class="text-small text-gray-500">No hay imágenes seleccionados</span>
     </div> 
 
-    <div id="viewerGallery" class='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mx-4'>        
+    <div id="viewerGallery" class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-4 overflow-auto h-40'>        
     </div>
     </div>
 
