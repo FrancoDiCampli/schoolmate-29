@@ -27,11 +27,11 @@ class PostController extends Controller
             }
         }
 
-        if (count($posts) < 1) {
-            if (Auth::user()->roles()->first()->name == 'student') {
-                return redirect()->route('student');
-            } else return redirect()->route('teacher');
-        }
+        // if (count($posts) < 1) {
+        //     if (Auth::user()->roles()->first()->name == 'student') {
+        //         return redirect()->route('student');
+        //     } else return redirect()->route('teacher');
+        // }
 
         $posts = PaginarTrait::paginate($posts, 5);
 
