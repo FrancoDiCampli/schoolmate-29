@@ -1,5 +1,9 @@
 module.exports = {
-  purge: [],
+  purge: [
+      "./resources/*/.blade.php",
+        "./resources/*/.js",
+        "./resources/*/.vue"
+  ],
   theme: {
     fontFamily: {
         montserrat:['Montserrat'],
