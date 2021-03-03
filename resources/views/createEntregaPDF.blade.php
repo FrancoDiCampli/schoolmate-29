@@ -42,7 +42,7 @@
         @foreach ($auxFotos ?? [] as $item)
         <nav>
             <h1 class="relative">Schoolmate U.E.G.P. Nº 28 Félix Frías</h1>
-            <b>Alumno: </b> {{$auxNombre}}
+            <b>Alumno: </b> {{$auxNombre}} - <b>Tarea: </b> {{$job->title}}
             <hr>
         </nav>
         <img class="relative" style="margin-top: 80px" src="{{public_path($item)}}" alt="" srcset="">
