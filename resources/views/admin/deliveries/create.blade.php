@@ -162,7 +162,11 @@
             <div class="flex w-full pt-1">
                 <div class="w-full">
                     <div class="w-9/12">
+                        @if ($job->teacher_name)
+                        <h2 class="text-sm font-medium text-gray-900 -mt-1">{{$job->teacher_name}} </h2>
+                        @else
                         <h2 class="text-sm font-medium text-gray-900 -mt-1">{{$job->subject->teacher->name}} </h2>
+                        @endif
                         <p class="text-gray-700 font-light text-xs">Publicada el {{$job->created_at->format('d-m-Y')}}
                         </p>
                     </div>
@@ -440,7 +444,8 @@
                             <span class="text-small text-gray-500">No hay imágenes seleccionados</span>
                         </div>
 
-                        <div id="viewerGallery" class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-4 overflow-auto h-40'>        
+                        <div id="viewerGallery"
+                            class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-4 overflow-auto h-40'>
                         </div>
                     </div>
 

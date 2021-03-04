@@ -79,7 +79,7 @@ class JobController extends Controller
         $data['file_path'] = $nameFile;
         unset($data['file']);
         $data['link'] = $link;
-        // $data['download'] = false;
+        $data['teacher_name'] = $subject->teacher->name;
 
         $job = Job::create($data);
 
@@ -180,6 +180,7 @@ class JobController extends Controller
             unset($data['file']);
             $data['subject_id'] = $subject->id;
             $data['state'] = 0;
+            $data['teacher_name'] = $subject->teacher->name;
 
             if ($request->file) {
                 $nameFile = FilesTrait::update($request, 'tareas', $subject->name, $job);

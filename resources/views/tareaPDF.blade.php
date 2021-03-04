@@ -43,7 +43,13 @@
             <hr>
             <b>Tarea: </b>{{$job->title}} <br><br>
             <b>Inicio:</b> {{$job->start->format('d-m-Y')}} <b> / Fin:</b> {{$job->end->format('d-m-Y')}} <br><br>
-            <b>Materia: </b>{{$job->subject->name}} <b> / Profesor: </b>{{$job->subject->teacher->name}} <br><br>
+            <b>Materia: </b>{{$job->subject->name}} <b> / Profesor: </b>
+            @if ($job->teacher_name)
+            {{$job->teacher_name}}
+            @else
+            {{$job->subject->teacher->name}}
+            @endif
+            <br><br>
             <b>Descripción: </b><br><br>
             <p>
                 {!! $job->description !!}
