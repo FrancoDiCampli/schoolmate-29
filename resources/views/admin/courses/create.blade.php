@@ -113,8 +113,8 @@
                             for="grid-last-name">
                             Code
                         </label>
-                        <input id="code" type="text" name="code" class="form-input w-full block" id="grid-last-name"
-                            type="text" placeholder="1X2020" value="{{old('code')}}">
+                        <input id="code" type="text" name="code" class="cursor-not-allowed form-input w-full block" id="grid-last-name"
+                            type="text" placeholder="1X2020" value="{{old('code')}}" readonly>
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('code')}}
                         </span>
@@ -129,8 +129,8 @@
                             for="grid-last-name">
                             Ciclo
                         </label>
-                        <input type="text" id="cicle" name="cicle" class="form-input w-full block" id="grid-last-name"
-                            type="text" placeholder="2021" value="{{old('cicle')}}">
+                        <input type="text" id="cicle" name="cicle" class="cursor-not-allowed form-input w-full block disabled:opacity-50" id="grid-last-name"
+                            type="text" placeholder="2021" value="{{ date('Y') }}" readonly>
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('cicle')}}
                         </span>

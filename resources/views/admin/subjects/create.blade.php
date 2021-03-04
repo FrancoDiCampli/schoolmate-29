@@ -20,7 +20,9 @@
                             <option disabled selected value> -- seleccione un curso -- </option>
                             @if (count($courses)>0)
                                 @foreach ($courses as $course)
-                                    <option value="{{$course->code}}">{{$course->name}}</option>
+                                @if($course->cicle == 2021)
+                                    <option value="{{$course->code}}">{{$course->name . ' - ' . $course->cicle}}</option>
+                                @endif
                                 @endforeach
                             @else
                             <option disabled selected value> -- No posee cursos registrados -- </option>

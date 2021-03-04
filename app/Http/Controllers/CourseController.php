@@ -43,7 +43,7 @@ class CourseController extends Controller
             'name' => 'required|max:20',
             'code' => 'required|max:20|unique:courses',
             'shift' => 'required',
-            'cicle' => 'max:4'
+            'cicle' => 'required|max:4'
         ]);
 
         Course::create($course);
