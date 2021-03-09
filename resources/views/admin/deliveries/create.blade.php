@@ -417,8 +417,8 @@
                                         </svg>
                                         <span class="mt-2 text-sm leading-normal" id="selecteds">Adjuntar
                                             Imágenes</span>
-                                        <input type="file" name="fotos[]" accept="image/.jpg,.png,.jpeg" multiple
-                                            id="fileGallery" hidden>
+                                        <input type="file" name="fotos[]" accept="image/jpg, image/png, image/jpeg"
+                                            multiple id="fileGallery" hidden>
                                     </label>
                                 </div>
                             </div>

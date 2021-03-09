@@ -73,7 +73,7 @@ class CourseController extends Controller
 
         $students = $curso->getStudents();
 
-        $cursos = Course::where('cicle', 2021)->get();
+        $cursos = Course::where('cicle', now()->format('Y'))->get();
 
         return view('admin.courses.edit', compact('students', 'cursos'));
     }

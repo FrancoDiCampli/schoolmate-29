@@ -30,7 +30,7 @@ class EnrollmentController extends Controller
      */
     public function create()
     {
-        $enrolled =  Enrollment::where('cicle', 2020)->select(['student_id'])->get();
+        $enrolled =  Enrollment::where('cicle', now()->format('Y'))->select(['student_id'])->get();
 
         $ex = [];
 
@@ -38,10 +38,8 @@ class EnrollmentController extends Controller
             array_push($ex, $matricula['student_id']);
         }
 
-        $courses = Course::all();
+        $courses = Course::where('cicle', now()->format('Y'))->get();
 
-
-        // $students = User::role('student')->get();
         $students = Student::all();
 
         $students = $students->except($ex);
@@ -117,6 +115,10 @@ class EnrollmentController extends Controller
     //Actualizar la matricula de los alumnos promovidos al nuevo ciclo
     public function updateAll(Request $request)
     {
+        $request->validate([
+            'curso' => 'required'
+        ]);
+
         $matriculados = [];
 
         // Cargo todos los alumnos seleccionados a un array

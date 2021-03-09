@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="container font-montserrat">
-        <div class="card w-11/12 md:w-8/12 rounded-sm bg-gray-100 mx-auto mt-10 shadow-lg">
-            <div class="card-title bg-white p-5 w-full  border-b">
-               <h1 class="text-center font-semibold text-teal-600">Importar Profesores</h1>
-            </div>
-            <div class="card-body py-5">
+<div class="container font-montserrat">
+    <div class="card w-11/12 md:w-8/12 rounded-sm bg-gray-100 mx-auto mt-10 shadow-lg">
+        <div class="card-title bg-white p-5 w-full  border-b">
+            <h1 class="text-center font-semibold text-teal-600">Importar Profesores</h1>
+        </div>
+        <div class="card-body py-5">
             <form method="POST" action="{{route('save.teachers')}}" class="mx-auto" id="delivery"
                 enctype="multipart/form-data">
                 @csrf
@@ -22,24 +22,27 @@
                                         d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                 </svg>
                                 <span class="mt-2 text-base leading-normal" id="selected">Select a file</span>
-                                <input type='file' class="hidden" name="file" id="fileName" onchange="setName()" />
+                                <input type='file' accept=".xlsx" class="hidden" name="file" id="fileName"
+                                    onchange="setName()" required />
                             </label>
                         </div>
-
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('file')}}
+                        </span>
                     </div>
                 </div>
 
                 <button type="submit"
-                class="w-8/12 mb-5 font-semibold md:w-5/12 py-2 flex mx-auto  justify-center bg-teal-600 text-gray-200 ">Save</button>
+                    class="w-8/12 mb-5 font-semibold md:w-5/12 py-2 flex mx-auto  justify-center bg-teal-600 text-gray-200 ">Save</button>
 
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 
-    @push('js')
-        <script>
-             function setName(){
+@push('js')
+<script>
+    function setName(){
              let fileName = document.getElementById('fileName');
              var cad = fileName.value;
              cad = cad.split('\\');
@@ -49,6 +52,6 @@
             fileDocument_url = URL.createObjectURL(fileDocument);
             document.getElementById('viewer').setAttribute('src', fileDocument_url);
             }
-        </script>
-    @endpush
+</script>
+@endpush
 @endsection

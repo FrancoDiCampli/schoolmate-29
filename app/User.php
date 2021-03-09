@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function materias()
     {
-        $matri = Enrollment::where('user_id', Auth::user()->id)->where('cicle', 2020)->get();
+        $matri = Enrollment::where('user_id', Auth::user()->id)->where('cicle', now()->format('Y'))->get();
         $curso = Course::where('id', $matri[0]->course_id)->get();
         return Subject::where('course_id', $curso[0]->id)->get();
     }

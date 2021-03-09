@@ -22,9 +22,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students= Student::all();
-        return view('admin.students.index',compact('students'));
-
+        $students = Student::all();
+        return view('admin.students.index', compact('students'));
     }
 
     /**
@@ -54,7 +53,7 @@ class StudentController extends Controller
         Student::create($data);
 
 
-        return redirect()->route('students.index') ->with('messages', 'Alumno creado correctamente.');;
+        return redirect()->route('students.index')->with('messages', 'Alumno creado correctamente.');;
     }
 
     /**
@@ -102,53 +101,55 @@ class StudentController extends Controller
         //
     }
 
-    public function importar(){
-        $courses = Course::all();
-        return view('admin.students.import',compact('courses'));
+    public function importar()
+    {
+        $courses = Course::where('cicle', now()->format('Y'))->get();
+        return view('admin.students.import', compact('courses'));
     }
-    public function importStudents(Request $request){
-        try{
-        Excel::import(new StudentsImport, request()->file('file'));
-        $alumnos = Excel::toCollection(new StudentsImport, request()->file('file'));
-            // Ver por que no matriculo ultimo alumno
-        }catch(\Exception $ex){
-            return back()->with('errores','No importo correctamente');
 
+    public function importStudents(Request $request)
+    {
+        $request->validate([
+            'cicle' => 'required',
+            'course_id' => 'required',
+            'file' => 'required|file|mimes:xlsx',
+        ]);
+
+        try {
+            Excel::import(new StudentsImport, request()->file('file'));
+            $alumnos = Excel::toCollection(new StudentsImport, request()->file('file'));
+            // Ver por que no matriculo ultimo alumno
+        } catch (\Exception $ex) {
+            return back()->with('errores', 'No importo correctamente');
         }
 
+        // Matricula a cada alumno importado
+        foreach ($alumnos[0] as $alumno) {
 
-         // Matricula a cada alumno importado
-         foreach($alumnos[0] as $alumno){
-
-             $res = Student::where('name',$alumno['nombre'])->get();
+            $res = Student::where('name', $alumno['nombre'])->get();
 
             Enrollment::create([
-                'student_id'=>$res[0]['id'],
-                'course_id'=>$request->course_id,
-                'cicle'=>$request->cicle
+                'student_id' => $res[0]['id'],
+                'course_id' => $request->course_id,
+                'cicle' => $request->cicle
             ]);
         }
 
-        return redirect()->route('students.index') ->with('messages', 'Alumnos creados correctamente.');;
-
+        return redirect()->route('students.index')->with('messages', 'Alumnos creados correctamente.');;
     }
 
 
     public function updateStudent(UpdateStudentProfile $request, Student $student)
     {
-        StudentsTrait::studentUpdate($request,$student);
+        StudentsTrait::studentUpdate($request, $student);
 
         $rol = auth()->user()->roles->first()->name;
 
-        if($rol =='student'){
+        if ($rol == 'student') {
 
-            return redirect()->route('student') ->with('messages', 'Estudiante actualizado correctamente.');
-
-        }else{
-            return redirect()->route('students.index') ->with('messages', 'Estudiante actualizado correctamente.');
-
+            return redirect()->route('student')->with('messages', 'Estudiante actualizado correctamente.');
+        } else {
+            return redirect()->route('students.index')->with('messages', 'Estudiante actualizado correctamente.');
         }
-
-
     }
 }

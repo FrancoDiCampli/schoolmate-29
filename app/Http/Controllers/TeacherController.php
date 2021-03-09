@@ -25,10 +25,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        // $users = User::role('teacher')->get();
-        $teachers= Teacher::all();
-        return view('admin.teacher.index',compact('teachers'));
-
+        $teachers = Teacher::all();
+        return view('admin.teacher.index', compact('teachers'));
     }
 
     /**
@@ -54,12 +52,9 @@ class TeacherController extends Controller
         $data = $request->validated();
         $data['photo'] = $path;
 
-
-
         Teacher::create($data);
 
-
-        return redirect()->route('teachers.index') ->with('messages', 'Profesor creado correctamente.');
+        return redirect()->route('teachers.index')->with('messages', 'Profesor creado correctamente.');
     }
 
     /**
@@ -85,7 +80,7 @@ class TeacherController extends Controller
         $teacher = Teacher::find($id);
         $user = User::find($teacher->user_id);
 
-        return view('admin.users.teacherprofile',compact('user'));
+        return view('admin.users.teacherprofile', compact('user'));
     }
 
     /**
@@ -97,22 +92,15 @@ class TeacherController extends Controller
      */
     public function updateTeacher(UpdateTeacher $request, Teacher $teacher)
     {
-
-
-        TeachersTrait::teacherUpdate($request,$teacher);
+        TeachersTrait::teacherUpdate($request, $teacher);
 
         $rol = auth()->user()->roles->first()->name;
 
-        if($rol =='teacher'){
-
-            return redirect()->route('teacher') ->with('messages', 'Profesor actualizado correctamente.');
-
-        }else{
-            return redirect()->route('teachers.index') ->with('messages', 'Profesor actualizado correctamente.');
-
+        if ($rol == 'teacher') {
+            return redirect()->route('teacher')->with('messages', 'Profesor actualizado correctamente.');
+        } else {
+            return redirect()->route('teachers.index')->with('messages', 'Profesor actualizado correctamente.');
         }
-
-
     }
 
     /**
@@ -126,22 +114,23 @@ class TeacherController extends Controller
         //
     }
 
-    public function import(){
+    public function import()
+    {
         return view('admin.teacher.import');
     }
 
-    public function importTeachers(Request $request){
-        try{
-        Excel::import(new TeachersImport, request()->file('file'));
+    public function importTeachers(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx',
+        ]);
 
-        }catch(\Exception $ex){
-            return back()->with('errores','No importo correctamente');
+        try {
+            Excel::import(new TeachersImport, request()->file('file'));
+        } catch (\Exception $ex) {
+            return back()->with('errores', 'No importo correctamente');
         }
 
-        return redirect()->route('teachers.index') ->with('messages', 'Profesores creados correctamente.');;
-
+        return redirect()->route('teachers.index')->with('messages', 'Profesores creados correctamente.');;
     }
-
-
-
 }

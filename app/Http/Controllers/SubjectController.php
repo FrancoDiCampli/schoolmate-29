@@ -38,9 +38,8 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        // $teachers = User::role('teacher')->get();
         $teachers = Teacher::all();
-        $courses = Course::all();
+        $courses = Course::where('cicle', now()->format('Y'))->get();
         return view('admin.subjects.create', compact('teachers', 'courses'));
     }
 
@@ -52,6 +51,12 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'course_id' => 'required',
+            'teacher_id' => 'required',
+            'name' => 'required',
+            'code' => 'required',
+        ]);
 
         $course_id = Course::where('code', $request->course_id)->first();
 
@@ -102,25 +107,25 @@ class SubjectController extends Controller
     {
         $subject = Subject::findOrFail($id);
 
-        foreach ($subject->jobs as $jobs) {
-            foreach ($jobs->deliveries as $entrega) {
-                DB::table('notifications')
-                    ->where('type', 'App\\Notifications\\DeliveryCreated')
-                    ->where('notifiable_type', 'App\\Teacher')
-                    ->where('notifiable_id', $subject->teacher_id)
-                    ->where('data->delivery_id', $entrega->id)
-                    ->delete();
-            }
-        }
+        // foreach ($subject->jobs as $jobs) {
+        //     foreach ($jobs->deliveries as $entrega) {
+        //         DB::table('notifications')
+        //             ->where('type', 'App\\Notifications\\DeliveryCreated')
+        //             ->where('notifiable_type', 'App\\Teacher')
+        //             ->where('notifiable_id', $subject->teacher_id)
+        //             ->where('data->delivery_id', $entrega->id)
+        //             ->delete();
+        //     }
+        // }
 
-        foreach ($subject->jobs as $job) {
-            DB::table('notifications')
-                ->where('type', 'App\\Notifications\\JobUpdated')
-                ->where('notifiable_type', 'App\\Teacher')
-                ->where('notifiable_id', $subject->teacher_id)
-                ->where('data->job_id', $job->id)
-                ->delete();
-        }
+        // foreach ($subject->jobs as $job) {
+        //     DB::table('notifications')
+        //         ->where('type', 'App\\Notifications\\JobUpdated')
+        //         ->where('notifiable_type', 'App\\Teacher')
+        //         ->where('notifiable_id', $subject->teacher_id)
+        //         ->where('data->job_id', $job->id)
+        //         ->delete();
+        // }
 
         if ($request->get('teacher_id')) {
             $subject->update([
