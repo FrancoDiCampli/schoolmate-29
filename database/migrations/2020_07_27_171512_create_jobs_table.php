@@ -22,6 +22,7 @@ class CreateJobsTable extends Migration
             $table->string('link')->nullable();
             $table->string('start');
             $table->string('end');
+            $table->string('teacher_name')->nullable();
             $table->tinyInteger('state');
             $table->timestamps();
         });
