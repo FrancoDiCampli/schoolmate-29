@@ -42,6 +42,7 @@ trait TeachersTrait
             $data['photo'] = $path;
         }
         unset($data['file']);
+        unset($data['password']);
         Teacher::where('id', $teacher->id)->update($data);
         $usuario =  User::find($data['user_id']);
 

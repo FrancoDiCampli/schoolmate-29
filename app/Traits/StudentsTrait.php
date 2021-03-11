@@ -81,6 +81,7 @@ trait StudentsTrait
             $data['photo'] = $path;
         }
         unset($data['file']);
+        unset($data['password']);
         Student::where('id', $student->id)->update($data);
         $usuario =  User::find($data['user_id']);
 
