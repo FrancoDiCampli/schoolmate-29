@@ -29,15 +29,24 @@ class UpdateTeacher extends FormRequest
         return [
             'name' => ['required', 'max:50', Rule::unique('teachers')->ignore($teacher)],
             'dni' => ['required', Rule::unique('teachers')->ignore($teacher)],
-            'cuil' => 'nullable|max:11|min:11',
+            'cuil' => 'nullable|max:13|min:11',
             'address' => 'required',
-            'fnac' => 'string',
+            'fnac' => 'required|date',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => 'nullable',
             'user_id' => 'required',
             'docket' => ['nullable', Rule::unique('teachers')->ignore($teacher)],
             'photo' => 'nullable|file|mimes:jpg,jpeg,png',
             'file' => 'nullable|file|mimes:jpg,jpeg,png',
+            'password' => 'nullable|string|min:8|confirmed',
+            'password_confirmation'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'password.confirmed' => 'Las contraseñas no coinciden'
         ];
     }
 }

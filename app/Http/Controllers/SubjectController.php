@@ -66,7 +66,9 @@ class SubjectController extends Controller
             'teacher_id' => 'required'
         ]);
 
+        $active = $request->filled('active') ? true : false;
         $subject['course_id'] =  $course_id->id;
+        $subject['active'] =  $active;
 
         Subject::create($subject);
         return redirect()->route('subjects.index')->with('messages', 'Materia creada correctamente.');
@@ -131,12 +133,13 @@ class SubjectController extends Controller
             $subject->update([
                 'teacher_id' => $request->get('teacher_id')
             ]);
-            return redirect()->route('subjects.index')->with('messages', 'Profesor asignado correctamente.');
         }
+
         $active = $request->filled('active') ? true : false;
         $subject->update([
             'active' => $active
         ]);
+
         return redirect()->route('subjects.index')->with('messages', 'Materia actualizada correctamente.');
     }
 
