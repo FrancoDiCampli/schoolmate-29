@@ -75,6 +75,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            for="grid-state">
+                            Activa
+                        </label>
+                        <div class="w-full md:w-1/2 px-3">
+                            <input type="checkbox" name="active" id="">
+                        </div>
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('active')}}
+                        </span>
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap my-5">

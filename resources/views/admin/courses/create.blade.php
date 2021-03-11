@@ -40,7 +40,7 @@
                                     viewBox="0 0 20 20">
                                     <path
                                         d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                                     viewBox="0 0 20 20">
                                     <path
                                         d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                     viewBox="0 0 20 20">
                                     <path
                                         d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -113,8 +113,8 @@
                             for="grid-last-name">
                             Code
                         </label>
-                        <input id="code" type="text" name="code" class="cursor-not-allowed form-input w-full block" id="grid-last-name"
-                            type="text" placeholder="1X2020" value="{{old('code')}}" readonly>
+                        <input id="code" type="text" name="code" class="cursor-not-allowed form-input w-full block"
+                            id="grid-last-name" type="text" placeholder="1X2020" value="{{old('code')}}" readonly>
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('code')}}
                         </span>
@@ -129,14 +129,28 @@
                             for="grid-last-name">
                             Ciclo
                         </label>
-                        <input type="text" id="cicle" name="cicle" class="cursor-not-allowed form-input w-full block disabled:opacity-50" id="grid-last-name"
+                        <input type="text" id="cicle" name="cicle"
+                            class="cursor-not-allowed form-input w-full block disabled:opacity-50" id="grid-last-name"
                             type="text" placeholder="2021" value="{{ date('Y') }}" readonly>
                         <span class="flex italic text-red-600  text-sm" role="alert">
                             {{$errors->first('cicle')}}
                         </span>
                     </div>
 
-                    <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="">
+                            Activo
+                        </label>
+                        <div class="w-full md:w-1/2 px-3">
+                            <input type="checkbox" name="active" id="">
+                        </div>
+                        <span class="flex italic text-red-600  text-sm" role="alert">
+                            {{$errors->first('active')}}
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit" class="flex mx-auto btn btn-primary">Save</button>
 
             </form>
         </div>

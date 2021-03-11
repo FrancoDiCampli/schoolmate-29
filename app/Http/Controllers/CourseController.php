@@ -46,6 +46,9 @@ class CourseController extends Controller
             'cicle' => 'required|max:4'
         ]);
 
+        $active = $request->filled('active') ? true : false;
+        $course['active'] =  $active;
+
         Course::create($course);
         return redirect()->route('courses.index')->with('messages', 'Course creado correctamente.');
     }
