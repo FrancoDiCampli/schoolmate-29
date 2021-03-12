@@ -10,21 +10,21 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class StudentsImport implements ToModel, WithHeadingRow
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         return new Student([
             'name'     => $row['nombre'],
             'dni'     => $row['dni'],
             'cuil'     => $row['cuil'],
-            'fnac'     => Date::excelToDateTimeObject($row['fnac'])->format('d/m/Y'),
+            'fnac'     => Date::excelToDateTimeObject($row['fnac'])->format('Y-m-d'),
             'email'    => $row['email'],
             'phone'     => $row['telefono'],
             'address'     => $row['domicilio'],
-            'docket' =>$row['numlegajo']
+            'docket' => $row['numlegajo']
         ]);
     }
 }
