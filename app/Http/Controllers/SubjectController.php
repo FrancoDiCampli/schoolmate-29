@@ -6,6 +6,7 @@ use App\User;
 use App\Course;
 use App\Subject;
 use App\Teacher;
+use App\Traits\PaginarTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,8 @@ class SubjectController extends Controller
                 $subjects->push($item);
             }
         }
+
+        $subjects = PaginarTrait::paginate($subjects, 10);
 
         return view('admin.subjects.index', compact('subjects'));
     }

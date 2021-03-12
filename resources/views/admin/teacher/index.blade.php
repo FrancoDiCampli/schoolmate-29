@@ -93,7 +93,7 @@
             <h2>No hay profesores registrados</h2>
             @endif
         </div>
-
+        {{$teachers->links()}}
     </div>
 </div>
 @endsection
