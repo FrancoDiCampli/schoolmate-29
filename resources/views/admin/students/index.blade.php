@@ -93,7 +93,7 @@
             <h2>No hay alumnos registrados</h2>
             @endif
         </div>
-
+        {{$students->links()}}
     </div>
 </div>
 @endsection

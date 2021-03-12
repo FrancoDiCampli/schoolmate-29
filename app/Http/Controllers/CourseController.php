@@ -17,7 +17,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses =  Course::where('cicle', session('selectedAnio'))->get();
+        $courses =  Course::where('cicle', session('selectedAnio'))->paginate(10);
         return view('admin.courses.index', compact('courses'));
     }
 
