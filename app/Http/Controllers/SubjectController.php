@@ -112,26 +112,6 @@ class SubjectController extends Controller
     {
         $subject = Subject::findOrFail($id);
 
-        // foreach ($subject->jobs as $jobs) {
-        //     foreach ($jobs->deliveries as $entrega) {
-        //         DB::table('notifications')
-        //             ->where('type', 'App\\Notifications\\DeliveryCreated')
-        //             ->where('notifiable_type', 'App\\Teacher')
-        //             ->where('notifiable_id', $subject->teacher_id)
-        //             ->where('data->delivery_id', $entrega->id)
-        //             ->delete();
-        //     }
-        // }
-
-        // foreach ($subject->jobs as $job) {
-        //     DB::table('notifications')
-        //         ->where('type', 'App\\Notifications\\JobUpdated')
-        //         ->where('notifiable_type', 'App\\Teacher')
-        //         ->where('notifiable_id', $subject->teacher_id)
-        //         ->where('data->job_id', $job->id)
-        //         ->delete();
-        // }
-
         if ($request->get('teacher_id')) {
             $subject->update([
                 'teacher_id' => $request->get('teacher_id')

@@ -8,6 +8,7 @@ use App\Comment;
 use App\Subject;
 use App\Delivery;
 use Carbon\Carbon;
+use App\Enrollment;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
 use App\Traits\PaginarTrait;
@@ -24,11 +25,7 @@ class DeliveryController extends Controller
 {
     public function pendings($subject)
     {
-
-        // $jobs =  Subject::find($subject);
         $jobs =  Subject::where('id', $subject)->where('active', true)->first();
-
-        // $jobs = StudentsTrait::pendings();
 
         $now = Carbon::now();
         if ($jobs) {
@@ -78,6 +75,7 @@ class DeliveryController extends Controller
 
         $user = Auth::user();
         $job = Job::find($job);
+
         if ($job->subject->active == true) {
             # code...
             $vid = substr($job->link, -11);
