@@ -26,8 +26,8 @@ class StudentVerify
 
                 #REVISAR PROFE
             case 'teacher':
-                $aux = auth()->user()->teacher->subjects;
-                return dd($aux);
+                // $aux = auth()->user()->teacher->subjects;
+                // return dd($aux);
                 break;
 
             default:

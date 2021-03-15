@@ -70,11 +70,11 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
     Route::group(['middleware' => ['role:student|admin']], function () {
         Route::get('student', 'AdminController@student')->name('student');
         Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
-        Route::get('pendings/{subject}', 'DeliveryController@pendings')->middleware('student.verify')->name('deliveries.pendings');
+        Route::get('pendings/{subject}', 'DeliveryController@pendings')->name('deliveries.pendings'); // agregar middleware student verify
         // Entregas
         Route::resource('deliveries', 'DeliveryController')->except('create', 'index', 'update');
-        Route::get('deliver/{job}', 'DeliveryController@deliver')->middleware('student.verify')->name('deliver');
-        Route::get('entregas/{subject}', 'DeliveryController@index')->middleware('student.verify')->name('deliveries.subject');
+        Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver'); // agregar middleware student verify
+        Route::get('entregas/{subject}', 'DeliveryController@index')->name('deliveries.subject'); // agregar middleware student verify
         Route::put('updateStudent/{student}', 'StudentController@updateStudent')->name('update.student');
     });
 
@@ -89,12 +89,12 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
     // Alumnos y Profesores
     Route::group(['middleware' => ['role:student|teacher|admin']], function () {
         Route::put('updateDelivery/{id}', 'DeliveryController@update')->name('delivery.update');
-        Route::get('tareas/{subject}', 'JobController@index')->middleware('student.verify')->name('jobs.index');
+        Route::get('tareas/{subject}', 'JobController@index')->name('jobs.index'); // agregar middleware student verify
         // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
         Route::resource('comments', 'CommentController');
         // Posts
         Route::resource('posts', 'PostController')->except('create', 'index', 'destroy');
-        Route::get('posts/index/{subject}', 'PostController@index')->middleware('student.verify')->name('posts.index'); //agregado para index del post
+        Route::get('posts/index/{subject}', 'PostController@index')->name('posts.index'); //agregado para index del post // agregar middleware student verify
         Route::get('newpost/{subject}', 'PostController@create')->name('new.post');
         Route::get('deletePost/{post}', 'PostController@destroy')->name('post.delete'); //para eliminar un post
         // Comentarios de los post del muro
