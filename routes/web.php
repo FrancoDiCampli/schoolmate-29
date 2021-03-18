@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
         // Descargar Entregas
         Route::get('descargarEntregas/{id}', 'JobController@descargarEntregas')->name('descargarEntregas');
         // Eliminar Entregas
-        Route::post('deleteAll', 'JobController@deleteAll')->name('eliminarEntregas');
+        Route::post('deleteAll', 'JobController@deleteAll')->name('eliminarEntregas')->middleware(['password.confirm']);
     });
 
     // Alumnos

@@ -3,17 +3,17 @@
 namespace App\Providers;
 
 use App\Job;
+use App\Post;
+use App\Course;
 use App\Student;
 use App\Teacher;
 use App\Delivery;
 use App\Observers\JobObserver;
+use App\Observers\PostObserver;
 use App\Observers\StudentObserver;
 use App\Observers\TeacherObserver;
 use App\Observers\DeliveryObserver;
-use App\Observers\PostObserver;
-use App\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,8 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Config::set('anio', now()->format('Y'));
-
         session()->put('selectedAnio', now()->format('Y'));
 
         Delivery::observe(DeliveryObserver::class);
@@ -49,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('layouts.dashboard', function ($view) {
             if (Auth::check()) {
                 $rol = auth()->user()->roles->first()->name;
+                $ciclos = Course::all()->groupBy('cicle');
 
                 switch ($rol) {
                     case 'teacher':
@@ -74,7 +73,11 @@ class AppServiceProvider extends ServiceProvider
 
                 $cant = count($todas);
 
-                $view->with(['cant' => $cant, 'noLeidas' => $noLeidas]);
+                $view->with([
+                    'cant' => $cant,
+                    'noLeidas' => $noLeidas,
+                    'ciclos' => $ciclos
+                ]);
             }
         });
     }

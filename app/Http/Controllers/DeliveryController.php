@@ -76,7 +76,7 @@ class DeliveryController extends Controller
         $user = Auth::user();
         $job = Job::find($job);
 
-        if ($job->subject->active == true) {
+        if ($job->subject->active == true && $job->state == 1) {
             # code...
             $vid = substr($job->link, -11);
             if ($job->file_path) {
