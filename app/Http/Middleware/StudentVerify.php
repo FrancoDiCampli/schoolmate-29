@@ -26,8 +26,12 @@ class StudentVerify
 
                 #REVISAR PROFE
             case 'teacher':
-                // $aux = auth()->user()->teacher->subjects;
-                // return dd($aux);
+                // return dd($request->route('subject'));
+                $subjects = auth()->user()->teacher->subjects;
+                $aux = collect();
+                foreach ($subjects as $item) {
+                    $aux->push($item->course);
+                }
                 break;
 
             default:
@@ -36,24 +40,60 @@ class StudentVerify
         }
 
         if ($aux != null) {
-            $course_id = $aux->course_id;
+            if (auth()->user()->roles()->first()->name == 'student') {
+                $course_id = $aux->course_id;
+            }
         } else $course_id = 0;
 
         if (Auth::check()) {
-            if ($request->route('job')) {
-                $job = Job::find($request->route('job'));
-                $job_course_id = $job->subject->course->id;
-                if ($course_id != $job_course_id) {
-                    abort(401);
-                }
-                return $next($request);
-            } elseif ($request->route('subject')) {
-                $subject =  Subject::where('id', $request->route('subject'))->where('active', true)->first();
-                $subject_course_id = $subject->course->id;
-                if ($course_id != $subject_course_id) {
-                    abort(401);
-                }
-                return $next($request);
+
+            switch (auth()->user()->roles()->first()->name) {
+                case 'student':
+                    if ($request->route('job')) {
+                        $job = Job::find($request->route('job'));
+                        $job_course_id = $job->subject->course->id;
+                        if ($course_id != $job_course_id) {
+                            abort(401);
+                        }
+                        return $next($request);
+                    } elseif ($request->route('subject')) {
+                        $subject =  Subject::where('id', $request->route('subject'))->where('active', true)->first();
+                        $subject_course_id = $subject->course->id;
+                        if ($course_id != $subject_course_id) {
+                            abort(401);
+                        }
+                        return $next($request);
+                    }
+                    break;
+
+                case 'teacher':
+                    // return dd($aux);
+                    foreach ($aux as $course) {
+                        if ($request->route('job')) {
+                            $job = Job::find($request->route('job'));
+                            $job_course_id = $job->subject->course->id;
+                            if ($course->id != $job_course_id) {
+                                abort(401);
+                            }
+                            return $next($request);
+                        } elseif ($request->route('subject')) {
+                            $subject =  Subject::where('id', $request->route('subject'))->where('active', true)->first();
+
+                            if ($subject) {
+                                $subject_course_id = $subject->course->id;
+                            } else abort(401);
+
+                            if ($course->id != $subject_course_id) {
+                                abort(401);
+                            }
+                            return $next($request);
+                        }
+                    }
+                    break;
+
+                default:
+                    $aux = null;
+                    break;
             }
         }
         abort(401);

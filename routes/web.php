@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
     // Alumnos y Profesores
     Route::group(['middleware' => ['role:student|teacher|admin']], function () {
         Route::put('updateDelivery/{id}', 'DeliveryController@update')->name('delivery.update');
-        Route::get('tareas/{subject}', 'JobController@index')->name('jobs.index'); // agregar middleware student verify
+        Route::get('tareas/{subject}', 'JobController@index')->middleware('student.verify')->name('jobs.index'); // agregar middleware student verify
         // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
         Route::resource('comments', 'CommentController');
         // Posts
