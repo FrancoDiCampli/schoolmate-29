@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
         //  Tareas de la materia
         Route::get('job/{subject}', 'JobController@subject')->name('job.subject');
         // Crea tarea para una materia dada
-        Route::get('job/create/{subject}', 'JobController@create')->name('jobs.create');
+        Route::get('job/create/{subject}', 'JobController@create')->middleware('state.verify')->name('jobs.create');
         Route::get('jobs/descargar/{job}', 'JobController@descargar')->name('jobs.descargar');
         // Muestra las entregas de la tarea
         Route::get('job/deliveries/{job}', 'JobController@show')->name('job.deliveries');
@@ -70,11 +70,11 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
     Route::group(['middleware' => ['role:student|admin']], function () {
         Route::get('student', 'AdminController@student')->name('student');
         Route::post('deliver', 'DeliveryController@store')->name('deliver.store');
-        Route::get('pendings/{subject}', 'DeliveryController@pendings')->name('deliveries.pendings'); // agregar middleware student verify
+        Route::get('pendings/{subject}', 'DeliveryController@pendings')->middleware('state.verify')->name('deliveries.pendings');
         // Entregas
         Route::resource('deliveries', 'DeliveryController')->except('create', 'index', 'update');
-        Route::get('deliver/{job}', 'DeliveryController@deliver')->name('deliver'); // agregar middleware student verify
-        Route::get('entregas/{subject}', 'DeliveryController@index')->name('deliveries.subject'); // agregar middleware student verify
+        Route::get('deliver/{job}', 'DeliveryController@deliver')->middleware('state.verify')->name('deliver');
+        Route::get('entregas/{subject}', 'DeliveryController@index')->middleware('state.verify')->name('deliveries.subject');
         Route::put('updateStudent/{student}', 'StudentController@updateStudent')->name('update.student');
     });
 
@@ -89,13 +89,13 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
     // Alumnos y Profesores
     Route::group(['middleware' => ['role:student|teacher|admin']], function () {
         Route::put('updateDelivery/{id}', 'DeliveryController@update')->name('delivery.update');
-        Route::get('tareas/{subject}', 'JobController@index')->name('jobs.index'); // agregar middleware student verify
+        Route::get('tareas/{subject}', 'JobController@index')->middleware('state.verify')->name('jobs.index');
         // Comentarios de la tarea, ida y vuelta entre prof y alumno respecto a una tarea particular
         Route::resource('comments', 'CommentController');
         // Posts
         Route::resource('posts', 'PostController')->except('create', 'index', 'destroy');
-        Route::get('posts/index/{subject}', 'PostController@index')->name('posts.index'); //agregado para index del post // agregar middleware student verify
-        Route::get('newpost/{subject}', 'PostController@create')->name('new.post');
+        Route::get('posts/index/{subject}', 'PostController@index')->middleware('state.verify')->name('posts.index'); //agregado para index del post
+        Route::get('newpost/{subject}', 'PostController@create')->middleware('state.verify')->name('new.post');
         Route::get('deletePost/{post}', 'PostController@destroy')->name('post.delete'); //para eliminar un post
         // Comentarios de los post del muro
         Route::resource('annotations', 'AnnotationController');
