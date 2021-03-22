@@ -41,7 +41,7 @@ class JobController extends Controller
     // Yo agregando metodos
     public function subject($id)
     {
-        $subject = Subject::find($id);
+        $subject = Subject::findOrFail($id);
         $subject->jobs;
 
         return view('admin.jobs.subject', compact('subject'));
@@ -49,7 +49,7 @@ class JobController extends Controller
 
     public function create($subject)
     {
-        $subject = Subject::find($subject);
+        $subject = Subject::findOrFail($subject);
         return view('admin.jobs.create', compact('subject'));
     }
 
@@ -66,7 +66,7 @@ class JobController extends Controller
         }
 
 
-        $subject = Subject::find($request->subject);
+        $subject = Subject::findOrFail($request->subject);
         $nameFile = FilesTrait::store($request, 'tareas', $subject->name);
         $data = $request->validated();
 
@@ -92,7 +92,7 @@ class JobController extends Controller
 
     public function show($id)
     {
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         if ($job->subject->active == true) {
             $matriculas = $job->subject->course->enrollments;
 
@@ -117,7 +117,7 @@ class JobController extends Controller
     {
         $activities = Activity::where('log_name', 'jobs')->where('subject_id', $id)->get();
 
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         if ($job->subject->active == true) {
             $job->comments;
             $vid = substr($job->link, -11);
@@ -144,7 +144,7 @@ class JobController extends Controller
 
     public function edit($id)
     {
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         if ($job->subject->active == true) {
             return view('admin.jobs.edit', compact('job'));
         } else return redirect()->route('teacher');
@@ -152,13 +152,13 @@ class JobController extends Controller
 
     public function update(UpdateJob $request, $id)
     {
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         $user = Auth::user()->id;
 
         LogsTrait::logJob($job, $request->state);
 
         $stateJob = $job->state;
-        $subject = Subject::find($request->subject);
+        $subject = Subject::findOrFail($request->subject);
 
         if (Auth::user()->roles()->first()->name == 'adviser') {
             $request->validate([
@@ -197,7 +197,7 @@ class JobController extends Controller
 
     public function destroy($id)
     {
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         $subjectId =  $job->subject->id;
 
         $job->deliveries;
@@ -223,7 +223,7 @@ class JobController extends Controller
 
     public function deleteAll($id)
     {
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         $subjectId =  $job->subject->id;
 
         if (count($job->deliveries) > 0) {
@@ -251,7 +251,7 @@ class JobController extends Controller
 
     public function descargarJob($job)
     {
-        $aux = Job::find($job);
+        $aux = Job::findOrFail($job);
         $file = public_path($aux->file_path);
         return response()->download($file);
     }
@@ -269,7 +269,7 @@ class JobController extends Controller
     public function delivery($delivery)
     {
         $user = Auth::user();
-        $delivery =  Delivery::with('comments')->find($delivery);
+        $delivery =  Delivery::with('comments')->findOrFail($delivery);
         // $delivery->comments;
         $vid = substr($delivery->link, -11);
         if ($delivery->file_path) {
@@ -296,7 +296,7 @@ class JobController extends Controller
 
     public function entregasPDF($id)
     {
-        $job = Job::with('deliveries')->find($id);
+        $job = Job::with('deliveries')->findOrFail($id);
 
         $matriculas = $job->subject->course->enrollments;
 
@@ -320,7 +320,7 @@ class JobController extends Controller
 
     public function descargarEntregas($id)
     {
-        $job = Job::find($id);
+        $job = Job::findOrFail($id);
         $zip_file = $job->title . '.zip';
         $zip = new ZipArchive();
         $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);

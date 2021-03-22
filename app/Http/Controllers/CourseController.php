@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use Carbon\Carbon;
+use App\Subject;
 use App\Exports\CourseSheet;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -72,7 +72,7 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $curso = Course::find($id);
+        $curso = Course::findOrFail($id);
 
         $students = $curso->getStudents();
 
@@ -90,7 +90,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $course = Course::find($id);
+        $course = Course::findOrFail($id);
         $active = $request->filled('active') ? true : false;
         $course->update([
             'active' => $active
@@ -116,8 +116,42 @@ class CourseController extends Controller
 
     public function enrollmentsExcel($id)
     {
-        $curso = Course::find($id);
+        $curso = Course::findOrFail($id);
         $export = new CourseSheet($curso);
         return Excel::download($export, $curso->name . '-matriculas.xlsx');
+    }
+
+    public function generate($id)
+    {
+        $course = Course::findOrFail($id);
+        $aux = substr($course->code, -4);
+        $code = str_replace($aux, now()->format('Y'), $course->code);
+
+        $existe = Course::where('code', $code)->get();
+
+        if (count($existe) < 1) {
+            $newCourse = Course::create([
+                'name' => $course->name,
+                'code' => $code,
+                'shift' => $course->shift,
+                'cicle' => now()->format('Y'),
+                'active' => 0,
+            ]);
+
+            foreach ($course->subjects ?? [] as $subject) {
+                $aux = substr($subject->code, -4);
+                $code = str_replace($aux, now()->format('Y'), $subject->code);
+                Subject::create([
+                    'name' => $subject->name,
+                    'code' => $code,
+                    'course_id' => $newCourse->id,
+                    'teacher_id' => $subject->teacher_id,
+                    'active' => 1,
+                ]);
+            }
+
+            session()->put('selectedAnio', now()->format('Y'));
+            return redirect()->route('courses.index')->with('messages', 'Course creado correctamente.');
+        } else return back()->with('errores', 'No se pudo generar');
     }
 }

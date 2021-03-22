@@ -96,7 +96,7 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        $subject = Subject::find($id);
+        $subject = Subject::findOrFail($id);
         $teachers = Teacher::where('id', '<>', $subject->teacher_id)->get();
         return view('admin.subjects.edit', compact('teachers', 'subject'));
     }

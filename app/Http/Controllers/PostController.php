@@ -40,7 +40,7 @@ class PostController extends Controller
 
     public function create($id)
     {
-        $subject = Subject::find($id);
+        $subject = Subject::findOrFail($id);
         return view('admin.posts.create', compact('subject'));
     }
 
@@ -70,7 +70,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
 
         if ($post->subject->active == true) {
             if (Auth::user()->student) {
@@ -106,7 +106,7 @@ class PostController extends Controller
 
     public function destroy($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $idSucject = $post->subject->id;
         $post->annotations()->delete();
         $post->delete();

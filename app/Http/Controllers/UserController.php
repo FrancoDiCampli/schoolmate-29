@@ -112,7 +112,7 @@ class UserController extends Controller
     public function edit($id)
     {
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $rol = $user->roles()->first()->name;
 
         if ($rol == 'teacher') {
@@ -139,7 +139,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $active = $request->filled('active') ? true : false;
         $user->update([
             'active' => $active

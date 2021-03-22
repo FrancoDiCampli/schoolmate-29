@@ -137,6 +137,10 @@
                                     <a href="{{route('exportar', $course->id)}}"
                                         class="btn btn-primary md:m-0 m-3">Export</a>
                                     @endif
+                                    @if (session('selectedAnio') != now()->format('Y'))
+                                    <a href="{{route('generate', $course->id)}}"
+                                        class="btn btn-primary md:m-0 m-3">Generate course & subjects</a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
