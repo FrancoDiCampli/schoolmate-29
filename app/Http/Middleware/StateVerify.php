@@ -8,7 +8,7 @@ use App\Subject;
 use App\Enrollment;
 use Illuminate\Support\Facades\Auth;
 
-class StudentVerify
+class StateVerify
 {
     /**
      * Handle an incoming request.
@@ -24,9 +24,7 @@ class StudentVerify
                 $aux =  Enrollment::where('student_id', auth()->user()->student->id)->where('cicle', session('selectedAnio'))->select('course_id')->first();
                 break;
 
-                #REVISAR PROFE
             case 'teacher':
-                // return dd($request->route('subject'));
                 $subjects = auth()->user()->teacher->subjects;
                 $aux = collect();
                 foreach ($subjects as $item) {
@@ -46,34 +44,36 @@ class StudentVerify
         } else $course_id = 0;
 
         if (Auth::check()) {
-
             switch (auth()->user()->roles()->first()->name) {
                 case 'student':
                     if ($request->route('job')) {
                         $job = Job::find($request->route('job'));
                         $job_course_id = $job->subject->course->id;
                         if ($course_id != $job_course_id) {
-                            abort(401);
+                            abort(404);
                         }
                         return $next($request);
                     } elseif ($request->route('subject')) {
                         $subject =  Subject::where('id', $request->route('subject'))->where('active', true)->first();
-                        $subject_course_id = $subject->course->id;
+
+                        if ($subject) {
+                            $subject_course_id = $subject->course->id;
+                        } else abort(404);
+
                         if ($course_id != $subject_course_id) {
-                            abort(401);
+                            abort(404);
                         }
                         return $next($request);
                     }
                     break;
 
                 case 'teacher':
-                    // return dd($aux);
                     foreach ($aux as $course) {
                         if ($request->route('job')) {
                             $job = Job::find($request->route('job'));
                             $job_course_id = $job->subject->course->id;
                             if ($course->id != $job_course_id) {
-                                abort(401);
+                                abort(404);
                             }
                             return $next($request);
                         } elseif ($request->route('subject')) {
@@ -81,10 +81,10 @@ class StudentVerify
 
                             if ($subject) {
                                 $subject_course_id = $subject->course->id;
-                            } else abort(401);
+                            } else abort(404);
 
                             if ($course->id != $subject_course_id) {
-                                abort(401);
+                                abort(404);
                             }
                             return $next($request);
                         }
@@ -96,6 +96,6 @@ class StudentVerify
                     break;
             }
         }
-        abort(401);
+        abort(404);
     }
 }
