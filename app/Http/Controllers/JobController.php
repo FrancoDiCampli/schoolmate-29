@@ -4,18 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use Youtube;
-use App\User;
 use ZipArchive;
 use App\Subject;
 use App\Delivery;
-use App\Traits\JobsTrait;
 use App\Traits\LogsTrait;
 use App\Traits\FilesTrait;
 use App\Traits\PaginarTrait;
 use Illuminate\Http\Request;
-use RecursiveIteratorIterator;
 use App\Http\Requests\StoreJob;
-use RecursiveDirectoryIterator;
 use App\Http\Requests\UpdateJob;
 use App\Traits\NotificationsTrait;
 use Illuminate\Support\Facades\Auth;
@@ -134,8 +130,13 @@ class JobController extends Controller
             } else {
                 NotificationsTrait::teacherMarkAsRead('job_id', $id);
             }
-
-            return view('admin.jobs.showJob', compact('job', 'file', 'vid', 'activities'));
+            $entregas = false;
+            foreach ($job->deliveries as $entrega) {
+                if (file_exists($entrega->file_path)) {
+                    $entregas = true;
+                }
+            }
+            return view('admin.jobs.showJob', compact('job', 'file', 'vid', 'activities', 'entregas'));
         } elseif (Auth::user()->roles()->first()->name == 'adviser') {
             return redirect()->route('adviser');
         } else return redirect()->route('teacher');
@@ -207,7 +208,7 @@ class JobController extends Controller
                 return redirect()->route('jobs.index', $subjectId);
             }
 
-            if ($job->file_path) {
+            if (file_exists($job->file_path)) {
                 unlink($job->file_path);
             }
 
@@ -220,14 +221,14 @@ class JobController extends Controller
         }
     }
 
-    public function deleteAll(Request $request)
+    public function deleteAll($id)
     {
-        $job = Job::find($request->id);
+        $job = Job::find($id);
         $subjectId =  $job->subject->id;
 
         if (count($job->deliveries) > 0) {
             foreach ($job->deliveries as $entrega) {
-                if ($entrega->file_path) {
+                if (file_exists($entrega->file_path)) {
                     unlink($entrega->file_path);
                     $entrega->file_path = null;
                     $entrega->touch();
@@ -235,20 +236,14 @@ class JobController extends Controller
                 auth()->user()->teacher->notifications()
                     ->where('data->delivery_id', $entrega->id)
                     ->delete();
-                auth()->user()->teacher->notifications()
-                    ->where('data->delivery_id', $entrega->id)
-                    ->delete();
-                // $entrega->delete();
             }
         }
 
-        if ($job->file_path) {
+        if (file_exists($job->file_path)) {
             unlink($job->file_path);
             $job->file_path = null;
             $job->touch();
         }
-
-        // $job->delete();
 
         session()->flash('messages', 'Tarea y Entregas eliminadas');
         return redirect()->route('jobs.index', $subjectId);
