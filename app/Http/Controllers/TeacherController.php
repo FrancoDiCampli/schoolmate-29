@@ -77,8 +77,8 @@ class TeacherController extends Controller
     public function edit($id)
     {
 
-        $teacher = Teacher::find($id);
-        $user = User::find($teacher->user_id);
+        $teacher = Teacher::findOrFail($id);
+        $user = User::findOrFail($teacher->user_id);
 
         return view('admin.users.teacherprofile', compact('user'));
     }

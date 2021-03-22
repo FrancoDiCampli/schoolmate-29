@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth', 'user.active']], function () {
 
         // Exportar Excel
         Route::get('exportar/{id}', 'CourseController@enrollmentsExcel')->name('exportar');
+
+        # Generar automaticamente curso y materias
+        Route::get('generate/{id}', 'CourseController@generate')->name('generate');
     });
 
     //Asesores

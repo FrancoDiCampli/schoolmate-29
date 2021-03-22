@@ -65,7 +65,7 @@ class DeliveryController extends Controller
 
     public function descargarDelivery($delivery)
     {
-        $aux = Delivery::find($delivery);
+        $aux = Delivery::findOrFail($delivery);
         $file = public_path($aux->file_path);
         return response()->download($file);
     }
@@ -74,7 +74,7 @@ class DeliveryController extends Controller
     {
 
         $user = Auth::user();
-        $job = Job::find($job);
+        $job = Job::findOrFail($job);
 
         if ($job->subject->active == true && $job->state == 1) {
             # code...
@@ -145,7 +145,7 @@ class DeliveryController extends Controller
 
     public function update(UpdateDelivery $request, $id)
     {
-        $delivery = Delivery::find($id);
+        $delivery = Delivery::findOrFail($id);
         if (Auth::user()->roles()->first()->name == 'teacher') {
             $request->validate([
                 'state' => 'required'
